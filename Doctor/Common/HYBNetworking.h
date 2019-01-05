@@ -68,6 +68,7 @@ typedef NS_ENUM(NSInteger, HYBNetworkStatus) {
 typedef NSURLSessionTask HYBURLSessionTask;
 typedef void(^HYBResponseSuccess)(id response);
 typedef void(^HYBResponseFail)(NSError *error,NSInteger statusCode);
+typedef void(^HYBResponseBodyFail)(NSError *error);
 
 /*!
  *  @author huangyibiao, 15-11-15 13:11:31
@@ -238,12 +239,18 @@ typedef void(^HYBResponseFail)(NSError *error,NSInteger statusCode);
                             params:(NSDictionary *)params
                            success:(HYBResponseSuccess)success
                               fail:(HYBResponseFail)fail;
+
 + (HYBURLSessionTask *)postWithUrl:(NSString *)url
                       refreshCache:(BOOL)refreshCache
                             params:(NSDictionary *)params
                           progress:(HYBPostProgress)progress
                            success:(HYBResponseSuccess)success
                               fail:(HYBResponseFail)fail;
+
++ (void)postWithUrl:(NSString *)url
+               body:(NSDictionary *)body
+            success:(HYBResponseSuccess)success
+               fail:(HYBResponseFail)fail;
 /**
  *	@author 黄仪标, 16-01-31 00:01:40
  *

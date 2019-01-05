@@ -285,6 +285,53 @@ static inline NSString *cachePath() {
                           fail:fail];
 }
 
++ (void)postWithUrl:(NSString *)url body:(NSDictionary *)body success:(HYBResponseSuccess)success fail:(HYBResponseFail)fail {
+    // manager
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST"
+                                                                                 URLString:url
+                                                                                parameters:nil
+                                                                                     error:nil];
+    request.timeoutInterval= 10;
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    // 设置body
+    NSMutableDictionary *bodys = [[NSMutableDictionary alloc] initWithDictionary:body];
+    NSData *data = [NSJSONSerialization dataWithJSONObject:bodys options:NSJSONWritingPrettyPrinted error:nil];
+    [request setHTTPBody:data];
+    
+    AFHTTPResponseSerializer *responseSerializer = [AFHTTPResponseSerializer serializer];
+    responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",
+                                                 @"text/html",
+                                                 @"text/json",
+                                                 @"text/javascript",
+                                                 @"text/plain",
+                                                 nil];
+    manager.responseSerializer = responseSerializer;
+    
+    [[manager dataTaskWithRequest:request
+                   uploadProgress:nil
+                 downloadProgress:nil
+                completionHandler:^(NSURLResponse *response,id responseObject, NSError *error) {
+                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                    if(responseObject != nil){
+                        NSString *result = [[NSString alloc] initWithData:responseObject  encoding:NSUTF8StringEncoding];
+                        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
+                        
+                        NSLog(@"%@",result);
+                        if (success) {
+                            success(jsonDict);
+                        }
+                    } else {
+                        NSError *err = error ?: [NSError errorWithDomain:@"数据错误" code:-1 userInfo:@{}];
+                        if (fail) {
+                            fail(err, httpResponse.statusCode);
+                        }
+                    }
+                }]
+     resume];
+}
+
 + (HYBURLSessionTask *)_requestWithUrl:(NSString *)url
                           refreshCache:(BOOL)refreshCache
                              httpMedth:(NSUInteger)httpMethod

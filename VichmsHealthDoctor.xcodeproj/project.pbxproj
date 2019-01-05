@@ -186,6 +186,7 @@
 		7B98AB0A21DE8FC200EB9809 /* UserInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B98AB0921DE8FC200EB9809 /* UserInfoManager.m */; };
 		7BA42FDB21E0A2C1007ADB7F /* AccompanyRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FDA21E0A2C1007ADB7F /* AccompanyRecordVC.m */; };
 		7BA42FDE21E0A305007ADB7F /* IMageOrVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FDC21E0A305007ADB7F /* IMageOrVideoModel.m */; };
+		7BA8FD4121E0B3770001B21A /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4021E0B3770001B21A /* UserInfoModel.m */; };
 		A508311FCEB9D13AD82B35E9 /* libPods-Doctor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8235D1C7CB90E1F9F87B2FC4 /* libPods-Doctor.a */; };
 /* End PBXBuildFile section */
 
@@ -550,6 +551,9 @@
 		7BA42FDA21E0A2C1007ADB7F /* AccompanyRecordVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AccompanyRecordVC.m; sourceTree = "<group>"; };
 		7BA42FDC21E0A305007ADB7F /* IMageOrVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMageOrVideoModel.m; sourceTree = "<group>"; };
 		7BA42FDD21E0A305007ADB7F /* IMageOrVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMageOrVideoModel.h; sourceTree = "<group>"; };
+		7BA8FD3D21E0848F0001B21A /* URLDefineMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLDefineMarco.h; sourceTree = "<group>"; };
+		7BA8FD3F21E0B3770001B21A /* UserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
+		7BA8FD4021E0B3770001B21A /* UserInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
 		8235D1C7CB90E1F9F87B2FC4 /* libPods-Doctor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Doctor.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88E31B45F492F498D54F857 /* Pods-Doctor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Doctor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Doctor/Pods-Doctor.debug.xcconfig"; sourceTree = "<group>"; };
 		E5191FEDEE0C720BC24F320E /* Pods-Doctor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Doctor.release.xcconfig"; path = "Pods/Target Support Files/Pods-Doctor/Pods-Doctor.release.xcconfig"; sourceTree = "<group>"; };
@@ -604,6 +608,7 @@
 		7B2BD6CB21D3C66F00256EFB /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				7BA8FD3D21E0848F0001B21A /* URLDefineMarco.h */,
 				7B98AAED21DE715700EB9809 /* HYBNetworking.h */,
 				7B98AAEC21DE715700EB9809 /* HYBNetworking.m */,
 				7B98AAE021DE6CCE00EB9809 /* MarcoDefine.h */,
@@ -1396,6 +1401,7 @@
 		7B2BD8D421D3CB0A00256EFB /* Manage */ = {
 			isa = PBXGroup;
 			children = (
+				7BA8FD3E21E0B3670001B21A /* UserModel */,
 				7B2BD8D521D3CB0A00256EFB /* DoctorLoginManage.h */,
 				7B2BD8D621D3CB0A00256EFB /* DoctorLoginManage.m */,
 				7B98AB0821DE8FC200EB9809 /* UserInfoManager.h */,
@@ -1647,6 +1653,15 @@
 			path = Tabbar;
 			sourceTree = "<group>";
 		};
+		7BA8FD3E21E0B3670001B21A /* UserModel */ = {
+			isa = PBXGroup;
+			children = (
+				7BA8FD3F21E0B3770001B21A /* UserInfoModel.h */,
+				7BA8FD4021E0B3770001B21A /* UserInfoModel.m */,
+			);
+			path = UserModel;
+			sourceTree = "<group>";
+		};
 		BFCB242EA328FF4E39B4AF91 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1830,6 +1845,7 @@
 				7B2BD87621D3C67000256EFB /* QNDnspodEnterprise.m in Sources */,
 				7B2BD85A21D3C67000256EFB /* QNFile.m in Sources */,
 				7B98AAF821DE8AD400EB9809 /* PersonalSettingVC.m in Sources */,
+				7BA8FD4121E0B3770001B21A /* UserInfoModel.m in Sources */,
 				7B2BD8C821D3C67000256EFB /* CodeTimestamps.m in Sources */,
 				7B2BD88121D3C67000256EFB /* UserActiveVideoRequestModel.m in Sources */,
 				7B98AB0421DE8C1D00EB9809 /* AccompanyVC.m in Sources */,
