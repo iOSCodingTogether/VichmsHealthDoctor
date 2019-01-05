@@ -1232,9 +1232,9 @@
 		7B2BD7DD21D3C66F00256EFB /* UserInfo */ = {
 			isa = PBXGroup;
 			children = (
+				7B2BD7E021D3C66F00256EFB /* UserInfoRequestModel.h */,
 				7B2BD7DE21D3C66F00256EFB /* UserInfoRequestModel.m */,
 				7B2BD7DF21D3C66F00256EFB /* UserInfoResultModel.h */,
-				7B2BD7E021D3C66F00256EFB /* UserInfoRequestModel.h */,
 				7B2BD7E121D3C66F00256EFB /* UserInfoResultModel.m */,
 			);
 			path = UserInfo;
