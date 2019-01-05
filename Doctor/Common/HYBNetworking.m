@@ -229,12 +229,14 @@ static inline NSString *cachePath() {
                            params:(NSDictionary *)params
                           success:(HYBResponseSuccess)success
                              fail:(HYBResponseFail)fail {
-  return [self getWithUrl:url
-             refreshCache:refreshCache
-                   params:params
-                 progress:nil
-                  success:success
-                     fail:fail];
+    // 修改为自己的get方法
+    return [self _requestWithUrl:url
+                    refreshCache:refreshCache
+                       httpMedth:3
+                          params:params
+                        progress:nil
+                         success:success
+                            fail:fail];
 }
 
 + (HYBURLSessionTask *)getWithUrl:(NSString *)url
@@ -309,24 +311,40 @@ static inline NSString *cachePath() {
                                                  nil];
     manager.responseSerializer = responseSerializer;
     
+    @weakify(success, fail);
     [[manager dataTaskWithRequest:request
                    uploadProgress:nil
                  downloadProgress:nil
                 completionHandler:^(NSURLResponse *response,id responseObject, NSError *error) {
+                    @strongify(success, fail);
                     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                    if(responseObject != nil){
-                        NSString *result = [[NSString alloc] initWithData:responseObject  encoding:NSUTF8StringEncoding];
-                        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
-                        
-                        NSLog(@"%@",result);
-                        if (success) {
-                            success(jsonDict);
-                        }
-                    } else {
-                        NSError *err = error ?: [NSError errorWithDomain:@"数据错误" code:-1 userInfo:@{}];
+                    
+                    if (error
+                        || !responseObject) {
+                        // 报错或者是返回结果为空时，报错。
+                        NSError *err = error ?: [NSError errorWithDomain:@"网络出错了" code:-1 userInfo:@{}];
                         if (fail) {
                             fail(err, httpResponse.statusCode);
                         }
+                        
+                        return;
+                    }
+                    
+                    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
+                    // code不为100时，报错msg
+                    if (![[jsonDict objectForKey:@"code"] isEqual:@(100)]) {
+                        NSError *err = [NSError errorWithDomain:[jsonDict objectForKey:@"msg"]
+                                                           code:-1
+                                                       userInfo:@{}];
+                        if (fail) {
+                            fail(err, httpResponse.statusCode);
+                        }
+                        
+                        return;
+                    }
+                    
+                    if (success) {
+                        success(jsonDict);
                     }
                 }]
      resume];
@@ -550,6 +568,40 @@ static inline NSString *cachePath() {
         }
       }
     }];
+  } else if (httpMethod == 3) {
+      @weakify(success, fail);
+      session = [manager GET:url
+                  parameters:params
+                    progress:nil
+                     success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                         @strongify(success, fail);
+                         NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *)task.response;
+                         
+                         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
+                         // code不为100时，报错msg
+                         if (![[jsonDict objectForKey:@"code"] isEqual:@(100)]) {
+                             NSError *err = [NSError errorWithDomain:[jsonDict objectForKey:@"msg"]
+                                                                code:-1
+                                                            userInfo:@{}];
+                             if (fail) {
+                                 fail(err, httpResponse.statusCode);
+                             }
+                             
+                             return;
+                         }
+                         
+                         if (success) {
+                             success(jsonDict);
+                         }
+                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                         @strongify(fail);
+                         NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *)task.response;
+                         
+                         NSError *err = error ?: [NSError errorWithDomain:@"网络出错了" code:-1 userInfo:@{}];
+                         if (fail) {
+                             fail(err, httpResponse.statusCode);
+                         }
+                     }];
   }
   
   if (session) {

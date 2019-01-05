@@ -132,18 +132,15 @@
                                  @"personType" : [NSString stringWithFormat:@"%ld",(long)self.selectRoleIndex],
                                  @"password" : self.pwdText.text ?: @""}
                        success:^(id response) {
-                           if ([response isKindOfClass:[NSDictionary class]]
-                               && [response[@"code"] isEqual:@(100)]) {
+                           if ([response isKindOfClass:[NSDictionary class]]) {
                                UserInfoModel *userModel = [UserInfoModel mj_objectWithKeyValues:response[@"data"]];
                                [[UserInfoManager shareInstance] recordUserInfo:userModel];
                                
                                VHDTabbarVC *tabVC = [[VHDTabbarVC alloc] init];
                                [UIApplication sharedApplication].delegate.window.rootViewController = tabVC;
-                           } else {
-                               [MBProgressHUD showLoadingWithTitle:@"用户名或密码错误"];
                            }
                        } fail:^(NSError *error, NSInteger statusCode) {
-                           [MBProgressHUD showLoadingWithTitle:@"网络飞走啦"];
+                           [MBProgressHUD showLoadingWithTitle:error.domain];
                        }];
 }
 
