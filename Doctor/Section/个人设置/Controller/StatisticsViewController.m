@@ -1,29 +1,22 @@
 //
-//  MyServiceVC.m
+//  StatisticsViewController.m
 //  Doctor
 //
-//  Created by zt on 2019/1/4.
+//  Created by zt on 2019/1/5.
 //  Copyright © 2019年 AnyOne. All rights reserved.
 //
 
-#import "MyServiceVC.h"
+#import "StatisticsViewController.h"
 
-@interface MyServiceVC ()
+@interface StatisticsViewController ()
 
 @end
 
-@implementation MyServiceVC
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
-}
-
+@implementation StatisticsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self configWithTitle:@"我的服务单" backImage:@""];
-    self.backBtn.hidden = YES;
+    [self configWithTitle:@"服务统计" backImage:@""];
     self.naviBGView.backgroundColor = [UIColor whiteColor];
 
 }

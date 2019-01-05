@@ -17,6 +17,9 @@
 //@property (strong, nonatomic) UIImageView * imageView;
 @property (strong, nonatomic)UITextField * userText;
 @property (strong, nonatomic)UITextField * pwdText;
+@property (nonatomic,strong) UIButton *selectBtn;
+@property (nonatomic,assign) NSInteger selectRoleIndex;
+
 @end
 
 @implementation LoginVC
@@ -32,11 +35,31 @@
 
 -(void)createViews{
     self.view.backgroundColor = HEXCOLOR(0xF3F3F3);
-    UIView *textFieldV = [[UIView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight, SCREENW, 100)];
+    
+    UIView *roleV = [[UIView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight, SCREENW, 50)];
+    [self.view addSubview:roleV];
+    CGFloat xSpace = 20;
+//    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(xSpace, 0, SCREENW - xSpace*2, 15)];
+//    [roleV addSubview:label];
+//    label.text = @"请选择角色";
+    NSArray *titleArr = @[@"陪诊员",@"专家",@"客服"];
+    CGFloat btnW = (SCREENW - xSpace * 4)/3.0;
+    for (NSInteger i=0; i<titleArr.count; i++) {
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [roleV addSubview:btn];
+        btn.backgroundColor = [UIColor whiteColor];
+        [btn setTitle:titleArr[i] forState:UIControlStateNormal];
+        ViewBorderRadius(btn, 5, 1, HEXCOLOR(0xF3F3F3));
+        btn.tag = 100 + i;
+        [btn addTarget:self action:@selector(selectRole:) forControlEvents:UIControlEventTouchUpInside];
+        btn.frame = CGRectMake(xSpace + i*(btnW +xSpace), 5, btnW, 40);
+        [btn setTitleColor:HEXCOLOR(0x00A3FE) forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    }
+    UIView *textFieldV = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(roleV.frame), SCREENW, 100)];
     textFieldV.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:textFieldV];
     
-    CGFloat xSpace = 20;
     self.userText = [[UITextField alloc]initWithFrame:CGRectMake(xSpace, 0, SCREENW - xSpace * 2, 50)];
     [textFieldV addSubview:self.userText];
     self.userText.textColor = [UIColor blackColor];
@@ -99,11 +122,14 @@
         || self.pwdText.text.length == 0) {
         [MBProgressHUD showLoadingWithTitle:@"还没填写用户名或密码"];
         return;
+    }else if (self.selectRoleIndex == 0) {
+        [MBProgressHUD showLoadingWithTitle:@"请先选择角色"];
+        return;
     }
     
     [HYBNetworking postWithUrl:URL(@"user/login")
                           body:@{@"phone" : self.userText.text ?: @"",
-                                 @"personType" : @"4",
+                                 @"personType" : [NSString stringWithFormat:@"%ld",(long)self.selectRoleIndex],
                                  @"password" : self.pwdText.text ?: @""}
                        success:^(id response) {
                            if ([response isKindOfClass:[NSDictionary class]]
@@ -119,6 +145,34 @@
                        } fail:^(NSError *error, NSInteger statusCode) {
                            [MBProgressHUD showLoadingWithTitle:@"网络飞走啦"];
                        }];
+}
+
+- (void)selectRole:(UIButton *)btn {
+    [self.selectBtn setBackgroundColor:[UIColor whiteColor]];
+    self.selectBtn.selected = NO;
+    self.selectBtn = btn;
+    self.selectBtn.selected = YES;
+    [self.selectBtn setBackgroundColor:HEXCOLOR(0x00A3FE)];
+    switch (btn.tag - 100) {
+        case 0:
+            {
+                self.selectRoleIndex = 3;
+            }
+            break;
+        case 1:
+        {
+            self.selectRoleIndex = 4;
+        }
+            break;
+        case 2:
+        {
+            self.selectRoleIndex = 5;
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

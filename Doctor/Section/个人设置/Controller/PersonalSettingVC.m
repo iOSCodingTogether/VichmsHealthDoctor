@@ -37,7 +37,10 @@
     [self createViews];
     if ([UserInfoManager shareInstance].returnUserType == UserType_Doctor) {
         // 医生
-        self.dataArray = @[];
+        self.dataArray = @[@[@{@"title":@"个人信息",@"image":@"pInfo"},
+                             @{@"title":@"消息通知",@"image":@"msgNoti"},
+                             @{@"title":@"统计",@"image":@"statistics"}],
+                           @[@{@"title":@"关于我们",@"image":@"aboutUs"}]];
     } else if ([UserInfoManager shareInstance].returnUserType == UserType_Accompany) {
         // 陪诊
         self.dataArray = @[@[@{@"title":@"个人信息",@"image":@"pInfo"},
@@ -58,6 +61,7 @@
     headBackview.image = [UIImage imageNamed:@"icon_42"];
     self.avatar = [UIImageView new];
     [headView addSubview:self.avatar];
+    [self.avatar sd_setImageWithURL:[NSURL URLWithString:[[UserInfoManager shareInstance].user.headPic stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     self.avatar.layer.masksToBounds = YES;
     self.avatar.layer.cornerRadius = 25.0f;
     self.avatar.layer.borderWidth = 2.f;
@@ -75,6 +79,7 @@
         make.width.height.mas_equalTo(50);
         make.bottom.mas_equalTo(-50);
     }];
+    self.nameLabel.text= [UserInfoManager shareInstance].user.name;
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(0);
         make.top.mas_equalTo(self.avatar.mas_bottom).offset(12);

@@ -30,7 +30,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self configWithTitle:@"陪诊记录" backImage:@""];
+    [self configWithTitle:@"陪诊列表" backImage:@""];
     self.backBtn.hidden = YES;
     self.naviBGView.backgroundColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor whiteColor];

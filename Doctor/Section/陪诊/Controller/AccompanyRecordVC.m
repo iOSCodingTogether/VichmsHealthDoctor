@@ -158,7 +158,6 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
                                                         }]];
     self.mainTableView.estimatedRowHeight = 80;
     
-    
     self.mainTableView.backgroundColor = LR_TABLE_BACKGROUNDCOLOR;
     self.genderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 60)];
     UILabel *maleLabel = [UILabel new];
@@ -199,7 +198,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
         make.centerY.mas_equalTo(0);
         make.width.height.mas_equalTo(62/3.0);
     }];
-    UIView *bottomView = [self crecteBottomViewContainButtonWithTitle:@"预约专家" action:@selector(bottomButtonAction:)];
+    UIView *bottomView = [self crecteBottomViewContainButtonWithTitle:@"提交" action:@selector(bottomButtonAction:)];
     self.mainTableView.tableFooterView = bottomView;
     self.maleButton.tag =1;
     self.femaleButton.tag = 0;
@@ -242,24 +241,14 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     return 0.01;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    if(indexPath.section == 0){
-        return 44;
-    }
-    else if(indexPath.section == 1){
+    NSDictionary *dic = self.dataArray[indexPath.section];
+    NSArray *arr = dic[@"data"];
+    NSDictionary *dataDic = arr[indexPath.row];
+    NSInteger type = [dataDic[@"type"] integerValue];
+    if (type == CELLTYPE_IMAGE || type == CELLTYPE_VEDIO) {
+        return UITableViewAutomaticDimension;
+    }else if(type == CELLTYPE_TEXTVIEW) {
         return 80;
-    }
-    else if(indexPath.section == 2){
-        return 44;
-    }
-    else if(indexPath.section == 3){
-        //        return 80;
-        return UITableViewAutomaticDimension;
-        
-    }
-    else if(indexPath.section == 4){
-        //        return 80;
-        return UITableViewAutomaticDimension;
-        
     }
     return 44;
 }
@@ -299,156 +288,44 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
         if(self.genderView.superview == cell){
             [self.genderView removeFromSuperview];
         }
-        if(indexPath.section == 0){
-            if(indexPath.row ==0){
-                cell.label0.text = @"与患者关系：";
-                //                cell.textField.text = @"本人";
-                NSArray *selectArr =@[@"本人",@"家属",@"朋友",@"同事"];
-                cell.textField.text = @"1214555555";
-//                cell.textField.text = selectArr[self.orderCreateModel.relative.integerValue-1];
-                cell.textField.placeholder = @"";
-                cell.textField.userInteractionEnabled = NO;
-                [cell.rightButton setImage:[UIImage imageNamed:@"icon_24"] forState:UIControlStateNormal];
-                cell.rightButton.hidden = NO;
-                
-                
-            }
-            else if(indexPath.row == 1){
-                cell.label0.text = @"类型：";
-                //                cell.textField.text = @"第一次就诊";
-                NSArray *selectArr =@[@"第一次就诊",@"复诊"];
-                cell.textField.text = @"ajkd;j f;alkjd ;lakjdsf ;lakd ";
-//                cell.textField.text = selectArr[self.orderCreateModel.orderType.integerValue-1];
-                
-                cell.textField.placeholder = @"";
-                cell.textField.userInteractionEnabled = NO;
-                [cell.rightButton setImage:[UIImage imageNamed:@"icon_24"] forState:UIControlStateNormal];
-                cell.rightButton.hidden = NO;
-                
-                
-                
-            }
-            else if(indexPath.row == 2){
-                cell.label0.text = @"姓名：";
-                //                cell.textField.text = @"";
-                cell.textField.text = @"ajs12ijq d s e r ";
-//                cell.textField.text = weakSelf.orderCreateModel.personName;
-                [cell.textField addActiontextFieldChanged:^(UITextField *textField) {
-//                    weakSelf.orderCreateModel.personName = textField.text;
-                }];
-                cell.textField.placeholder = @"请输入姓名";
-                cell.textField.userInteractionEnabled = YES;
-                
-            }
-            else if(indexPath.row == 3){
-                cell = (CommonCell0 *)[[[NSBundle mainBundle] loadNibNamed:@"CommonCell0" owner:nil options:nil] lastObject];
-                
-                cell.label0.text = @"性别";
-                //                cell.textField.text = @"";
-                //                cell.textField.text = @[@"女",@"男",@"",@""][self.orderCreateModel.personSex.integerValue];
-                cell.textField.text = @"";
-                cell.textField.placeholder = @"";
-                cell.textField.userInteractionEnabled = NO;
-                [cell addSubview:self.genderView];
-                [self.genderView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                    make.top.bottom.mas_equalTo(0);
-                    make.left.mas_equalTo(cell.label0.mas_right);
-                    make.width.mas_equalTo(200);
-                }];
-//                if(self.orderCreateModel.personSex.integerValue == 0){
-                    self.maleButton.selected = NO;
-                    self.femaleButton.selected =YES;
-//                }
-//                else{
-//                    self.maleButton.selected = YES;
-//                    self.femaleButton.selected =NO;
-//                }
-//
-            }
-            else if(indexPath.row == 4){
-                cell.label0.text = @"年龄：";
-                //                cell.textField.text = @"";
-                cell.textField.text = @"1213";
-//                cell.textField.text = self.orderCreateModel.personAge;
-                [cell.textField addActiontextFieldChanged:^(UITextField *textField) {
-//                    weakSelf.orderCreateModel.personAge = textField.text;
-                }];
-                cell.textField.placeholder = @"请输入年龄";
-                cell.textField.userInteractionEnabled = YES;
-                
-            }
-            else if(indexPath.row == 5){
-                cell.label0.text = @"手机号：";
-                //                cell.textField.text = @"";
-                cell.textField.text = @"1214555555";
-//                cell.textField.text = self.orderCreateModel.personPhone;
-                [cell.textField addActiontextFieldChanged:^(UITextField *textField) {
-//                    weakSelf.orderCreateModel.personPhone = textField.text;
-                }];
-                cell.textField.placeholder = @"请输入手机号";
-                cell.textField.userInteractionEnabled = YES;
-            }
-            else if(indexPath.row == 6){
-                cell.label0.text = @"身份证号：";
-                //                cell.textField.text = @"";
-                cell.textField.text = @"1214555555";
-//                cell.textField.text = self.orderCreateModel.personIdCard;
-                [cell.textField addActiontextFieldChanged:^(UITextField *textField) {
-//                    weakSelf.orderCreateModel.personIdCard = textField.text;
-                }];
-                cell.textField.placeholder = @"请输入身份证号";
-                cell.textField.userInteractionEnabled = YES;
-            }
-        }
-        else if(indexPath.section == 2){
-            if(indexPath.row ==0){
-                cell.label0.text = @"就诊时间：";
-                cell.textField.text = @"";
-                cell.textField.text = @"1234-12-12";
-//                if(self.orderCreateModel.visitTime.length >0)
-//                {
-//                    cell.textField.text = LRTimeIntervalFromToFormatter(self.orderCreateModel.visitTime, @"yyyy-MM-dd'T'HH:mm:ss.SSSZ", @"yyyy-MM-dd HH:mm");
-//                }
-                //                cell.textField.text = self.orderCreateModel.visitTime;
-                cell.textField.placeholder = @"请选择就诊时间";
-                cell.textField.userInteractionEnabled = NO;
-                [cell.rightButton setImage:[UIImage imageNamed:@"icon_33"] forState:UIControlStateNormal];
-                cell.rightButton.hidden = NO;
-                
-                
-            }
-            else if(indexPath.row == 1){
-                cell.label0.text = @"预约专家：";
-                //                cell.textField.text = @"陈欣";
-                cell.textField.text = @"adsdfs";
-//                cell.textField.text = self.orderCreateModel.Doctor;
-                cell.textField.placeholder = @"";
-                cell.textField.userInteractionEnabled = NO;
-            }
-            else if(indexPath.row == 2){
-                cell.label0.text = @"医院：";
-                //                cell.textField.text = @"";
-                cell.textField.text = @"adsdfs";
-//                cell.textField.text = self.orderCreateModel.hospital;
-                cell.textField.placeholder = @"请输入医院";
-                cell.textField.userInteractionEnabled = YES;
-            }
-            else if(indexPath.row == 3){
-                cell.label0.text = @"科室：";
-                //                cell.textField.text = @"";
-                cell.textField.text = @"adsdfs";
-//                cell.textField.text = self.orderCreateModel.department;
-                cell.textField.placeholder = @"请输入科室";
-                cell.textField.userInteractionEnabled = YES;
-            }
+        cell.label0.text = dataDic[@"title"];
+        cell.textField.placeholder = dataDic[@"value"];
+        if (type == CELLTYPE_DROP) {
+            cell.textField.userInteractionEnabled = NO;
+            [cell.rightButton setImage:[UIImage imageNamed:@"icon_24"] forState:UIControlStateNormal];
+            cell.rightButton.hidden = NO;
+        }else if(type == CELLTYPE_TEXTFIELDAGE || type == CELLTYPE_TEXTFIELDSTR ||
+                 type == CELLTYPE_TEXTFIELDPHONE || type == CELLTYPE_TEXTFIELDIDCARD){
+            [cell.textField addActiontextFieldChanged:^(UITextField *textField) {
+                //                    weakSelf.orderCreateModel.personName = textField.text;
+            }];
+            cell.textField.userInteractionEnabled = YES;
+        }else if (type == CELLTYPE_SELECTSEX) {
+            cell.textField.text = @"";
+            cell.textField.placeholder = @"";
+            cell.textField.userInteractionEnabled = NO;
+            [cell addSubview:self.genderView];
+            [self.genderView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.bottom.mas_equalTo(0);
+                make.left.mas_equalTo(cell.label0.mas_right);
+                make.width.mas_equalTo(200);
+            }];
+            //                if(self.orderCreateModel.personSex.integerValue == 0){
+            self.maleButton.selected = NO;
+            self.femaleButton.selected =YES;
+
+        }else if (type == CELLTYPE_DATA) {
+            cell.textField.userInteractionEnabled = NO;
+            [cell.rightButton setImage:[UIImage imageNamed:@"icon_33"] forState:UIControlStateNormal];
+            cell.rightButton.hidden = NO;
+
         }
         return cell;
-        
         
     }
     else if(type == CELLTYPE_TEXTVIEW){
         CommonTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommonTextViewTableViewCell"];
-        cell.TextView.placeholder = @"请输入病情介绍";
+        cell.TextView.placeholder = dataDic[@"value"];
         return cell;
     }
     else if(type == CELLTYPE_IMAGE){
