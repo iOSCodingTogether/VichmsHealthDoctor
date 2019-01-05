@@ -30,7 +30,12 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self configWithTitle:@"我的预约" backImage:@""];
+    self.backBtn.hidden = YES;
+    self.naviBGView.backgroundColor = [UIColor whiteColor];
+
+    
     [self createViews];
     _orderpageSubModelArr = [NSMutableArray array];
 //    [self request:NO];
@@ -38,7 +43,6 @@
     [self reloadData];
 }
 - (void)createViews{
-    self.title = @"我的订单";
     registerNibWithCellName(self.mainTableView, @"MyApplyListTableViewCell");
     
     

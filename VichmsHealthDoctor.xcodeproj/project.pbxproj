@@ -186,6 +186,8 @@
 		7B98AB0A21DE8FC200EB9809 /* UserInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B98AB0921DE8FC200EB9809 /* UserInfoManager.m */; };
 		7BA42FDB21E0A2C1007ADB7F /* AccompanyRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FDA21E0A2C1007ADB7F /* AccompanyRecordVC.m */; };
 		7BA42FDE21E0A305007ADB7F /* IMageOrVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FDC21E0A305007ADB7F /* IMageOrVideoModel.m */; };
+		7BA42FE221E0FBB6007ADB7F /* StatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FE021E0FBB6007ADB7F /* StatisticsViewController.m */; };
+		7BA42FE321E0FBB6007ADB7F /* StatisticsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BA42FE121E0FBB6007ADB7F /* StatisticsViewController.xib */; };
 		7BA8FD4121E0B3770001B21A /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4021E0B3770001B21A /* UserInfoModel.m */; };
 		7BA8FD4721E0C4010001B21A /* MBProgressHUD+SimpleLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4621E0C4010001B21A /* MBProgressHUD+SimpleLoad.m */; };
 		7BA8FD4821E122310001B21A /* QNResolver.h in Sources */ = {isa = PBXBuildFile; fileRef = 7B2BD74821D3C66F00256EFB /* QNResolver.h */; };
@@ -554,6 +556,9 @@
 		7BA42FDA21E0A2C1007ADB7F /* AccompanyRecordVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AccompanyRecordVC.m; sourceTree = "<group>"; };
 		7BA42FDC21E0A305007ADB7F /* IMageOrVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMageOrVideoModel.m; sourceTree = "<group>"; };
 		7BA42FDD21E0A305007ADB7F /* IMageOrVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMageOrVideoModel.h; sourceTree = "<group>"; };
+		7BA42FDF21E0FBB6007ADB7F /* StatisticsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatisticsViewController.h; sourceTree = "<group>"; };
+		7BA42FE021E0FBB6007ADB7F /* StatisticsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatisticsViewController.m; sourceTree = "<group>"; };
+		7BA42FE121E0FBB6007ADB7F /* StatisticsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatisticsViewController.xib; sourceTree = "<group>"; };
 		7BA8FD3D21E0848F0001B21A /* URLDefineMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLDefineMarco.h; sourceTree = "<group>"; };
 		7BA8FD3F21E0B3770001B21A /* UserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
 		7BA8FD4021E0B3770001B21A /* UserInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
@@ -656,14 +661,15 @@
 		7B2BD6D121D3C66F00256EFB /* CommonCell */ = {
 			isa = PBXGroup;
 			children = (
+				7B2BD6DF21D3C66F00256EFB /* CommonCell0.h */,
+				7B2BD6D321D3C66F00256EFB /* CommonCell0.m */,
+				7B2BD6D721D3C66F00256EFB /* CommonCell0.xib */,
 				7B2BD8D121D3CAC200256EFB /* VideoEvaluationImageCell.h */,
 				7B2BD8D221D3CAC200256EFB /* VideoEvaluationImageCell.m */,
 				7B2BD6D221D3C66F00256EFB /* CommonTextViewTableViewCell.h */,
-				7B2BD6D321D3C66F00256EFB /* CommonCell0.m */,
 				7B2BD6D421D3C66F00256EFB /* CommonCell2.h */,
 				7B2BD6D521D3C66F00256EFB /* CollectionTableViewCell.h */,
 				7B2BD6D621D3C66F00256EFB /* CommonCell1.xib */,
-				7B2BD6D721D3C66F00256EFB /* CommonCell0.xib */,
 				7B2BD6D821D3C66F00256EFB /* CommonCell3.m */,
 				7B2BD6D921D3C66F00256EFB /* CommonCell2.xib */,
 				7B2BD6DA21D3C66F00256EFB /* CommonCell3.xib */,
@@ -671,7 +677,6 @@
 				7B2BD6DC21D3C66F00256EFB /* CommonTextViewTableViewCell.xib */,
 				7B2BD6DD21D3C66F00256EFB /* CollectionTableViewCell.m */,
 				7B2BD6DE21D3C66F00256EFB /* CommonCell2.m */,
-				7B2BD6DF21D3C66F00256EFB /* CommonCell0.h */,
 				7B2BD6E021D3C66F00256EFB /* CommonTextViewTableViewCell.m */,
 				7B2BD6E121D3C66F00256EFB /* CommonCell1.m */,
 				7B2BD6E221D3C66F00256EFB /* CollectionTableViewCell.xib */,
@@ -1549,6 +1554,9 @@
 				7B671F2921DFC76100DD7C32 /* MessageListVC.m */,
 				7B671F1F21DFA5B300DD7C32 /* AboutUsVC.h */,
 				7B671F2021DFA5B300DD7C32 /* AboutUsVC.m */,
+				7BA42FDF21E0FBB6007ADB7F /* StatisticsViewController.h */,
+				7BA42FE021E0FBB6007ADB7F /* StatisticsViewController.m */,
+				7BA42FE121E0FBB6007ADB7F /* StatisticsViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1758,6 +1766,7 @@
 				7B671F3621DFE3A700DD7C32 /* BookTableViewCell.xib in Resources */,
 				7B2BD84221D3C67000256EFB /* CommonTextViewTableViewCell.xib in Resources */,
 				7B2BD83D21D3C67000256EFB /* CommonCell1.xib in Resources */,
+				7BA42FE321E0FBB6007ADB7F /* StatisticsViewController.xib in Resources */,
 				7B671F1B21DFA57300DD7C32 /* PInfoVC.xib in Resources */,
 				7B2BD83E21D3C67000256EFB /* CommonCell0.xib in Resources */,
 				7B2BD84D21D3C67000256EFB /* BRCity.plist in Resources */,
@@ -1912,6 +1921,7 @@
 				7B2BD87821D3C67000256EFB /* DoctorPageResultModel.m in Sources */,
 				7B2BD8B221D3C67000256EFB /* SmsCodeRequestModel.m in Sources */,
 				7B2BD86B21D3C67000256EFB /* QNTxtResolver.m in Sources */,
+				7BA42FE221E0FBB6007ADB7F /* StatisticsViewController.m in Sources */,
 				7B2BD85321D3C67000256EFB /* QNResumeUpload.m in Sources */,
 				7B671F0F21DF955300DD7C32 /* BookingVC.m in Sources */,
 				7B2BD85721D3C67000256EFB /* QNPHAssetResource.m in Sources */,
