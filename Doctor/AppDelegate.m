@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "BaseTabBarViewController.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
-
+#import "LoginVC.h"
 @interface AppDelegate ()
 
 @end
@@ -18,12 +18,17 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [[NSBundle bundleWithPath:@"/Applications/InjectionIII.app/Contents/Resources/iOSInjection10.bundle"] load];
+    // 配置
     [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
-    // Override point for customization after application launch.
+    
+    // UI
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    BaseTabBarViewController *baseTabVC = [[BaseTabBarViewController alloc] init];
+//    BaseTabBarViewController *baseTabVC = [[BaseTabBarViewController alloc] init];
 
-    self.window.rootViewController=baseTabVC;
+//    self.window.rootViewController=baseTabVC;
+    self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:[LoginVC new]];
     
     [self.window makeKeyAndVisible];
 
