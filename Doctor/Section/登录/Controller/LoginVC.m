@@ -11,6 +11,7 @@
 #import "VHDTabbarVC.h"
 #import "HYBNetworking.h"
 #import "UserInfoManager.h"
+#import "MBProgressHUD+SimpleLoad.h"
 
 @interface LoginVC ()
 //@property (strong, nonatomic) UIImageView * imageView;
@@ -94,6 +95,12 @@
 
 - (void)loginIn:(UIButton *)btn {
     
+    if (self.userText.text.length == 0
+        || self.pwdText.text.length == 0) {
+        [MBProgressHUD showLoadingWithTitle:@"还没填写用户名或密码"];
+        return;
+    }
+    
     [HYBNetworking postWithUrl:URL(@"user/login")
                           body:@{@"phone" : self.userText.text ?: @"",
                                  @"personType" : @"4",
@@ -106,9 +113,11 @@
                                
                                VHDTabbarVC *tabVC = [[VHDTabbarVC alloc] init];
                                [UIApplication sharedApplication].delegate.window.rootViewController = tabVC;
+                           } else {
+                               [MBProgressHUD showLoadingWithTitle:@"用户名或密码错误"];
                            }
                        } fail:^(NSError *error, NSInteger statusCode) {
-                           
+                           [MBProgressHUD showLoadingWithTitle:@"网络飞走啦"];
                        }];
 }
 

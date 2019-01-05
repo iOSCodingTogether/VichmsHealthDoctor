@@ -187,6 +187,7 @@
 		7BA42FDB21E0A2C1007ADB7F /* AccompanyRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FDA21E0A2C1007ADB7F /* AccompanyRecordVC.m */; };
 		7BA42FDE21E0A305007ADB7F /* IMageOrVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FDC21E0A305007ADB7F /* IMageOrVideoModel.m */; };
 		7BA8FD4121E0B3770001B21A /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4021E0B3770001B21A /* UserInfoModel.m */; };
+		7BA8FD4721E0C4010001B21A /* MBProgressHUD+SimpleLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4621E0C4010001B21A /* MBProgressHUD+SimpleLoad.m */; };
 		A508311FCEB9D13AD82B35E9 /* libPods-Doctor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8235D1C7CB90E1F9F87B2FC4 /* libPods-Doctor.a */; };
 /* End PBXBuildFile section */
 
@@ -554,6 +555,8 @@
 		7BA8FD3D21E0848F0001B21A /* URLDefineMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLDefineMarco.h; sourceTree = "<group>"; };
 		7BA8FD3F21E0B3770001B21A /* UserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
 		7BA8FD4021E0B3770001B21A /* UserInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
+		7BA8FD4521E0C4000001B21A /* MBProgressHUD+SimpleLoad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+SimpleLoad.h"; sourceTree = "<group>"; };
+		7BA8FD4621E0C4010001B21A /* MBProgressHUD+SimpleLoad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+SimpleLoad.m"; sourceTree = "<group>"; };
 		8235D1C7CB90E1F9F87B2FC4 /* libPods-Doctor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Doctor.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88E31B45F492F498D54F857 /* Pods-Doctor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Doctor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Doctor/Pods-Doctor.debug.xcconfig"; sourceTree = "<group>"; };
 		E5191FEDEE0C720BC24F320E /* Pods-Doctor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Doctor.release.xcconfig"; path = "Pods/Target Support Files/Pods-Doctor/Pods-Doctor.release.xcconfig"; sourceTree = "<group>"; };
@@ -1302,6 +1305,8 @@
 		7B2BD7FE21D3C66F00256EFB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7BA8FD4521E0C4000001B21A /* MBProgressHUD+SimpleLoad.h */,
+				7BA8FD4621E0C4010001B21A /* MBProgressHUD+SimpleLoad.m */,
 				7B2BD80221D3C66F00256EFB /* TagView.h */,
 				7B2BD7FF21D3C66F00256EFB /* TagView.m */,
 				7B2BD80021D3C66F00256EFB /* AppAlertView.h */,
@@ -1766,7 +1771,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-frameworks.sh",
 				"${PODS_ROOT}/HHDoctorSDK/HHDoctorSDK/HHDoctorSDK.framework",
 				"${PODS_ROOT}/HHDoctorSDK/HHDoctorSDK/NIMAVChat.framework",
 				"${PODS_ROOT}/HHDoctorSDK/HHDoctorSDK/NIMSDK.framework",
@@ -1781,7 +1786,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8EBD35385924009CC453B9C0 /* [CP] Copy Pods Resources */ = {
@@ -1790,7 +1795,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh",
 				"${PODS_ROOT}/HHDoctorSDK/HHDoctorSDK/resources/NMCVideoFilter.bundle",
 				"${PODS_ROOT}/HHDoctorSDK/HHDoctorSDK/resources/SecurityKit.bundle",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
@@ -1807,7 +1812,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D940FF3DABA5E30E61821328 /* [CP] Check Pods Manifest.lock */ = {
@@ -1967,6 +1972,7 @@
 				7B2BD86421D3C67000256EFB /* QNFileRecorder.m in Sources */,
 				7B2BD84621D3C67000256EFB /* CommonCell1.m in Sources */,
 				7B2BD87321D3C67000256EFB /* QNDomain.m in Sources */,
+				7BA8FD4721E0C4010001B21A /* MBProgressHUD+SimpleLoad.m in Sources */,
 				7B2BD8A121D3C67000256EFB /* OrderPageMyResultSubModel.m in Sources */,
 				7B2BD8A621D3C67000256EFB /* CouponuseUserPageRequestModel.m in Sources */,
 				7B2BD89621D3C67000256EFB /* QiniuGetKeyRequestModel.m in Sources */,
