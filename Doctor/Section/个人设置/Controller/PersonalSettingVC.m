@@ -12,6 +12,8 @@
 #import "MessageListVC.h"
 #import "AboutUsVC.h"
 #import "UserInfoManager.h"
+#import "StatisticsViewController.h"
+#import "ExpertIntroduceVC.h"
 
 #import "LoginVC.h"
 @interface PersonalSettingVC ()
@@ -48,7 +50,10 @@
                            @[@{@"title":@"关于我们",@"image":@"aboutUs"}]];
     } else if ([UserInfoManager shareInstance].returnUserType == UserType_Service) {
         // 客服
-        self.dataArray = @[];
+        self.dataArray = @[@[@{@"title":@"个人信息",@"image":@"pInfo"},
+                             @{@"title":@"消息通知",@"image":@"msgNoti"},
+                             @{@"title":@"我的医生",@"image":@"myDoctor"}],
+                           @[@{@"title":@"关于我们",@"image":@"aboutUs"}]];
     }
 }
 
@@ -132,7 +137,10 @@
     NSDictionary *dic = arr[indexPath.row];
     NSDictionary *vcDic = @{@"个人信息":[PInfoVC new],
                             @"消息通知":[MessageListVC new],
-                            @"关于我们":[AboutUsVC new]};
+                            @"关于我们":[AboutUsVC new],
+                            @"统计":[StatisticsViewController new],
+                            @"我的医生":[ExpertIntroduceVC new]
+                            };
     UIViewController *vc = [vcDic objectForKey:dic[@"title"]];
     [self.navigationController pushViewController:vc animated:YES];
 }
