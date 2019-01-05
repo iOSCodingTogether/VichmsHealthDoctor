@@ -188,6 +188,8 @@
 		7BA42FDE21E0A305007ADB7F /* IMageOrVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FDC21E0A305007ADB7F /* IMageOrVideoModel.m */; };
 		7BA8FD4121E0B3770001B21A /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4021E0B3770001B21A /* UserInfoModel.m */; };
 		7BA8FD4721E0C4010001B21A /* MBProgressHUD+SimpleLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4621E0C4010001B21A /* MBProgressHUD+SimpleLoad.m */; };
+		7BA8FD4821E122310001B21A /* QNResolver.h in Sources */ = {isa = PBXBuildFile; fileRef = 7B2BD74821D3C66F00256EFB /* QNResolver.h */; };
+		7BA8FD4A21E123010001B21A /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA8FD4921E123010001B21A /* libresolv.tbd */; };
 		A508311FCEB9D13AD82B35E9 /* libPods-Doctor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8235D1C7CB90E1F9F87B2FC4 /* libPods-Doctor.a */; };
 /* End PBXBuildFile section */
 
@@ -557,6 +559,7 @@
 		7BA8FD4021E0B3770001B21A /* UserInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
 		7BA8FD4521E0C4000001B21A /* MBProgressHUD+SimpleLoad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+SimpleLoad.h"; sourceTree = "<group>"; };
 		7BA8FD4621E0C4010001B21A /* MBProgressHUD+SimpleLoad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+SimpleLoad.m"; sourceTree = "<group>"; };
+		7BA8FD4921E123010001B21A /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		8235D1C7CB90E1F9F87B2FC4 /* libPods-Doctor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Doctor.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88E31B45F492F498D54F857 /* Pods-Doctor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Doctor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Doctor/Pods-Doctor.debug.xcconfig"; sourceTree = "<group>"; };
 		E5191FEDEE0C720BC24F320E /* Pods-Doctor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Doctor.release.xcconfig"; path = "Pods/Target Support Files/Pods-Doctor/Pods-Doctor.release.xcconfig"; sourceTree = "<group>"; };
@@ -567,6 +570,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BA8FD4A21E123010001B21A /* libresolv.tbd in Frameworks */,
 				A508311FCEB9D13AD82B35E9 /* libPods-Doctor.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1679,6 +1683,7 @@
 		D8F6090C71FFF4811C5DFC7F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7BA8FD4921E123010001B21A /* libresolv.tbd */,
 				8235D1C7CB90E1F9F87B2FC4 /* libPods-Doctor.a */,
 			);
 			name = Frameworks;
@@ -1696,7 +1701,6 @@
 				18BA9A61212C3F47004A5721 /* Frameworks */,
 				18BA9A62212C3F47004A5721 /* Resources */,
 				8EBD35385924009CC453B9C0 /* [CP] Copy Pods Resources */,
-				1EC587538BB82233EDE3290E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1765,30 +1769,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1EC587538BB82233EDE3290E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-frameworks.sh",
-				"${PODS_ROOT}/HHDoctorSDK/HHDoctorSDK/HHDoctorSDK.framework",
-				"${PODS_ROOT}/HHDoctorSDK/HHDoctorSDK/NIMAVChat.framework",
-				"${PODS_ROOT}/HHDoctorSDK/HHDoctorSDK/NIMSDK.framework",
-				"${PODS_ROOT}/HHDoctorSDK/HHDoctorSDK/NMC.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HHDoctorSDK.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NIMAVChat.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NIMSDK.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NMC.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		8EBD35385924009CC453B9C0 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1796,18 +1776,22 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh",
-				"${PODS_ROOT}/HHDoctorSDK/HHDoctorSDK/resources/NMCVideoFilter.bundle",
-				"${PODS_ROOT}/HHDoctorSDK/HHDoctorSDK/resources/SecurityKit.bundle",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_ROOT}/NIMKit/NIMKit/Resources/NIMKitEmoticon.bundle",
+				"${PODS_ROOT}/NIMKit/NIMKit/Resources/NIMKitResource.bundle",
+				"${PODS_ROOT}/NIMKit/NIMKit/Resources/NIMKitSettings.bundle",
+				"${PODS_ROOT}/NIMSDK/NIMAVChat/Resources/NMCVideoFilter.bundle",
 				"${PODS_ROOT}/TZImagePickerController/TZImagePickerController/TZImagePickerController/TZImagePickerController.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NMCVideoFilter.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SecurityKit.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NIMKitEmoticon.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NIMKitResource.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NIMKitSettings.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NMCVideoFilter.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TZImagePickerController.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1840,6 +1824,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BA8FD4821E122310001B21A /* QNResolver.h in Sources */,
 				7B2BD84B21D3C67000256EFB /* BaseView.m in Sources */,
 				7B2BD8C721D3C67000256EFB /* BaseBarButtonItem.m in Sources */,
 				7B2BD84421D3C67000256EFB /* CommonCell2.m in Sources */,

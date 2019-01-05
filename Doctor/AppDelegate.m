@@ -13,8 +13,9 @@
 #import "VHDTabbarVC.h"
 #import "UserInfoManager.h"
 #import <NIMSDK/NIMSDK.h>
+#import "MBProgressHUD+SimpleLoad.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <NIMLoginManagerDelegate>
 
 @end
 
@@ -37,6 +38,10 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     if ([UserInfoManager shareInstance].user) {
+        // 自动登录云信
+        [[[NIMSDK sharedSDK] loginManager] autoLogin:[UserInfoManager shareInstance].user.accid
+                                               token:[UserInfoManager shareInstance].user.tokenyx];
+        
         VHDTabbarVC *tabVC = [[VHDTabbarVC alloc] init];
         self.window.rootViewController = tabVC;
     } else {
@@ -49,6 +54,31 @@
     return YES;
 }
 
+#pragma mark - 云信
+// 云信自动登录失败回调
+- (void)onAutoLoginFailed:(NSError *)error {
+    if (!error) {
+        return;
+    }
+    
+    [MBProgressHUD showLoadingWithTitle:@"账号异常，请重新登录"];
+    [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
+    [[UserInfoManager shareInstance] logoutUser];
+}
+
+// 被踢的回调
+- (void)onKick:(NIMKickReason)code clientType:(NIMLoginClientType)clientType {
+    [MBProgressHUD showLoadingWithTitle:@"账号在其他设备登录，请重新登录"];
+    [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
+    [[UserInfoManager shareInstance] logoutUser];
+}
+
+// 当用户在某个客户端登录时，其他没有被踢掉的端会触发回调:
+- (void)onMultiLoginClientsChanged {
+    
+}
+
+#pragma mark - 系统
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options NS_AVAILABLE_IOS(9_0){
     return YES;
 }

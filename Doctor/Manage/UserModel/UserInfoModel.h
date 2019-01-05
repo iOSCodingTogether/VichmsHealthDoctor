@@ -39,8 +39,10 @@
 //"idCard": ""
 
 @property (nonatomic, copy) NSString *token;
-@property (nonatomic, copy) NSString *accid;
 @property (nonatomic, copy) NSString *uuidhh;
+/** 云信accid */
+@property (nonatomic, copy) NSString *accid;
+/** 云信token */
 @property (nonatomic, copy) NSString *tokenyx;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *vip;

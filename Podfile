@@ -21,7 +21,9 @@ target 'Doctor' do
 #    朋友圈用
     pod "MLLabel"
     pod "UUButton"
-    pod 'HHDoctorSDK', :git => 'http://code.hh-medic.com/hh_public/HHDoctorSDK.ios.git'
+    # 暂时去掉和缓
+#    pod 'HHDoctorSDK', :git => 'http://code.hh-medic.com/hh_public/HHDoctorSDK.ios.git'
+    pod 'NIMKit/Full'
 
 end
 

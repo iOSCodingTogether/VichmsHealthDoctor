@@ -12,6 +12,7 @@
 #import "HYBNetworking.h"
 #import "UserInfoManager.h"
 #import "MBProgressHUD+SimpleLoad.h"
+#import <NIMSDK/NIMSDK.h>
 
 @interface LoginVC ()
 //@property (strong, nonatomic) UIImageView * imageView;
@@ -107,11 +108,21 @@
                                  @"password" : self.pwdText.text ?: @""}
                        success:^(id response) {
                            if ([response isKindOfClass:[NSDictionary class]]) {
-                               UserInfoModel *userModel = [UserInfoModel mj_objectWithKeyValues:response[@"data"]];
-                               [[UserInfoManager shareInstance] recordUserInfo:userModel];
+                               [[[NIMSDK sharedSDK] loginManager] login:[UserInfoManager shareInstance].user.accid
+                                                                  token:[UserInfoManager shareInstance].user.tokenyx
+                                                             completion:^(NSError * _Nullable error) {
+                                                                 if (error) {
+                                                                     [MBProgressHUD showLoadingWithTitle:@"认证失败，请重试"];
+                                                                 } else {
+                                                                     UserInfoModel *userModel = [UserInfoModel mj_objectWithKeyValues:response[@"data"]];
+                                                                     [[UserInfoManager shareInstance] recordUserInfo:userModel];
+                                                                     
+                                                                     VHDTabbarVC *tabVC = [[VHDTabbarVC alloc] init];
+                                                                     [UIApplication sharedApplication].delegate.window.rootViewController = tabVC;
+                                                                 }
+                                                             }];
                                
-                               VHDTabbarVC *tabVC = [[VHDTabbarVC alloc] init];
-                               [UIApplication sharedApplication].delegate.window.rootViewController = tabVC;
+                               
                            }
                        } fail:^(NSError *error, NSInteger statusCode) {
                            [MBProgressHUD showLoadingWithTitle:error.domain];
