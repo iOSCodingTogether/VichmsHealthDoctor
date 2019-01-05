@@ -11,6 +11,7 @@
 #import "PInfoVC.h"
 #import "MessageListVC.h"
 #import "AboutUsVC.h"
+#import "UserInfoManager.h"
 
 #import "LoginVC.h"
 @interface PersonalSettingVC ()
@@ -176,5 +177,6 @@
 
 - (void)loginOut {
     [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:[LoginVC new]];
+    [[UserInfoManager shareInstance] logoutUser];
 }
 @end

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "UserInfoModel.h"
+
 typedef NS_ENUM(NSUInteger, UserType) {
     UserType_Doctor,
     UserType_Accompany,
@@ -16,7 +18,15 @@ typedef NS_ENUM(NSUInteger, UserType) {
 
 @interface UserInfoManager : NSObject
 
+@property (nonatomic, strong) UserInfoModel *user;
+
 + (instancetype)shareInstance;
+
+/** 存储user信息 */
+- (void)recordUserInfo:(UserInfoModel *)userInfo;
+
+/** 退出登录 */
+- (void)logoutUser;
 
 - (UserType)returnUserType;
 

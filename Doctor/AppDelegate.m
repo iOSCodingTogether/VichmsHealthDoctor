@@ -10,6 +10,8 @@
 #import "BaseTabBarViewController.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "LoginVC.h"
+#import "VHDTabbarVC.h"
+#import "UserInfoManager.h"
 #import <NIMSDK/NIMSDK.h>
 
 @interface AppDelegate ()
@@ -33,10 +35,13 @@
     
     // 初始化UI
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    BaseTabBarViewController *baseTabVC = [[BaseTabBarViewController alloc] init];
 
-//    self.window.rootViewController=baseTabVC;
-    self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:[LoginVC new]];
+    if ([UserInfoManager shareInstance].user) {
+        VHDTabbarVC *tabVC = [[VHDTabbarVC alloc] init];
+        self.window.rootViewController = tabVC;
+    } else {
+        self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
+    }
     
     [self.window makeKeyAndVisible];
 

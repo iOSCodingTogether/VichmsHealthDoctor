@@ -9,6 +9,8 @@
 #import "LoginVC.h"
 #import "ForgetPwdVC.h"
 #import "VHDTabbarVC.h"
+#import "HYBNetworking.h"
+#import "UserInfoManager.h"
 
 @interface LoginVC ()
 //@property (strong, nonatomic) UIImageView * imageView;
@@ -91,9 +93,22 @@
 }
 
 - (void)loginIn:(UIButton *)btn {
-    // TODO: 测试
-    VHDTabbarVC *tabVC = [[VHDTabbarVC alloc] init];
-    [UIApplication sharedApplication].delegate.window.rootViewController = tabVC;
+    
+    [HYBNetworking postWithUrl:URL(@"user/login")
+                          body:@{@"phone" : self.userText.text ?: @"",
+                                 @"personType" : @"4",
+                                 @"password" : self.pwdText.text ?: @""}
+                       success:^(id response) {
+                           if ([response isKindOfClass:[NSDictionary class]]) {
+                               UserInfoModel *userModel = [UserInfoModel mj_objectWithKeyValues:response[@"data"]];
+                               [[UserInfoManager shareInstance] recordUserInfo:userModel];
+                               
+                               VHDTabbarVC *tabVC = [[VHDTabbarVC alloc] init];
+                               [UIApplication sharedApplication].delegate.window.rootViewController = tabVC;
+                           }
+                       } fail:^(NSError *error, NSInteger statusCode) {
+                           
+                       }];
 }
 
 @end
