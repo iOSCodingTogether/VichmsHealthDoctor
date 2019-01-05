@@ -99,7 +99,8 @@
                                  @"personType" : @"4",
                                  @"password" : self.pwdText.text ?: @""}
                        success:^(id response) {
-                           if ([response isKindOfClass:[NSDictionary class]]) {
+                           if ([response isKindOfClass:[NSDictionary class]]
+                               && response[@"code"] == @(100)) {
                                UserInfoModel *userModel = [UserInfoModel mj_objectWithKeyValues:response[@"data"]];
                                [[UserInfoManager shareInstance] recordUserInfo:userModel];
                                
