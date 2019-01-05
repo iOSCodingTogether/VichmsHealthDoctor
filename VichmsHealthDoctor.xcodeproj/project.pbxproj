@@ -184,6 +184,8 @@
 		7B98AB0421DE8C1D00EB9809 /* AccompanyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B98AB0321DE8C1D00EB9809 /* AccompanyVC.m */; };
 		7B98AB0721DE8C3600EB9809 /* ChatHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B98AB0621DE8C3600EB9809 /* ChatHomeVC.m */; };
 		7B98AB0A21DE8FC200EB9809 /* UserInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B98AB0921DE8FC200EB9809 /* UserInfoManager.m */; };
+		7BA42FDB21E0A2C1007ADB7F /* AccompanyRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FDA21E0A2C1007ADB7F /* AccompanyRecordVC.m */; };
+		7BA42FDE21E0A305007ADB7F /* IMageOrVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FDC21E0A305007ADB7F /* IMageOrVideoModel.m */; };
 		A508311FCEB9D13AD82B35E9 /* libPods-Doctor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8235D1C7CB90E1F9F87B2FC4 /* libPods-Doctor.a */; };
 /* End PBXBuildFile section */
 
@@ -544,6 +546,10 @@
 		7B98AB0621DE8C3600EB9809 /* ChatHomeVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatHomeVC.m; sourceTree = "<group>"; };
 		7B98AB0821DE8FC200EB9809 /* UserInfoManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoManager.h; sourceTree = "<group>"; };
 		7B98AB0921DE8FC200EB9809 /* UserInfoManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoManager.m; sourceTree = "<group>"; };
+		7BA42FD921E0A2C1007ADB7F /* AccompanyRecordVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccompanyRecordVC.h; sourceTree = "<group>"; };
+		7BA42FDA21E0A2C1007ADB7F /* AccompanyRecordVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AccompanyRecordVC.m; sourceTree = "<group>"; };
+		7BA42FDC21E0A305007ADB7F /* IMageOrVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMageOrVideoModel.m; sourceTree = "<group>"; };
+		7BA42FDD21E0A305007ADB7F /* IMageOrVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMageOrVideoModel.h; sourceTree = "<group>"; };
 		8235D1C7CB90E1F9F87B2FC4 /* libPods-Doctor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Doctor.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88E31B45F492F498D54F857 /* Pods-Doctor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Doctor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Doctor/Pods-Doctor.debug.xcconfig"; sourceTree = "<group>"; };
 		E5191FEDEE0C720BC24F320E /* Pods-Doctor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Doctor.release.xcconfig"; path = "Pods/Target Support Files/Pods-Doctor/Pods-Doctor.release.xcconfig"; sourceTree = "<group>"; };
@@ -1607,6 +1613,8 @@
 			children = (
 				7B98AB0221DE8C1D00EB9809 /* AccompanyVC.h */,
 				7B98AB0321DE8C1D00EB9809 /* AccompanyVC.m */,
+				7BA42FD921E0A2C1007ADB7F /* AccompanyRecordVC.h */,
+				7BA42FDA21E0A2C1007ADB7F /* AccompanyRecordVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1614,6 +1622,8 @@
 		7B98AADA21DE5E4400EB9809 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7BA42FDD21E0A305007ADB7F /* IMageOrVideoModel.h */,
+				7BA42FDC21E0A305007ADB7F /* IMageOrVideoModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1947,6 +1957,7 @@
 				7B671F1321DF9A4A00DD7C32 /* LFNavigationController.m in Sources */,
 				7B671F2721DFBE8A00DD7C32 /* UITextView+MWPlaceholder.m in Sources */,
 				7B2BD89D21D3C67000256EFB /* LoginResultModel.m in Sources */,
+				7BA42FDE21E0A305007ADB7F /* IMageOrVideoModel.m in Sources */,
 				7B2BD84521D3C67000256EFB /* CommonTextViewTableViewCell.m in Sources */,
 				7B2BD85021D3C67000256EFB /* YYClassInfo.m in Sources */,
 				7B2BD8A221D3C67000256EFB /* MessagePageRequestModel.m in Sources */,
@@ -1963,6 +1974,7 @@
 				7B2BD87721D3C67000256EFB /* QNRefresher.m in Sources */,
 				7B2BD8C121D3C67000256EFB /* NSDate+CCategory.m in Sources */,
 				7B2BD8AA21D3C67000256EFB /* DepartmentFindByIdResultModel.m in Sources */,
+				7BA42FDB21E0A2C1007ADB7F /* AccompanyRecordVC.m in Sources */,
 				7B2BD86C21D3C67000256EFB /* QNHijackingDetectWrapper.m in Sources */,
 				7B2BD85D21D3C67000256EFB /* QNAsyncRun.m in Sources */,
 				7B2BD8A021D3C67000256EFB /* OrderPageMyRequestModel.m in Sources */,

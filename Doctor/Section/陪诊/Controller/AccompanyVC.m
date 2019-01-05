@@ -11,7 +11,7 @@
 #import "OrderPageMyRequestModel.h"
 #import "CommonManage.h"
 #import "UIButton+Block.h"
-
+#import "AccompanyRecordVC.h"
 @interface AccompanyVC ()< UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate>
 @property (nonatomic, strong) UISearchBar *mSearchBar;
 
@@ -261,8 +261,8 @@
         [cell.statusBtn setTitle:@"陪诊记录" forState:UIControlStateNormal];
         cell.statusBtn.backgroundColor = [UIColor whiteColor];
         [cell.statusBtn setTitleColor:HEXCOLOR(0x00A3FE) forState:UIControlStateNormal];
-
     }
+    [cell.statusBtn addTarget:self action:@selector(lookRecord:) forControlEvents:UIControlEventTouchUpInside];
     //    OrderPageMyResultSubModel *model = self.orderpageSubModelArr[indexPath.row];
     //    cell.labelTop.text = model.doctor;
     //    cell.labelL1.text = @{@"1":@"第一次就诊",@"2":@"复诊"}[model.orderType];
@@ -286,7 +286,12 @@
     return cell;
 }
 
-
+- (void)lookRecord:(UIButton *)btn {
+    if ([btn.titleLabel.text isEqualToString:@"陪诊记录"]) {
+        AccompanyRecordVC *vc = [AccompanyRecordVC new];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     NSLog(@"click");
 }
