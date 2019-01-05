@@ -9,8 +9,9 @@
 #import "LoginVC.h"
 #import "ForgetPwdVC.h"
 #import "VHDTabbarVC.h"
+
 @interface LoginVC ()
-//@property (strong, nonatomic)UIImageView * imageView;
+//@property (strong, nonatomic) UIImageView * imageView;
 @property (strong, nonatomic)UITextField * userText;
 @property (strong, nonatomic)UITextField * pwdText;
 @end
@@ -84,9 +85,11 @@
     [loginBtn addTarget:self action:@selector(loginIn:) forControlEvents:UIControlEventTouchUpInside];
     
 }
+
 - (void)changePwd:(UIButton *)btn {
     [self.navigationController pushViewController:[ForgetPwdVC new] animated:YES];
 }
+
 - (void)loginIn:(UIButton *)btn {
     // TODO: 测试
     VHDTabbarVC *tabVC = [[VHDTabbarVC alloc] init];

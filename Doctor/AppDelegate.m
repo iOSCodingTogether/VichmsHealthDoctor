@@ -10,6 +10,8 @@
 #import "BaseTabBarViewController.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "LoginVC.h"
+#import <NIMSDK/NIMSDK.h>
+
 @interface AppDelegate ()
 
 @end
@@ -18,12 +20,18 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+
+#if DEBUG
     [[NSBundle bundleWithPath:@"/Applications/InjectionIII.app/Contents/Resources/iOSInjection10.bundle"] load];
-    // 配置
-    [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
+#endif
     
-    // UI
+    // 键盘配置
+    [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
+    // 云信配置
+    NIMSDKOption *option = [NIMSDKOption optionWithAppKey:@"47a23dbd2d737a031570d5a153a04a4e"];
+    [[NIMSDK sharedSDK] registerWithOption:option];
+    
+    // 初始化UI
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 //    BaseTabBarViewController *baseTabVC = [[BaseTabBarViewController alloc] init];
 

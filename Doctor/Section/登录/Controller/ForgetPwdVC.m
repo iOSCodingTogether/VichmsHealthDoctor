@@ -88,12 +88,15 @@
     [loginBtn addTarget:self action:@selector(loginIn:) forControlEvents:UIControlEventTouchUpInside];
     
 }
+
 - (void)backToLogin {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 - (void)getVerify:(UIButton *)btn {
     
 }
+
 - (void)loginIn:(UIButton *)btn {
     
 }
