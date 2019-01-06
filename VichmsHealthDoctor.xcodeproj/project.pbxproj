@@ -193,6 +193,10 @@
 		7BA42FEB21E10F46007ADB7F /* ExpertIntroduceTopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FE921E10F45007ADB7F /* ExpertIntroduceTopCell.m */; };
 		7BA42FEF21E1D3E1007ADB7F /* MyServiceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FED21E1D3E1007ADB7F /* MyServiceTableViewCell.m */; };
 		7BA42FF021E1D3E2007ADB7F /* MyServiceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BA42FEE21E1D3E1007ADB7F /* MyServiceTableViewCell.xib */; };
+		7BA42FF721E1F2B2007ADB7F /* CommentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FF521E1F2B2007ADB7F /* CommentVC.m */; };
+		7BA42FF821E1F2B2007ADB7F /* CommentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BA42FF621E1F2B2007ADB7F /* CommentVC.xib */; };
+		7BA42FFC21E1FAAF007ADB7F /* StartCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FFA21E1FAAF007ADB7F /* StartCommentTableViewCell.m */; };
+		7BA42FFD21E1FAAF007ADB7F /* StartCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BA42FFB21E1FAAF007ADB7F /* StartCommentTableViewCell.xib */; };
 		7BA8FD4121E0B3770001B21A /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4021E0B3770001B21A /* UserInfoModel.m */; };
 		7BA8FD4721E0C4010001B21A /* MBProgressHUD+SimpleLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4621E0C4010001B21A /* MBProgressHUD+SimpleLoad.m */; };
 		7BA8FD4821E122310001B21A /* QNResolver.h in Sources */ = {isa = PBXBuildFile; fileRef = 7B2BD74821D3C66F00256EFB /* QNResolver.h */; };
@@ -572,6 +576,12 @@
 		7BA42FEC21E1D3E1007ADB7F /* MyServiceTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyServiceTableViewCell.h; sourceTree = "<group>"; };
 		7BA42FED21E1D3E1007ADB7F /* MyServiceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyServiceTableViewCell.m; sourceTree = "<group>"; };
 		7BA42FEE21E1D3E1007ADB7F /* MyServiceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyServiceTableViewCell.xib; sourceTree = "<group>"; };
+		7BA42FF421E1F2B2007ADB7F /* CommentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommentVC.h; sourceTree = "<group>"; };
+		7BA42FF521E1F2B2007ADB7F /* CommentVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommentVC.m; sourceTree = "<group>"; };
+		7BA42FF621E1F2B2007ADB7F /* CommentVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentVC.xib; sourceTree = "<group>"; };
+		7BA42FF921E1FAAF007ADB7F /* StartCommentTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StartCommentTableViewCell.h; sourceTree = "<group>"; };
+		7BA42FFA21E1FAAF007ADB7F /* StartCommentTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StartCommentTableViewCell.m; sourceTree = "<group>"; };
+		7BA42FFB21E1FAAF007ADB7F /* StartCommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartCommentTableViewCell.xib; sourceTree = "<group>"; };
 		7BA8FD3D21E0848F0001B21A /* URLDefineMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLDefineMarco.h; sourceTree = "<group>"; };
 		7BA8FD3F21E0B3770001B21A /* UserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
 		7BA8FD4021E0B3770001B21A /* UserInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
@@ -1621,6 +1631,9 @@
 			children = (
 				7B98AAFF21DE8BD300EB9809 /* MyServiceVC.h */,
 				7B98AB0021DE8BD300EB9809 /* MyServiceVC.m */,
+				7BA42FF421E1F2B2007ADB7F /* CommentVC.h */,
+				7BA42FF521E1F2B2007ADB7F /* CommentVC.m */,
+				7BA42FF621E1F2B2007ADB7F /* CommentVC.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1638,6 +1651,9 @@
 				7BA42FEC21E1D3E1007ADB7F /* MyServiceTableViewCell.h */,
 				7BA42FED21E1D3E1007ADB7F /* MyServiceTableViewCell.m */,
 				7BA42FEE21E1D3E1007ADB7F /* MyServiceTableViewCell.xib */,
+				7BA42FF921E1FAAF007ADB7F /* StartCommentTableViewCell.h */,
+				7BA42FFA21E1FAAF007ADB7F /* StartCommentTableViewCell.m */,
+				7BA42FFB21E1FAAF007ADB7F /* StartCommentTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1787,7 +1803,9 @@
 				7B2BD83A21D3C67000256EFB /* Media.xcassets in Resources */,
 				7B2BD84121D3C67000256EFB /* CommonCell3.xib in Resources */,
 				7B671F3621DFE3A700DD7C32 /* BookTableViewCell.xib in Resources */,
+				7BA42FFD21E1FAAF007ADB7F /* StartCommentTableViewCell.xib in Resources */,
 				7B2BD84221D3C67000256EFB /* CommonTextViewTableViewCell.xib in Resources */,
+				7BA42FF821E1F2B2007ADB7F /* CommentVC.xib in Resources */,
 				7B2BD83D21D3C67000256EFB /* CommonCell1.xib in Resources */,
 				7BA42FE321E0FBB6007ADB7F /* StatisticsViewController.xib in Resources */,
 				7B671F1B21DFA57300DD7C32 /* PInfoVC.xib in Resources */,
@@ -1966,6 +1984,7 @@
 				7B671F1A21DFA57300DD7C32 /* PInfoVC.m in Sources */,
 				7B2BD87121D3C67000256EFB /* QNLruCache.m in Sources */,
 				7B2BD86F21D3C67000256EFB /* QNHosts.m in Sources */,
+				7BA42FFC21E1FAAF007ADB7F /* StartCommentTableViewCell.m in Sources */,
 				7B2BD86E21D3C67000256EFB /* QNResolvUtil.m in Sources */,
 				7B2BD87521D3C67000256EFB /* QNDnspodFree.m in Sources */,
 				7B2BD85B21D3C67000256EFB /* QNEtag.m in Sources */,
@@ -1977,6 +1996,7 @@
 				7B671F0921DF93EC00DD7C32 /* ForgetPwdVC.m in Sources */,
 				7B2BD88C21D3C67000256EFB /* HomeNewsPageResultModel.m in Sources */,
 				7B2BD88E21D3C67000256EFB /* HomeNewsPageRequestModel.m in Sources */,
+				7BA42FF721E1F2B2007ADB7F /* CommentVC.m in Sources */,
 				7B2BD89121D3C67000256EFB /* HomeNewsColumnResultModel.m in Sources */,
 				7B2BD8C021D3C67000256EFB /* UIColor+CCategory.m in Sources */,
 				7B2BD87B21D3C67000256EFB /* GoodsDetailPageRequestModel.m in Sources */,

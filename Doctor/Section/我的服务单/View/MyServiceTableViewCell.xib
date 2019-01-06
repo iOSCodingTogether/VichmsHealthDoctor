@@ -138,6 +138,9 @@
                         <state key="normal" title="查看评价">
                             <color key="titleColor" red="0.0" green="0.63921568627450975" blue="0.99607843137254903" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
+                        <state key="highlighted">
+                            <color key="titleColor" red="0.0" green="0.63921568627450975" blue="0.99607843137254903" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
                     </button>
                 </subviews>
                 <constraints>
@@ -181,7 +184,7 @@
             <connections>
                 <outlet property="lookComment" destination="M6n-B9-pkN" id="YKJ-Q3-lR8"/>
             </connections>
-            <point key="canvasLocation" x="-80.799999999999997" y="153.37331334332833"/>
+            <point key="canvasLocation" x="-80.799999999999997" y="152.47376311844079"/>
         </tableViewCell>
     </objects>
 </document>
