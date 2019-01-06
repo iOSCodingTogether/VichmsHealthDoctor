@@ -9,6 +9,8 @@
 #import "MyServiceVC.h"
 #import "MyServiceTableViewCell.h"
 #import "CommentVC.h"
+#import "BRStringPickerView.h"
+#import "BRDatePickerView.h"
 @interface MyServiceVC ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITextField *mSearchText;
@@ -158,13 +160,49 @@
 }
 //MARK:点击事件
 - (void)selectTypeAction:(UIButton *)btn {
-    
+    NSArray *selectArr =@[@"第一次预约",@"复诊"];
+    NSString *str = self.selectTypeLabel.text;
+    if (![selectArr containsObject:str]) {
+        str = selectArr[0];
+    }
+    [BRStringPickerView showStringPickerWithTitle:@"请选择服务类型" dataSource:selectArr defaultSelValue:str isAutoSelect:NO resultBlock:^(id selectValue) {
+        NSInteger selectIndex = [selectArr indexOfObject:selectValue];
+        self.selectTypeLabel.text = selectArr[selectIndex];
+    }];
 }
 - (void)selectStartData:(UIButton *)btn {
-    
+    NSString *str = self.startLabel.text;
+    if (![str isEqualToString:@"开始日期"]) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        str = [dateFormatter stringFromDate:[NSDate date]];
+    }
+    [BRDatePickerView showDatePickerWithTitle:@"请选择开始日期" dateType:UIDatePickerModeDateAndTime defaultSelValue:str minDateStr:@"" maxDateStr:@"" isAutoSelect:NO resultBlock:^(NSString *selectValue,NSDate *date) {
+        if(date){
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            //                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            NSString *destDateString = [dateFormatter stringFromDate:date];
+            self.startLabel.text = destDateString;
+        }
+    }];
 }
 - (void)selectEndData:(UIButton *)btn {
-    
+    NSString *str = self.endLabel.text;
+    if (![str isEqualToString:@"结束日期"]) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        str = [dateFormatter stringFromDate:[NSDate date]];
+    }
+    [BRDatePickerView showDatePickerWithTitle:@"请选择结束日期" dateType:UIDatePickerModeDateAndTime defaultSelValue:str minDateStr:self.startLabel.text maxDateStr:@"" isAutoSelect:NO resultBlock:^(NSString *selectValue,NSDate *date) {
+        if(date){
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            //                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            NSString *destDateString = [dateFormatter stringFromDate:date];
+            self.endLabel.text = destDateString;
+        }
+    }];
 }
 - (void)goToComment:(UIButton *)btn {
     CommentVC *vc = [CommentVC new];

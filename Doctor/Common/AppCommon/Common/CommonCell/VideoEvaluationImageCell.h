@@ -11,5 +11,5 @@
 @interface VideoEvaluationImageCell : UICollectionViewCell
 @property (nonatomic, strong) UIImageView * imageView;     //
 @property (nonatomic, strong) UIButton * deleteBtn;     //
-
+@property (nonatomic,strong) UIImageView *playImage;
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "BookingExpertVC.h"
+#import "ZYLMultiselectView.h"
 
 #import "BookingExpertCell.h"
 
@@ -15,6 +16,8 @@
 @property (nonatomic, strong) UISearchBar *mSearchBar;
 @property (nonatomic, strong) UIButton *selectTypeButton;
 @property (nonatomic, strong) UILabel *selectTypeLabel;
+
+@property (nonatomic,strong) NSMutableArray *accompanyArr;//陪诊员
 
 @end
 
@@ -25,6 +28,7 @@
     
     self.navigationController.navigationBarHidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
+    self.accompanyArr = [NSMutableArray array];
     
     [self configWithTitle:@"专家库" backImage:nil];
     self.backBtn.hidden = YES;
@@ -118,7 +122,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    return 145.f;
+    return 109.f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -130,18 +134,7 @@
     BookingExpertCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BookingExpertCell"];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    if (indexPath.section == 0) {
-        // 确认接单
-        
-    }else if(indexPath.section == 1) {
-        // 开始陪诊
-        
-        
-    }else if(indexPath.section == 2) {
-        // 陪诊记录
-        
-    }
+    [cell.rightBtn addTarget:self action:@selector(assignAccompany:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
@@ -150,6 +143,54 @@
     NSLog(@"click");
 }
 
+- (void)assignAccompany:(UIButton *)btn {
+    ZYLMultiselectView *zylmus = [[ZYLMultiselectView alloc] initWithFrame:self.view.bounds];
+    zylmus.heraderStr = @"分配陪诊员";
+    
+    zylmus.dataArr = [NSMutableArray arrayWithArray:@[@"护士1",@"护士2",@"护士3",@"护士4",@"护士5",@"护士6",@"护士7",@"护士8",@"护士9",@"护士10",@"护士11"]];
+    
+    if (self.accompanyArr.count != 0) {
+        
+        [zylmus.resultArr addObjectsFromArray:self.accompanyArr];
+        
+    }
+    
+    [self.view addSubview:zylmus];
+    
+    __weak __typeof(self) weakself = self;
+    
+    zylmus.SelectBlock = ^(NSMutableArray *selectArr){
+        
+        if (selectArr != nil) {
+            
+            [self.accompanyArr removeAllObjects];
+            
+//            [self.resultArr removeAllObjects];
+            
+            [self.accompanyArr addObjectsFromArray:selectArr];
+            
+            for (int i = 0; i < selectArr.count; i ++) {
+                
+                int row = [selectArr[i] intValue];
+                
+//                [self.resultArr addObject:weakself.dataArr[row]];
+                
+            }
+            
+//            NSString *str = [self.resultArr componentsJoinedByString:@","];
+//            
+//            [self.btn setTitle:str forState:UIControlStateNormal];
+            
+            
+        }else{
+            
+            
+            
+        }
+        
+\
+    };
+}
 #pragma mark - UISearchBar - delegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {

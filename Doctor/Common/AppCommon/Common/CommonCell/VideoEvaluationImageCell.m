@@ -19,7 +19,12 @@
     }];
     self.imageView.contentMode = UIViewContentModeScaleAspectFill;
     self.imageView.clipsToBounds = YES;
-    
+    self.playImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"playBtn"]];
+    [self addSubview:self.playImage];
+    self.playImage.hidden = YES;
+    [self.playImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self);
+    }];
     return self;
     
 }

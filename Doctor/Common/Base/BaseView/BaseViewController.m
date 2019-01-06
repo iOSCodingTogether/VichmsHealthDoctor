@@ -45,6 +45,15 @@
     [self.view addSubview:self.lineLabel];
     self.lineLabel.backgroundColor = [HEXCOLOR(0xEEEEEE) colorWithAlphaComponent:0.5];
     
+    self.rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.view addSubview:self.rightBtn];
+    [self.rightBtn setTitleColor:HEXCOLOR(0x333333) forState:UIControlStateNormal];
+    self.rightBtn.titleLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
+    self.rightBtn.frame = CGRectMake(SCREENW - 10 - 50, 0, 50, 22);
+    CGPoint center = self.rightBtn.center;
+    center.y = self.backBtn.center.y;
+    self.rightBtn.center = center;
+    
 }
 - (void)popToMainPage {
     [self.navigationController popViewControllerAnimated:YES];
@@ -129,6 +138,7 @@
 
         //开启估算
         _mainTableView.estimatedRowHeight = 60;
+        _mainTableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
         _mainTableView.estimatedSectionHeaderHeight = 0;
         _mainTableView.estimatedSectionFooterHeight = 0;
         if (@available(iOS 11.0, *)) {
