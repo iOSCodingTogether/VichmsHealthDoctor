@@ -7,7 +7,7 @@
 //
 
 #import "StatisticsViewController.h"
-
+#import "BRDatePickerView.h"
 @interface StatisticsViewController ()
 
 @end
@@ -19,16 +19,25 @@
     [self configWithTitle:@"服务统计" backImage:@""];
     self.naviBGView.backgroundColor = [UIColor whiteColor];
 
+    [self.selectDataBtn addTarget:self action:@selector(selectData:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)selectData:(UIButton *)btn {
+    NSString *str = @"";
+    if (str.length == 0) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        str = [dateFormatter stringFromDate:[NSDate date]];
+    }
+    [BRDatePickerView showDatePickerWithTitle:@"选择时间" dateType:UIDatePickerModeDateAndTime defaultSelValue:str minDateStr:@"" maxDateStr:@"" isAutoSelect:NO resultBlock:^(NSString *selectValue,NSDate *date) {
+        if(date){
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            //                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            NSString *destDateString = [dateFormatter stringFromDate:date];
+            self.dataLabel.text = destDateString;
+        }
+    }];
 }
-*/
 
 @end

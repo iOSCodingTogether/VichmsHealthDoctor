@@ -12,7 +12,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    [self.leftImageView layoutIfNeeded];
+    self.leftImageView.layer.cornerRadius = CGRectGetWidth(self.leftImageView.frame)/2.0;
+    self.leftBtn.layer.cornerRadius = 3;
+    self.rightBtn.layer.cornerRadius = 3;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

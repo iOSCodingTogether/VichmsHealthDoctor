@@ -29,7 +29,13 @@
 #endif
     
     // 键盘配置
-    [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
+    IQKeyboardManager *keyManager = [IQKeyboardManager sharedManager];
+    keyManager.enable = YES;
+    keyManager.shouldResignOnTouchOutside = YES;
+    keyManager.shouldToolbarUsesTextFieldTintColor = YES;
+    keyManager.enableAutoToolbar = NO;
+    keyManager.keyboardDistanceFromTextField = 60;
+    
     // 云信配置
     NIMSDKOption *option = [NIMSDKOption optionWithAppKey:@"47a23dbd2d737a031570d5a153a04a4e"];
     [[NIMSDK sharedSDK] registerWithOption:option];

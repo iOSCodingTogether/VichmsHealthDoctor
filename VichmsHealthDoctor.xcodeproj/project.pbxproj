@@ -197,6 +197,8 @@
 		7BA42FF821E1F2B2007ADB7F /* CommentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BA42FF621E1F2B2007ADB7F /* CommentVC.xib */; };
 		7BA42FFC21E1FAAF007ADB7F /* StartCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FFA21E1FAAF007ADB7F /* StartCommentTableViewCell.m */; };
 		7BA42FFD21E1FAAF007ADB7F /* StartCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BA42FFB21E1FAAF007ADB7F /* StartCommentTableViewCell.xib */; };
+		7BA4300221E24783007ADB7F /* ZYLMultiselectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FFF21E24782007ADB7F /* ZYLMultiselectTableViewCell.m */; };
+		7BA4300321E24783007ADB7F /* ZYLMultiselectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA4300121E24783007ADB7F /* ZYLMultiselectView.m */; };
 		7BA8FD4121E0B3770001B21A /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4021E0B3770001B21A /* UserInfoModel.m */; };
 		7BA8FD4721E0C4010001B21A /* MBProgressHUD+SimpleLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4621E0C4010001B21A /* MBProgressHUD+SimpleLoad.m */; };
 		7BA8FD4821E122310001B21A /* QNResolver.h in Sources */ = {isa = PBXBuildFile; fileRef = 7B2BD74821D3C66F00256EFB /* QNResolver.h */; };
@@ -585,6 +587,10 @@
 		7BA42FF921E1FAAF007ADB7F /* StartCommentTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StartCommentTableViewCell.h; sourceTree = "<group>"; };
 		7BA42FFA21E1FAAF007ADB7F /* StartCommentTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StartCommentTableViewCell.m; sourceTree = "<group>"; };
 		7BA42FFB21E1FAAF007ADB7F /* StartCommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartCommentTableViewCell.xib; sourceTree = "<group>"; };
+		7BA42FFE21E24782007ADB7F /* ZYLMultiselectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYLMultiselectView.h; sourceTree = "<group>"; };
+		7BA42FFF21E24782007ADB7F /* ZYLMultiselectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYLMultiselectTableViewCell.m; sourceTree = "<group>"; };
+		7BA4300021E24782007ADB7F /* ZYLMultiselectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYLMultiselectTableViewCell.h; sourceTree = "<group>"; };
+		7BA4300121E24783007ADB7F /* ZYLMultiselectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYLMultiselectView.m; sourceTree = "<group>"; };
 		7BA8FD3D21E0848F0001B21A /* URLDefineMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLDefineMarco.h; sourceTree = "<group>"; };
 		7BA8FD3F21E0B3770001B21A /* UserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
 		7BA8FD4021E0B3770001B21A /* UserInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
@@ -698,19 +704,19 @@
 				7B2BD8D121D3CAC200256EFB /* VideoEvaluationImageCell.h */,
 				7B2BD8D221D3CAC200256EFB /* VideoEvaluationImageCell.m */,
 				7B2BD6D221D3C66F00256EFB /* CommonTextViewTableViewCell.h */,
+				7B2BD6E021D3C66F00256EFB /* CommonTextViewTableViewCell.m */,
 				7B2BD6D421D3C66F00256EFB /* CommonCell2.h */,
 				7B2BD6D521D3C66F00256EFB /* CollectionTableViewCell.h */,
+				7B2BD6DD21D3C66F00256EFB /* CollectionTableViewCell.m */,
+				7B2BD6E221D3C66F00256EFB /* CollectionTableViewCell.xib */,
 				7B2BD6D621D3C66F00256EFB /* CommonCell1.xib */,
 				7B2BD6D821D3C66F00256EFB /* CommonCell3.m */,
 				7B2BD6D921D3C66F00256EFB /* CommonCell2.xib */,
 				7B2BD6DA21D3C66F00256EFB /* CommonCell3.xib */,
 				7B2BD6DB21D3C66F00256EFB /* CommonCell1.h */,
 				7B2BD6DC21D3C66F00256EFB /* CommonTextViewTableViewCell.xib */,
-				7B2BD6DD21D3C66F00256EFB /* CollectionTableViewCell.m */,
 				7B2BD6DE21D3C66F00256EFB /* CommonCell2.m */,
-				7B2BD6E021D3C66F00256EFB /* CommonTextViewTableViewCell.m */,
 				7B2BD6E121D3C66F00256EFB /* CommonCell1.m */,
-				7B2BD6E221D3C66F00256EFB /* CollectionTableViewCell.xib */,
 				7B2BD6E321D3C66F00256EFB /* CommonCell3.h */,
 			);
 			path = CommonCell;
@@ -1413,6 +1419,7 @@
 			isa = PBXGroup;
 			children = (
 				7B2BD81D21D3C67000256EFB /* BaseTextView.h */,
+				7B2BD82421D3C67000256EFB /* BaseTextView.m */,
 				7B2BD81E21D3C67000256EFB /* BaseNavViewController.m */,
 				7B2BD81F21D3C67000256EFB /* BaseTabBarViewController.m */,
 				7B2BD82021D3C67000256EFB /* BaseBarButtonItem.h */,
@@ -1420,7 +1427,6 @@
 				7B2BD82121D3C67000256EFB /* BaseViewController.m */,
 				7B2BD82221D3C67000256EFB /* BaseTabBarViewController.h */,
 				7B2BD82321D3C67000256EFB /* BaseNavViewController.h */,
-				7B2BD82421D3C67000256EFB /* BaseTextView.m */,
 				7B2BD82521D3C67000256EFB /* BaseBarButtonItem.m */,
 			);
 			path = BaseView;
@@ -1754,6 +1760,10 @@
 		7BA8FDA921E1E3690001B21A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7BA4300021E24782007ADB7F /* ZYLMultiselectTableViewCell.h */,
+				7BA42FFF21E24782007ADB7F /* ZYLMultiselectTableViewCell.m */,
+				7BA42FFE21E24782007ADB7F /* ZYLMultiselectView.h */,
+				7BA4300121E24783007ADB7F /* ZYLMultiselectView.m */,
 				7BA8FDB021E1F6EB0001B21A /* BookingExpertCell.h */,
 				7BA8FDB121E1F6EB0001B21A /* BookingExpertCell.m */,
 				7BA8FDB221E1F6EB0001B21A /* BookingExpertCell.xib */,
@@ -1812,7 +1822,7 @@
 				TargetAttributes = {
 					18BA9A63212C3F47004A5721 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -1986,6 +1996,7 @@
 				7B2BD8CE21D3C67000256EFB /* main.m in Sources */,
 				7B2BD8CA21D3C67000256EFB /* RequestHostManage.m in Sources */,
 				7B2BD8A721D3C67000256EFB /* CouponuseUserPageResultModel.m in Sources */,
+				7BA4300221E24783007ADB7F /* ZYLMultiselectTableViewCell.m in Sources */,
 				7B2BD84C21D3C67000256EFB /* BRAddressModel.m in Sources */,
 				7B2BD89F21D3C67000256EFB /* OrderPageMyResultModel.m in Sources */,
 				7B2BD83C21D3C67000256EFB /* CommonCell0.m in Sources */,
@@ -2077,6 +2088,7 @@
 				7B2BD88721D3C67000256EFB /* GoodsFindByGoodsTypeRequestModel.m in Sources */,
 				7B2BD89821D3C67000256EFB /* ForumPosttypesRequestModel.m in Sources */,
 				7B2BD89A21D3C67000256EFB /* ForumPageResultModel.m in Sources */,
+				7BA4300321E24783007ADB7F /* ZYLMultiselectView.m in Sources */,
 				7B2BD8BC21D3C67000256EFB /* GVUserDefaults.m in Sources */,
 				7B2BD85C21D3C67000256EFB /* QNSystem.m in Sources */,
 				7B2BD8BB21D3C67000256EFB /* BaseUserDefaults.m in Sources */,
@@ -2235,18 +2247,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = MGWVYEX6PA;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z6266SS95Y;
 				ENABLE_BITCODE = NO;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Doctor/Common/PrefixHeader.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Doctor/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vichms.health.Doctor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5665d0dd-07d8-4e01-985b-d2fa46a13407";
-				PROVISIONING_PROFILE_SPECIFIER = XCWildcardDev;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -2257,20 +2269,20 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ming Kong (6ANU686PNS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = MGWVYEX6PA;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z6266SS95Y;
 				ENABLE_BITCODE = NO;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Doctor/Common/PrefixHeader.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Doctor/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vichms.health.Doctor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "ae9ccda1-20fe-443b-8f55-7184f1e123ab";
-				PROVISIONING_PROFILE_SPECIFIER = WildcardHoc;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

@@ -32,12 +32,14 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 
 @interface AccompanyRecordVC ()
 
+@property (nonatomic,strong) NSMutableDictionary *valueDic;//接口要提交的数据
+
 @property (nonatomic, strong) UIView * genderView;     //
 @property (nonatomic, strong) UIButton * maleButton;     //
 @property (nonatomic, strong) UIButton * femaleButton;     //
 @property (nonatomic,strong) NSMutableArray *dataArray;//数据源
-@property (nonatomic, strong) NSMutableArray<IMageOrVideoModel *> * imagesModelArr;     //
-@property (nonatomic, strong) NSMutableArray<IMageOrVideoModel *> * videosModelArr;     //
+//@property (nonatomic, strong) NSMutableArray<IMageOrVideoModel *> * imagesModelArr;     //
+//@property (nonatomic, strong) NSMutableArray<IMageOrVideoModel *> * videosModelArr;     //
 
 @end
 @implementation AccompanyRecordVC
@@ -45,30 +47,27 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.valueDic = [NSMutableDictionary dictionary];
     [self createViews];
     [self reloadData];
-    
-    
 }
 
 -(void)reloadData{
     [self.mainTableView reloadData];
-    self.femaleButton.selected = NO;
-    self.maleButton.selected = YES;
 }
 
--(NSMutableArray <IMageOrVideoModel *>*)imagesModelArr{
-    if(!_imagesModelArr){
-        _imagesModelArr = [NSMutableArray array];
-    }
-    return _imagesModelArr;
-}
--(NSMutableArray <IMageOrVideoModel *>*)videosModelArr{
-    if(!_videosModelArr){
-        _videosModelArr = [NSMutableArray array];
-    }
-    return _videosModelArr;
-}
+//-(NSMutableArray <IMageOrVideoModel *>*)imagesModelArr{
+//    if(!_imagesModelArr){
+//        _imagesModelArr = [NSMutableArray array];
+//    }
+//    return _imagesModelArr;
+//}
+//-(NSMutableArray <IMageOrVideoModel *>*)videosModelArr{
+//    if(!_videosModelArr){
+//        _videosModelArr = [NSMutableArray array];
+//    }
+//    return _videosModelArr;
+//}
 -(void)createViews{
     
     [self configWithTitle:@"陪诊记录" backImage:nil];
@@ -209,12 +208,14 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 
 -(void)userSexSet:(UIButton *)btn{
     if(btn.tag == 0){
-//        self.orderCreateModel.personSex = @"0";
+        //女
+        [self.valueDic setObject:@"1" forKey:@"性别："];
     }
     else{
-//        self.orderCreateModel.personSex = @"1";
+        //男
+        [self.valueDic setObject:@"0" forKey:@"性别："];
     }
-    [self reloadData];
+    [self.mainTableView reloadData];
     
 }
 -(void)bottomButtonAction:(UIButton *)action{
@@ -290,14 +291,16 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
         }
         cell.label0.text = dataDic[@"title"];
         cell.textField.placeholder = dataDic[@"value"];
+        cell.textField.text = [self.valueDic objectForKey:dataDic[@"title"]];
         if (type == CELLTYPE_DROP) {
             cell.textField.userInteractionEnabled = NO;
             [cell.rightButton setImage:[UIImage imageNamed:@"icon_24"] forState:UIControlStateNormal];
             cell.rightButton.hidden = NO;
         }else if(type == CELLTYPE_TEXTFIELDAGE || type == CELLTYPE_TEXTFIELDSTR ||
                  type == CELLTYPE_TEXTFIELDPHONE || type == CELLTYPE_TEXTFIELDIDCARD){
+            cell.textField.text = [self.valueDic objectForKey:dataDic[@"title"]];
             [cell.textField addActiontextFieldChanged:^(UITextField *textField) {
-                //                    weakSelf.orderCreateModel.personName = textField.text;
+                [self.valueDic setObject:textField.text forKey:dataDic[@"title"]];
             }];
             cell.textField.userInteractionEnabled = YES;
         }else if (type == CELLTYPE_SELECTSEX) {
@@ -310,9 +313,13 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
                 make.left.mas_equalTo(cell.label0.mas_right);
                 make.width.mas_equalTo(200);
             }];
-            //                if(self.orderCreateModel.personSex.integerValue == 0){
-            self.maleButton.selected = NO;
-            self.femaleButton.selected =YES;
+            if ([[self.valueDic objectForKey:dataDic[@"title"]] integerValue] == 0) {
+                self.maleButton.selected = YES;
+                self.femaleButton.selected =NO;
+            }else {
+                self.maleButton.selected = NO;
+                self.femaleButton.selected =YES;
+            }
 
         }else if (type == CELLTYPE_DATA) {
             cell.textField.userInteractionEnabled = NO;
@@ -326,22 +333,27 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     else if(type == CELLTYPE_TEXTVIEW){
         CommonTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommonTextViewTableViewCell"];
         cell.TextView.placeholder = dataDic[@"value"];
+        //MARK:待处理
         return cell;
     }
     else if(type == CELLTYPE_IMAGE){
         CollectionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionTableViewCell"];
         cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.imagesArr = [self.imagesModelArr valueForKeyPath:@"image"];
-        
+        if ([[self.valueDic objectForKey:dic[@"title"]] isKindOfClass:[NSArray class]]) {
+            cell.imagesArr = [self.valueDic objectForKey:dic[@"title"]];
+        }else {
+            cell.imagesArr = [NSArray array];
+        }
         [cell setDidSelect:^(NSInteger selectIndex) {
-            if(selectIndex == self.imagesModelArr.count){//addImage
+            NSArray *arr = [self.valueDic objectForKey:dic[@"title"]];
+            if(selectIndex == arr.count){//addImage
                 TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] init];
                 imagePickerVc.maxImagesCount = 1;
                 imagePickerVc.allowPickingOriginalPhoto = YES;
                 imagePickerVc.allowPickingVideo = NO;
                 imagePickerVc.allowPickingImage = YES;
                 [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
-                    [self upLoadImageWithPhotos:photos assets:assets isSelectOriginalPhoto:YES];
+                    [self upLoadImageWithPhotos:photos assets:assets isSelectOriginalPhoto:YES withKey:dic[@"title"]];
                 }];
                 [self presentViewController:imagePickerVc animated:YES completion:nil];
             }
@@ -350,8 +362,10 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
             }
         }];
         [cell setDidDelect:^(NSInteger deleteIndex) {
-            if(self.imagesModelArr.count > deleteIndex){
-                [self.imagesModelArr removeObjectAtIndex:deleteIndex];
+            NSMutableArray *arr = [NSMutableArray arrayWithArray:[self.valueDic objectForKey:dic[@"title"]]];
+            if(arr.count > deleteIndex){
+                [arr removeObjectAtIndex:deleteIndex];
+                [self.valueDic setObject:arr forKey:dic[@"title"]];
                 [self reloadData];
             }
         }];
@@ -360,28 +374,41 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     else if(type == CELLTYPE_VEDIO){
         CollectionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionTableViewCell"];
         cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.imagesArr = [self.videosModelArr valueForKeyPath:@"image"];
         
+        if ([[self.valueDic objectForKey:dic[@"title"]] isKindOfClass:[NSArray class]]) {
+            cell.imagesArr = [self.valueDic objectForKey:dic[@"title"]];
+        }else {
+            cell.imagesArr = [NSArray array];
+        }
         
         [cell setDidSelect:^(NSInteger selectIndex) {
-            TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] init];
-            imagePickerVc.maxImagesCount = 1;
-            imagePickerVc.allowPickingVideo = YES;
-            imagePickerVc.allowPickingImage = NO;
-            [imagePickerVc setDidFinishPickingVideoHandle:^(UIImage *coverImage, PHAsset *asset) {
-                if(selectIndex == self.videosModelArr.count){//addVideo
-                    [self upLoadVideoWithCoverImage:coverImage asset:asset];
-                }
-                else{
-                    //
-                }
+            NSArray *arr = [self.valueDic objectForKey:dic[@"title"]];
+            if(selectIndex == arr.count){//addImage
+                TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] init];
+                imagePickerVc.maxImagesCount = 1;
+                imagePickerVc.allowPickingVideo = YES;
+                imagePickerVc.allowPickingImage = NO;
+                [imagePickerVc setDidFinishPickingVideoHandle:^(UIImage *coverImage, PHAsset *asset) {
+                    NSMutableArray *arr = [NSMutableArray arrayWithArray:[self.valueDic objectForKey:dic[@"title"]]];
+                    if(selectIndex == arr.count){//addVideo
+                        [self upLoadVideoWithCoverImage:coverImage asset:asset withKey:dic[@"title"]];
+                    }
+                    else{
+                        //
+                    }
+                    
+                }];
+                [self presentViewController:imagePickerVc animated:YES completion:nil];
+            }else {
                 
-            }];
-            [self presentViewController:imagePickerVc animated:YES completion:nil];
+            }
+            
         }];
         [cell setDidDelect:^(NSInteger deleteIndex) {
-            if(self.videosModelArr.count > deleteIndex){
-                [self.videosModelArr removeObjectAtIndex:deleteIndex];
+            NSMutableArray *arr = [NSMutableArray arrayWithArray:[self.valueDic objectForKey:dic[@"title"]]];
+            if(arr.count > deleteIndex){
+                [arr removeObjectAtIndex:deleteIndex];
+                [self.valueDic setObject:arr forKey:dic[@"title"]];
                 [self reloadData];
             }
         }];
@@ -393,29 +420,45 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     
 }
 
--(void)upLoadImageWithPhotos:(NSArray<UIImage *> *)photos assets:(NSArray *)assets isSelectOriginalPhoto:(BOOL )isSelectOriginalPhoto{
+-(void)upLoadImageWithPhotos:(NSArray<UIImage *> *)photos assets:(NSArray *)assets isSelectOriginalPhoto:(BOOL )isSelectOriginalPhoto withKey:(NSString *)key{
     if(photos.count == 0){
         NSLog(@"select 0 image");
         return ;
     }
-    [CommonManage QNPutimage:photos[0] forView:LR_KEY_WINDOW key:nil res:^(BOOL success, NSString * _Nonnull key, NSString * _Nonnull imageURL) {
-        if(success){
-            IMageOrVideoModel *imgModel = [[IMageOrVideoModel alloc]init];
-            imgModel.image = photos[0];
-            imgModel.imageOther = assets[0];
-            imgModel.imageURLKey = key;
-            [self.imagesModelArr addObject:imgModel];
-            [self reloadData];
-        }
-        else{
-            LR_TOAST(@"上传失败");
-        }
-    } progressHandler:^(NSString *key, float percent) {
-        
-    }];
+    NSMutableArray *mutArr = [NSMutableArray arrayWithArray:[self.valueDic objectForKey:key]];
+//    IMageOrVideoModel *imgModel = [[IMageOrVideoModel alloc]init];
+//    imgModel.image = photos[0];
+//    imgModel.imageOther = assets[0];
+//    imgModel.imageURLKey = key;
+//    [mutArr addObject:imgModel];
+//    [self.valueDic setObject:[NSArray arrayWithArray:mutArr] forKey:key];
+    [mutArr addObjectsFromArray:photos];
+    [self.valueDic setObject:mutArr forKey:key];
+    [self reloadData];
+//    NSArray *imageArr = [NSArray array];
+//    if ([[self.valueDic objectForKey:key] isKindOfClass:[NSArray class]]) {
+//        imageArr = [self.valueDic objectForKey:key];
+//    }
+//    NSMutableArray *arr = [NSMutableArray arrayWithArray:imageArr];
+//
+//    [CommonManage QNPutimage:photos[0] forView:LR_KEY_WINDOW key:nil res:^(BOOL success, NSString * _Nonnull key, NSString * _Nonnull imageURL) {
+//        if(success){
+//            IMageOrVideoModel *imgModel = [[IMageOrVideoModel alloc]init];
+//            imgModel.image = photos[0];
+//            imgModel.imageOther = assets[0];
+//            imgModel.imageURLKey = key;
+//            [self.imagesModelArr addObject:imgModel];
+//            [self reloadData];
+//        }
+//        else{
+//            LR_TOAST(@"上传失败");
+//        }
+//    } progressHandler:^(NSString *key, float percent) {
+//
+//    }];
 }
 
--(void)upLoadVideoWithCoverImage:(UIImage *)coverImage asset:(PHAsset *)asset{
+-(void)upLoadVideoWithCoverImage:(UIImage *)coverImage asset:(PHAsset *)asset withKey:(NSString *)key{
     [[TZImageManager manager] getVideoWithAsset:asset completion:^(AVPlayerItem *playerItem, NSDictionary *info) {
         AVURLAsset *urlAsset = (AVURLAsset *)playerItem.asset;
         
@@ -431,12 +474,15 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
         exportSession.outputURL = [NSURL fileURLWithPath:_outPath];
         exportSession.outputFileType = AVFileTypeMPEG4;
         __block MBProgressHUD *waithud;
-        waithud = [MBProgressHUD showHUDAddedTo:LR_KEY_WINDOW animated:YES];
-        waithud.label.text = @"视频处理中";
+        dispatch_async(dispatch_get_main_queue(), ^{
+            waithud = [MBProgressHUD showHUDAddedTo:LR_KEY_WINDOW animated:YES];
+            waithud.label.text = @"视频处理中";
+        });
         
         [exportSession exportAsynchronouslyWithCompletionHandler:^{
-            
-            [waithud hideAnimated:YES];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [waithud hideAnimated:YES];
+            });
             int exportStatus = exportSession.status;
             NSLog(@"%d",exportStatus);
             switch (exportStatus)
@@ -453,23 +499,33 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
                     NSLog(@"视频转码成功");
                     NSData *data2 = [NSData dataWithContentsOfFile:_outPath];
                     NSLog(@"视频大小2 %lu",(unsigned long)data2.length);
-                    [CommonManage QNPutimage:data2 forView:LR_KEY_WINDOW key:nil res:^(BOOL success, NSString * _Nonnull key, NSString * _Nonnull imageURL) {
-                        if(success){
-                            NSLog(@"video key is %@",key);
-                            IMageOrVideoModel *imgModel = [[IMageOrVideoModel alloc]init];
-                            imgModel.image = coverImage;
-                            imgModel.imageOther = data2;
-                            imgModel.imageURLKey = key;
-                            [self.videosModelArr addObject:imgModel];
-                            [self reloadData];
-                        }
-                        else{
-                            LR_TOAST(@"上传失败");
-                        }
-                        
-                    } progressHandler:nil];
-                    //                    UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:@[data2]applicationActivities:nil];
-                    //                    [self presentViewController:activityVC animated:YES completion:nil];
+                    NSMutableArray *mutArr = [NSMutableArray arrayWithArray:[self.valueDic objectForKey:key]];
+                    IMageOrVideoModel *imgModel = [[IMageOrVideoModel alloc]init];
+                    imgModel.image = coverImage;
+                    imgModel.imageOther = data2;
+                    imgModel.imageURLKey = key;
+                    [mutArr addObject:imgModel];
+                    [self.valueDic setObject:[NSArray arrayWithArray:mutArr] forKey:key];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self reloadData];
+                    });
+
+//                    [CommonManage QNPutimage:data2 forView:LR_KEY_WINDOW key:nil res:^(BOOL success, NSString * _Nonnull key, NSString * _Nonnull imageURL) {
+//                        if(success){
+//                            NSLog(@"video key is %@",key);
+//                            IMageOrVideoModel *imgModel = [[IMageOrVideoModel alloc]init];
+//                            imgModel.image = coverImage;
+//                            imgModel.imageOther = data2;
+//                            imgModel.imageURLKey = key;
+//                            [self.videosModelArr addObject:imgModel];
+//                            [self reloadData];
+//                        }
+//                        else{
+//                            LR_TOAST(@"上传失败");
+//                        }
+//
+//                    } progressHandler:nil];
+               
                     
                     
                 }
@@ -497,83 +553,41 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     LRWeakSelf
-    if(indexPath.section == 0||indexPath.section == 2){
-        
-        if(indexPath.section == 0){
-            if(indexPath.row ==0){
-                //                cell.label0.text = @"与患者关系：";
-                NSArray *selectArr =@[@"本人",@"家属",@"朋友",@"同事"];
-                
-                
-//                [BRStringPickerView showStringPickerWithTitle:@"与患者关系：" dataSource:selectArr defaultSelValue:selectArr[self.orderCreateModel.relative.intValue -1] isAutoSelect:NO resultBlock:^(id selectValue) {
-//                    NSInteger selectIndex = [selectArr indexOfObject:selectValue];
-//                    weakSelf.orderCreateModel.relative = [NSString stringWithFormat:@"%ld",selectIndex+1];
-//                    [weakSelf reloadData];
-//                }];
-                
-            }
-            else if(indexPath.row == 1){
-                //                cell.label0.text = @"类型：";
-                //                cell.textField.text = @"第一次就诊";
-                NSArray *selectArr =@[@"第一次就诊",@"复诊"];
-                
-//                [BRStringPickerView showStringPickerWithTitle:@"类型：" dataSource:selectArr defaultSelValue:selectArr[self.orderCreateModel.orderType.intValue -1] isAutoSelect:NO resultBlock:^(id selectValue) {
-//                    NSInteger selectIndex = [selectArr indexOfObject:selectValue];
-//                    weakSelf.orderCreateModel.orderType = [NSString stringWithFormat:@"%ld",selectIndex+1];
-//                    [weakSelf reloadData];
-//                }];
-                
-            }
-            else if(indexPath.row == 2){
-                
-            }
-            else if(indexPath.row == 3){
-                
-                
-                
-            }
-            else if(indexPath.row == 4){
-                
-            }
-            else if(indexPath.row == 5){
-                
-                
-            }
-            else if(indexPath.row == 6){
-                
-            }
+    NSDictionary *dic = self.dataArray[indexPath.section];
+    NSArray *dataArr = dic[@"data"];
+    NSDictionary *dataDic = dataArr[indexPath.row];
+    NSInteger type = [dataDic[@"type"] integerValue];
+    
+    if (type == CELLTYPE_DROP) {
+        NSArray *selectArr =@[@"第一次预约",@"复诊"];
+        NSString *str = dataDic[@"value"];
+        if (![selectArr containsObject:str]) {
+            str = selectArr[0];
         }
-        else if(indexPath.section == 2){
-            if(indexPath.row ==0){
-                
-//                [BRDatePickerView showDatePickerWithTitle:@"就诊时间：" dateType:UIDatePickerModeDateAndTime defaultSelValue:self.orderCreateModel.visitTime minDateStr:@"" maxDateStr:@"" isAutoSelect:NO resultBlock:^(NSString *selectValue,NSDate *date) {
-//                    if(date){
-//                        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//                        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
-//                        NSString *destDateString = [dateFormatter stringFromDate:date];
-//
-//                        weakSelf.orderCreateModel.visitTime = destDateString;
-//                        [weakSelf reloadData];
-//                    }
-//
-//                }];
-            }
-            else if(indexPath.row == 1){
-                
-                
-            }
-            else if(indexPath.row == 2){
-                
-            }
-            else if(indexPath.row == 3){
-                
-            }
+        [BRStringPickerView showStringPickerWithTitle:dataDic[@"title"] dataSource:selectArr defaultSelValue:str isAutoSelect:NO resultBlock:^(id selectValue) {
+            NSInteger selectIndex = [selectArr indexOfObject:selectValue];
+            [weakSelf.valueDic setObject:selectArr[selectIndex] forKey:dataDic[@"title"]];
+            [weakSelf reloadData];
+        }];
+    }else if (type == CELLTYPE_DATA) {
+        NSString *str = dataDic[@"value"];
+        if (str.length == 0) {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            str = [dateFormatter stringFromDate:[NSDate date]];
         }
-        
+        [BRDatePickerView showDatePickerWithTitle:dataDic[@"title"] dateType:UIDatePickerModeDateAndTime defaultSelValue:str minDateStr:@"" maxDateStr:@"" isAutoSelect:NO resultBlock:^(NSString *selectValue,NSDate *date) {
+            if(date){
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                NSString *destDateString = [dateFormatter stringFromDate:date];
+                [weakSelf.valueDic setObject:destDateString forKey:dataDic[@"title"]];
+                [weakSelf reloadData];
+            }
+        }];
+
     }
-    
-    
-    
 }
 -(void)requestPost{
 //    if(!self.orderCreateModel){
@@ -599,15 +613,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     // Dispose of any resources that can be recreated.
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
 -(UIView *)crecteBottomViewContainButtonWithTitle:(NSString *)title action:(SEL)action{
     UIView *bottomView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
     UIButton *button = [[UIButton alloc]init];

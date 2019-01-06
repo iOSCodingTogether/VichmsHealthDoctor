@@ -8,6 +8,7 @@
 
 #import "CollectionTableViewCell.h"
 #import "VideoEvaluationImageCell.h"
+#import "IMageOrVideoModel.h"
 #import "UIButton+Block.h"
 #define CollectionTableViewCellImageWidth ((SCREEN_WIDTH - 1)/4.0 -10)
 @interface CollectionTableViewCell()<UICollectionViewDelegate,UICollectionViewDataSource>
@@ -79,8 +80,21 @@
         cell.backgroundColor = [UIColor grayColor];
     if(self.imagesArr.count >indexPath.row){
         id im = self.imagesArr[indexPath.row];
+        
         if([im isKindOfClass:[UIImage class]]){
             cell.imageView.image = im;
+            cell.playImage.hidden = YES;
+            if(self.didDelect){
+                cell.deleteBtn.hidden = NO;
+                [cell.deleteBtn setTitle:@"❌" forState:UIControlStateNormal];
+                [cell.deleteBtn addAction:^(UIButton *btn) {
+                    weakSelf.didDelect(indexPath.row);
+                }];
+            }
+        }else if ([im isKindOfClass:[IMageOrVideoModel class]]) {
+            IMageOrVideoModel *model = im;
+            cell.imageView.image = model.image;
+            cell.playImage.hidden = NO;
             if(self.didDelect){
                 cell.deleteBtn.hidden = NO;
                 [cell.deleteBtn setTitle:@"❌" forState:UIControlStateNormal];
