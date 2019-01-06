@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <NIMSessionListViewController.h>
 
-@interface ChatHomeVC : UIViewController
+@interface ChatHomeVC : NIMSessionListViewController
 
 @end
