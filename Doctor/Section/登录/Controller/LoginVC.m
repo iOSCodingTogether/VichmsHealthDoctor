@@ -148,8 +148,6 @@
                                                                      [UIApplication sharedApplication].delegate.window.rootViewController = tabVC;
                                                                  }
                                                              }];
-                               
-                               
                            }
                        } fail:^(NSError *error, NSInteger statusCode) {
                            [MBProgressHUD showLoadingWithTitle:error.domain];
