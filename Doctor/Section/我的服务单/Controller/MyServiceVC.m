@@ -7,8 +7,9 @@
 //
 
 #import "MyServiceVC.h"
+#import "MyServiceTableViewCell.h"
 
-@interface MyServiceVC ()
+@interface MyServiceVC ()<UITableViewDelegate, UITableViewDataSource>
 
 @end
 
@@ -25,17 +26,39 @@
     [self configWithTitle:@"我的服务单" backImage:@""];
     self.backBtn.hidden = YES;
     self.naviBGView.backgroundColor = [UIColor whiteColor];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    [self createSearchV];
+    
+}
+- (void)createSearchV {
+
+    registerNibWithCellName(self.mainTableView, @"MyServiceTableViewCell");
+
+    UIView *topV = [[UIView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight, SCREENW, 95)];
+    [self.view addSubview:topV];
+    topV.backgroundColor = [UIColor redColor];
+    
+    self.mainTableView.frame = CGRectMake(0, CGRectGetMaxY(topV.frame), SCREENW, SCREENH - CGRectGetMaxY(topV.frame) - kTabarHeight);
 
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
 }
-*/
-
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 5;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    MyServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MyServiceTableViewCell"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 12;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 217;
+}
 @end

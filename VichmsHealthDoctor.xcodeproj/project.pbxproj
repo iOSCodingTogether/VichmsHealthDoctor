@@ -191,6 +191,8 @@
 		7BA42FE621E10F3C007ADB7F /* ExpertIntroduceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FE521E10F3C007ADB7F /* ExpertIntroduceVC.m */; };
 		7BA42FEA21E10F46007ADB7F /* ExpertIntroduceTopCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BA42FE721E10F45007ADB7F /* ExpertIntroduceTopCell.xib */; };
 		7BA42FEB21E10F46007ADB7F /* ExpertIntroduceTopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FE921E10F45007ADB7F /* ExpertIntroduceTopCell.m */; };
+		7BA42FEF21E1D3E1007ADB7F /* MyServiceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FED21E1D3E1007ADB7F /* MyServiceTableViewCell.m */; };
+		7BA42FF021E1D3E2007ADB7F /* MyServiceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BA42FEE21E1D3E1007ADB7F /* MyServiceTableViewCell.xib */; };
 		7BA8FD4121E0B3770001B21A /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4021E0B3770001B21A /* UserInfoModel.m */; };
 		7BA8FD4721E0C4010001B21A /* MBProgressHUD+SimpleLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4621E0C4010001B21A /* MBProgressHUD+SimpleLoad.m */; };
 		7BA8FD4821E122310001B21A /* QNResolver.h in Sources */ = {isa = PBXBuildFile; fileRef = 7B2BD74821D3C66F00256EFB /* QNResolver.h */; };
@@ -567,6 +569,9 @@
 		7BA42FE721E10F45007ADB7F /* ExpertIntroduceTopCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpertIntroduceTopCell.xib; sourceTree = "<group>"; };
 		7BA42FE821E10F45007ADB7F /* ExpertIntroduceTopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpertIntroduceTopCell.h; sourceTree = "<group>"; };
 		7BA42FE921E10F45007ADB7F /* ExpertIntroduceTopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpertIntroduceTopCell.m; sourceTree = "<group>"; };
+		7BA42FEC21E1D3E1007ADB7F /* MyServiceTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyServiceTableViewCell.h; sourceTree = "<group>"; };
+		7BA42FED21E1D3E1007ADB7F /* MyServiceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyServiceTableViewCell.m; sourceTree = "<group>"; };
+		7BA42FEE21E1D3E1007ADB7F /* MyServiceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyServiceTableViewCell.xib; sourceTree = "<group>"; };
 		7BA8FD3D21E0848F0001B21A /* URLDefineMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLDefineMarco.h; sourceTree = "<group>"; };
 		7BA8FD3F21E0B3770001B21A /* UserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
 		7BA8FD4021E0B3770001B21A /* UserInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
@@ -1630,6 +1635,9 @@
 		7B98AAD721DE5E4400EB9809 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7BA42FEC21E1D3E1007ADB7F /* MyServiceTableViewCell.h */,
+				7BA42FED21E1D3E1007ADB7F /* MyServiceTableViewCell.m */,
+				7BA42FEE21E1D3E1007ADB7F /* MyServiceTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1775,6 +1783,7 @@
 				7B2BD84021D3C67000256EFB /* CommonCell2.xib in Resources */,
 				7BA42FEA21E10F46007ADB7F /* ExpertIntroduceTopCell.xib in Resources */,
 				7B671F3E21DFEBD500DD7C32 /* AccompanyTableViewCell.xib in Resources */,
+				7BA42FF021E1D3E2007ADB7F /* MyServiceTableViewCell.xib in Resources */,
 				7B2BD83A21D3C67000256EFB /* Media.xcassets in Resources */,
 				7B2BD84121D3C67000256EFB /* CommonCell3.xib in Resources */,
 				7B671F3621DFE3A700DD7C32 /* BookTableViewCell.xib in Resources */,
@@ -1798,7 +1807,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/NIMKit/NIMKit/Resources/NIMKitEmoticon.bundle",
@@ -1819,7 +1828,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D940FF3DABA5E30E61821328 /* [CP] Check Pods Manifest.lock */ = {
@@ -1860,6 +1869,7 @@
 				7B98AAF821DE8AD400EB9809 /* PersonalSettingVC.m in Sources */,
 				7BA8FD4121E0B3770001B21A /* UserInfoModel.m in Sources */,
 				7B2BD8C821D3C67000256EFB /* CodeTimestamps.m in Sources */,
+				7BA42FEF21E1D3E1007ADB7F /* MyServiceTableViewCell.m in Sources */,
 				7B2BD88121D3C67000256EFB /* UserActiveVideoRequestModel.m in Sources */,
 				7B98AB0421DE8C1D00EB9809 /* AccompanyVC.m in Sources */,
 				7B2BD8AB21D3C67000256EFB /* UserInfoRequestModel.m in Sources */,
