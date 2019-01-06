@@ -192,14 +192,15 @@
 }
 
 - (void)loginOut {
+    [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
+    [[UserInfoManager shareInstance] logoutUser];
+    
     [[[NIMSDK sharedSDK] loginManager] logout:^(NSError * _Nullable error) {
         if (error) {
-            [MBProgressHUD showLoadingWithTitle:@"退出登录失败"];
+            NSLog(@"退出登录失败");
             return;
         }
-
-        [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
-        [[UserInfoManager shareInstance] logoutUser];
     }];
 }
+
 @end

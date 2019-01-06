@@ -14,6 +14,7 @@
 #import "MyServiceVC.h"
 #import "AccompanyVC.h"
 #import "LFNavigationController.h"
+#import "BookingExpertVC.h"
 
 #pragma mark - utils
 #import "UserInfoManager.h"
@@ -40,13 +41,21 @@
                                                    selectedImage:[[UIImage imageNamed:@"home_highlight"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     homeNaVC.tabBarItem = homeItem;
     
-    // 预约
+    // 我的预约
     BookingVC *bookingVC = [BookingVC new];
     LFNavigationController *bookingNaVC = [[LFNavigationController alloc] initWithRootViewController:bookingVC];
     UITabBarItem *bookingItem = [[UITabBarItem alloc] initWithTitle:@"我的预约"
                                                               image:[[UIImage imageNamed:@"booking_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                                                       selectedImage:[[UIImage imageNamed:@"booking_highlight"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     bookingNaVC.tabBarItem = bookingItem;
+    
+    // 预约专家
+    BookingExpertVC *bookingExpertVC = [BookingExpertVC new];
+    LFNavigationController *bookingExpertNaVC = [[LFNavigationController alloc] initWithRootViewController:bookingExpertVC];
+    UITabBarItem *bookingIExperitem = [[UITabBarItem alloc] initWithTitle:@"预约专家"
+                                                                    image:[[UIImage imageNamed:@"booking_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                                                            selectedImage:[[UIImage imageNamed:@"booking_highlight"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    bookingExpertNaVC.tabBarItem = bookingIExperitem;
     
     // 我的服务
     MyServiceVC *serviceVC = [MyServiceVC new];
@@ -82,7 +91,7 @@
         [tabBarVCArr addObjectsFromArray:@[accompanyNaVC, settingNaVC]];
     } else if ([UserInfoManager shareInstance].returnUserType == UserType_Service) {
         // 客服
-        [tabBarVCArr addObjectsFromArray:@[homeNaVC, bookingNaVC, accompanyNaVC, settingNaVC]];
+        [tabBarVCArr addObjectsFromArray:@[homeNaVC, bookingExpertNaVC, accompanyNaVC, settingNaVC]];
     }
    
     self.viewControllers = tabBarVCArr;

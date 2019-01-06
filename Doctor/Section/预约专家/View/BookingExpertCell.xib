@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="145" id="2KM-21-jbu" customClass="BookingExpertCell">
+            <rect key="frame" x="0.0" y="0.0" width="468" height="145"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2KM-21-jbu" id="gWN-wv-DWU">
+                <rect key="frame" x="0.0" y="0.0" width="468" height="144.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="000" translatesAutoresizingMaskIntoConstraints="NO" id="IO6-JT-OS6">
+                        <rect key="frame" x="16" y="32.5" width="80" height="80"/>
+                        <color key="backgroundColor" red="0.59994798900000001" green="0.60003459449999996" blue="0.59992057089999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="WXS-Lv-xuU"/>
+                            <constraint firstAttribute="width" secondItem="IO6-JT-OS6" secondAttribute="height" id="jTj-te-Pnf"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="烧伤科 主治医师" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ikj-q2-8EV">
+                        <rect key="frame" x="108" y="60" width="90" height="14"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.65098039220000004" green="0.65098039220000004" blue="0.65098039220000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="北京医三院" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o6d-qn-dgp">
+                        <rect key="frame" x="108" y="78" width="62" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.59994798900000001" green="0.60003459449999996" blue="0.59992057089999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="张晓晓已提交预约申请" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6xu-Yg-dGG">
+                        <rect key="frame" x="108" y="109" width="123" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="tix-AG-I8Z"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.30588235294117649" green="0.5607843137254902" blue="0.73725490196078436" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LNX-8i-niS">
+                        <rect key="frame" x="359" y="90" width="99" height="34"/>
+                        <color key="backgroundColor" red="0.0" green="0.63921568627450975" blue="0.99607843137254903" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="34" id="SfS-v8-Qrh"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <state key="normal" title="  分配陪诊员  "/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JX-6N-MTg">
+                        <rect key="frame" x="304" y="90" width="50" height="34"/>
+                        <color key="backgroundColor" red="0.0" green="0.63921568627450975" blue="0.99607843137254903" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="34" id="F70-rN-OK5"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <state key="normal" title="  预约  "/>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="陈医生" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y73-bv-3AJ">
+                        <rect key="frame" x="108" y="20" width="61.5" height="24"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="y73-bv-3AJ" firstAttribute="leading" secondItem="ikj-q2-8EV" secondAttribute="leading" id="4Ev-sp-bi6"/>
+                    <constraint firstItem="6xu-Yg-dGG" firstAttribute="top" secondItem="o6d-qn-dgp" secondAttribute="bottom" constant="16" id="9mq-6c-fyv"/>
+                    <constraint firstItem="ikj-q2-8EV" firstAttribute="leading" secondItem="IO6-JT-OS6" secondAttribute="trailing" constant="12" id="Cdk-NY-ieL"/>
+                    <constraint firstItem="ikj-q2-8EV" firstAttribute="top" secondItem="y73-bv-3AJ" secondAttribute="bottom" constant="16" id="Idj-P4-gHx"/>
+                    <constraint firstItem="IO6-JT-OS6" firstAttribute="centerY" secondItem="gWN-wv-DWU" secondAttribute="centerY" id="J7M-Ai-XEG"/>
+                    <constraint firstItem="IO6-JT-OS6" firstAttribute="leading" secondItem="gWN-wv-DWU" secondAttribute="leading" constant="16" id="LkO-xA-IQ6"/>
+                    <constraint firstItem="6xu-Yg-dGG" firstAttribute="leading" secondItem="o6d-qn-dgp" secondAttribute="leading" id="UJ8-g7-Sxm"/>
+                    <constraint firstItem="IO6-JT-OS6" firstAttribute="width" secondItem="IO6-JT-OS6" secondAttribute="height" id="W2O-0f-5kE"/>
+                    <constraint firstItem="LNX-8i-niS" firstAttribute="bottom" secondItem="6xu-Yg-dGG" secondAttribute="bottom" id="Y1v-1n-Gje"/>
+                    <constraint firstItem="LNX-8i-niS" firstAttribute="leading" secondItem="2JX-6N-MTg" secondAttribute="trailing" constant="5" id="fWq-TJ-JDl"/>
+                    <constraint firstItem="o6d-qn-dgp" firstAttribute="leading" secondItem="ikj-q2-8EV" secondAttribute="leading" id="gO4-hk-tej"/>
+                    <constraint firstItem="o6d-qn-dgp" firstAttribute="top" secondItem="ikj-q2-8EV" secondAttribute="bottom" constant="4" id="gn1-BN-6bj"/>
+                    <constraint firstItem="y73-bv-3AJ" firstAttribute="top" secondItem="gWN-wv-DWU" secondAttribute="top" constant="20" id="oEY-oA-OGd"/>
+                    <constraint firstItem="LNX-8i-niS" firstAttribute="bottom" secondItem="2JX-6N-MTg" secondAttribute="bottom" id="oLR-Jd-W8P"/>
+                    <constraint firstAttribute="trailing" secondItem="LNX-8i-niS" secondAttribute="trailing" constant="10" id="vzj-56-EJG"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="bookingIntro" destination="6xu-Yg-dGG" id="4ti-mg-Yxw"/>
+                <outlet property="hospitalLabel" destination="o6d-qn-dgp" id="MZj-a7-JqR"/>
+                <outlet property="leftBtn" destination="2JX-6N-MTg" id="9d6-gA-IBw"/>
+                <outlet property="leftImageView" destination="IO6-JT-OS6" id="71e-6X-pZu"/>
+                <outlet property="midLabel" destination="ikj-q2-8EV" id="tBj-aN-Gyi"/>
+                <outlet property="nameLabel" destination="y73-bv-3AJ" id="JVx-hn-r7j"/>
+                <outlet property="rightBtn" destination="LNX-8i-niS" id="tMb-Jg-f5C"/>
+            </connections>
+            <point key="canvasLocation" x="-65.599999999999994" y="118.29085457271366"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="000" width="24" height="24"/>
+    </resources>
+</document>
