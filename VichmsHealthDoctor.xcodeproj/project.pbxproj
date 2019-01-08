@@ -1808,6 +1808,7 @@
 				18BA9A61212C3F47004A5721 /* Frameworks */,
 				18BA9A62212C3F47004A5721 /* Resources */,
 				8EBD35385924009CC453B9C0 /* [CP] Copy Pods Resources */,
+				559168404842131D5ACA8A30 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1882,6 +1883,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		559168404842131D5ACA8A30 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-frameworks.sh",
+				"${PODS_ROOT}/HHSDKAndNIMKit/HHSDKAndNIMKit/Framework/HHDoctorSDK.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HHDoctorSDK.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8EBD35385924009CC453B9C0 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1889,6 +1912,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh",
+				"${PODS_ROOT}/HHSDKAndNIMKit/HHSDKAndNIMKit/Framework/resources/SecurityKit.bundle",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/NIMKit/NIMKit/Resources/NIMKitEmoticon.bundle",
@@ -1899,6 +1923,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SecurityKit.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NIMKitEmoticon.bundle",

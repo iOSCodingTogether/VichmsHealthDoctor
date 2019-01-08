@@ -14,6 +14,11 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
+  - HHSDKAndNIMKit (0.1.0):
+    - HHSDKAndNIMKit/Base (= 0.1.0)
+    - NIMKit/Full
+  - HHSDKAndNIMKit/Base (0.1.0):
+    - NIMKit/Full
   - IQKeyboardManager (6.2.0)
   - JPFPSStatus (0.1.1)
   - M80AttributedLabel (1.8.1)
@@ -49,6 +54,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - HHSDKAndNIMKit (~> 0.1.0)
   - IQKeyboardManager
   - JPFPSStatus
   - Masonry
@@ -56,7 +62,6 @@ DEPENDENCIES:
   - MJExtension
   - MJRefresh
   - MLLabel
-  - NIMKit/Full
   - ReactiveCocoa (~> 2.5.0)
   - SDCycleScrollView
   - SDWebImage
@@ -83,9 +88,12 @@ SPEC REPOS:
     - Toast
     - TZImagePickerController
     - UUButton
+  https://github.com/iOSCodingTogether/HHDocotrAndNIMKitSpecs.git:
+    - HHSDKAndNIMKit
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  HHSDKAndNIMKit: b4baf024d96baa7e43e21953e595a64b5648c44a
   IQKeyboardManager: 6194101620b73af5e67900b8f89707a99de0b804
   JPFPSStatus: 03f32aa3d4d7d0c5bf56f6f3e7cf8b7280a5f52c
   M80AttributedLabel: 56905e0d2cf50d4550ba181dd15f992f7f4e21e8
@@ -103,6 +111,6 @@ SPEC CHECKSUMS:
   TZImagePickerController: 3027e1e2029c830186c6a167c88c933b8556fdc7
   UUButton: 9a19bbe0c812a6920de21da8acca7a2d0bad52da
 
-PODFILE CHECKSUM: fb7d2ccb1ea3066c5f8bc03c962b8cf6987d7819
+PODFILE CHECKSUM: 7c2f15f87d7657535003aab89161b2617b4d035b
 
 COCOAPODS: 1.6.0.beta.2
