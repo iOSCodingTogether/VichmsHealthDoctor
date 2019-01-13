@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="199" id="KGk-i7-Jjw" customClass="AccompanyTableViewCell">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="154" id="KGk-i7-Jjw" customClass="AccompanyTableViewCell">
             <rect key="frame" x="0.0" y="0.0" width="357" height="199"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -20,25 +20,25 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e21-hH-CUU" userLabel="titleView">
-                        <rect key="frame" x="0.0" y="0.0" width="357" height="45"/>
+                        <rect key="frame" x="0.0" y="0.0" width="357" height="0.0"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="温馨陪诊" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="26B-21-XRb">
-                                <rect key="frame" x="17" y="15" width="323" height="15"/>
+                                <rect key="frame" x="17" y="0.0" width="323" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="45" id="0au-lS-Idd"/>
-                            <constraint firstItem="26B-21-XRb" firstAttribute="top" secondItem="e21-hH-CUU" secondAttribute="top" constant="15" id="Jod-Kn-vlM"/>
+                            <constraint firstAttribute="height" id="0au-lS-Idd"/>
+                            <constraint firstItem="26B-21-XRb" firstAttribute="top" secondItem="e21-hH-CUU" secondAttribute="top" id="Jod-Kn-vlM"/>
                             <constraint firstAttribute="trailing" secondItem="26B-21-XRb" secondAttribute="trailing" constant="17" id="Qz9-Jy-KPK"/>
                             <constraint firstItem="26B-21-XRb" firstAttribute="leading" secondItem="e21-hH-CUU" secondAttribute="leading" constant="17" id="e0B-df-Oct"/>
-                            <constraint firstAttribute="bottom" secondItem="26B-21-XRb" secondAttribute="bottom" constant="15" id="yxx-xp-l7S"/>
+                            <constraint firstAttribute="bottom" secondItem="26B-21-XRb" secondAttribute="bottom" id="yxx-xp-l7S"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L5M-BY-DjC">
-                        <rect key="frame" x="0.0" y="45" width="357" height="1"/>
+                        <rect key="frame" x="0.0" y="0.0" width="357" height="1"/>
                         <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="Dkk-wm-HQw"/>
@@ -48,7 +48,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="类型：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="juD-bi-UFi">
-                        <rect key="frame" x="17" y="61" width="42" height="15"/>
+                        <rect key="frame" x="17" y="16" width="42" height="15"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="gV0-Aj-E4P"/>
                             <constraint firstAttribute="width" constant="42" id="qj8-Gp-dlz"/>
@@ -58,12 +58,12 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="第一次预约" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3BY-Y1-Ro7">
-                        <rect key="frame" x="61" y="61" width="117.5" height="15"/>
+                        <rect key="frame" x="61" y="16" width="117.5" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="姓名：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q0e-iF-Csx">
-                        <rect key="frame" x="17" y="86" width="42" height="15"/>
+                        <rect key="frame" x="17" y="41" width="42" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="42" id="fQn-yt-83G"/>
                             <constraint firstAttribute="height" constant="15" id="sGk-FX-uiK"/>
@@ -73,12 +73,12 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="张三" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgO-3A-8lK">
-                        <rect key="frame" x="61" y="86" width="27" height="15"/>
+                        <rect key="frame" x="61" y="41" width="27" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="医院：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u5d-ru-YgQ">
-                        <rect key="frame" x="17" y="111" width="42" height="15"/>
+                        <rect key="frame" x="17" y="66" width="42" height="15"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="M9c-wS-5S4"/>
                             <constraint firstAttribute="width" constant="42" id="NMV-of-upe"/>
@@ -88,12 +88,12 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="安贞医院" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GYk-O9-16J">
-                        <rect key="frame" x="61" y="111" width="53.5" height="15"/>
+                        <rect key="frame" x="61" y="66" width="53.5" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="就诊日期：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="38V-io-lH2">
-                        <rect key="frame" x="179.5" y="61" width="67" height="15"/>
+                        <rect key="frame" x="179.5" y="16" width="67" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="67" id="dUi-pD-vsc"/>
                             <constraint firstAttribute="height" constant="15" id="gFk-a6-Job"/>
@@ -103,12 +103,12 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2018-08-19" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3BU-zJ-TCt">
-                        <rect key="frame" x="248.5" y="61" width="91.5" height="15"/>
+                        <rect key="frame" x="248.5" y="16" width="91.5" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="年龄：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uQ-Kg-kBI">
-                        <rect key="frame" x="179.5" y="86" width="42" height="15"/>
+                        <rect key="frame" x="179.5" y="41" width="42" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="42" id="0UG-DX-GkQ"/>
                             <constraint firstAttribute="height" constant="15" id="21n-3l-3oV"/>
@@ -118,12 +118,12 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nM8-Ga-6RU">
-                        <rect key="frame" x="223.5" y="86" width="116.5" height="15"/>
+                        <rect key="frame" x="223.5" y="41" width="116.5" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="科室：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4zE-9g-gZ5">
-                        <rect key="frame" x="179.5" y="111" width="42" height="15"/>
+                        <rect key="frame" x="179.5" y="66" width="42" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="42" id="Ksz-0p-V1l"/>
                             <constraint firstAttribute="height" constant="15" id="LLI-bC-jPz"/>
@@ -133,12 +133,12 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="心内科科科" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zAs-nH-IWl">
-                        <rect key="frame" x="223.5" y="111" width="116.5" height="15"/>
+                        <rect key="frame" x="223.5" y="66" width="116.5" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aWB-yF-l1d">
-                        <rect key="frame" x="260" y="146" width="80" height="27"/>
+                        <rect key="frame" x="260" y="101" width="80" height="27"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="ehZ-ay-VM1"/>

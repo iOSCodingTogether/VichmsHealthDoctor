@@ -91,7 +91,7 @@
         [tabBarVCArr addObjectsFromArray:@[accompanyNaVC, settingNaVC]];
     } else if ([UserInfoManager shareInstance].returnUserType == UserType_Service) {
         // 客服
-        [tabBarVCArr addObjectsFromArray:@[homeNaVC, bookingExpertNaVC, accompanyNaVC, settingNaVC]];
+        [tabBarVCArr addObjectsFromArray:@[bookingNaVC, bookingExpertNaVC, accompanyNaVC, settingNaVC]];
     }
    
     self.viewControllers = tabBarVCArr;

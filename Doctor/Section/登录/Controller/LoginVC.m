@@ -128,7 +128,7 @@
         return;
     }
     
-    [HYBNetworking postWithUrl:URL(@"user/login")
+    [HYBNetworking postWithUrl:URL_Login
                           body:@{@"phone" : self.userText.text ?: @"",
                                  @"personType" : [NSString stringWithFormat:@"%ld",(long)self.selectRoleIndex],
                                  @"password" : self.pwdText.text ?: @""}
@@ -136,6 +136,7 @@
                            if ([response isKindOfClass:[NSDictionary class]]) {
                                // 存储数据
                                UserInfoModel *userModel = [UserInfoModel mj_objectWithKeyValues:response[@"data"]];
+                               [[NSUserDefaults standardUserDefaults]setValue:userModel.token forKey:@"token"];
                                [[UserInfoManager shareInstance] recordUserInfo:userModel];
                                
                                [[[NIMSDK sharedSDK] loginManager] login:[UserInfoManager shareInstance].user.accid

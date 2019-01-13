@@ -25,7 +25,7 @@
     registerNibWithCellName(self.mainTableView, @"MessageListTableViewCell");
 
     self.messagepageSubModelArr = [NSMutableArray array];
-//    [self request:NO];
+    [self request:NO];
     
     
 
@@ -39,36 +39,16 @@
 
 
 -(void)request:(BOOL)isLoadMore{
-    MessagePageRequestModel *model = [MessagePageRequestModel new];
-    model.pageSize = 10;
     
-    if(!isLoadMore){
-        model.pageSize = 20;
+    [HYBNetworking getWithUrl:URL_Message_MY refreshCache:YES success:^(id response) {
         
-        model.pageNo = 1;
-    }
-    else{
-        model.pageSize = 10;
-        
-        model.pageNo = [model nextPageNoForCurDataCount:self.messagepageSubModelArr.count];
-    }
-
-    [BaseRequest requestWithRequestModel:model ret:^(BOOL success, __kindof MessagePageResultModel *dataModel, NSString *jsonObjc) {
-        if(dataModel.success){
-            if(!isLoadMore){
-                self.messagepageSubModelArr =[NSMutableArray arrayWithArray:  dataModel.list];
-            }
-            else{
-                
-                [self.messagepageSubModelArr addObjectsFromArray:dataModel.list];
-            }
-            [self reloadData];
-        }
+        NSLog(@"====消息列表%@",response);
         [self.mainTableView.mj_header endRefreshing];
         [self.mainTableView.mj_footer endRefreshing];
+
+    } fail:^(NSError *error, NSInteger statusCode) {
         
     }];
-    
     
 }
 -(void)reloadData{

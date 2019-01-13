@@ -7,7 +7,8 @@
 //
 
 #import "MyServiceVC.h"
-#import "MyServiceTableViewCell.h"
+//#import "MyServiceTableViewCell.h"
+#import "NewMyServiceTableViewCell.h"
 #import "CommentVC.h"
 #import "BRStringPickerView.h"
 #import "BRDatePickerView.h"
@@ -46,7 +47,7 @@
 }
 - (void)createSearchV {
 
-    registerNibWithCellName(self.mainTableView, @"MyServiceTableViewCell");
+    registerNibWithCellName(self.mainTableView, @"NewMyServiceTableViewCell");
 
     UIView *topV = [[UIView alloc]initWithFrame:CGRectMake(0, kNavigationBarHeight, SCREENW, 95)];
     [self.view addSubview:topV];
@@ -216,16 +217,16 @@
     return 5;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MyServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MyServiceTableViewCell"];
+    NewMyServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewMyServiceTableViewCell"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell.lookComment addTarget:self action:@selector(goToComment:) forControlEvents:UIControlEventTouchUpInside];
+//    [cell.lookComment addTarget:self action:@selector(goToComment:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 12;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 217;
+    return 154;
 }
 
 @end

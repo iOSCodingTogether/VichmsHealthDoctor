@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BookTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIButton *chatBtn;
 
 @end
 

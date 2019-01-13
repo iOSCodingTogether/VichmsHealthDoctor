@@ -34,6 +34,7 @@
     keyManager.shouldToolbarUsesTextFieldTintColor = YES;
     keyManager.enableAutoToolbar = NO;
     keyManager.keyboardDistanceFromTextField = 60;
+    [HYBNetworking updateBaseUrl:URL_HOST];
     // 云信配置
     NIMSDKOption *option = [NIMSDKOption optionWithAppKey:@"47a23dbd2d737a031570d5a153a04a4e"];
     [[NIMSDK sharedSDK] registerWithOption:option];

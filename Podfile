@@ -1,3 +1,7 @@
+# 私有仓库，整合云信UI库和和缓医疗
+source 'https://github.com/iOSCodingTogether/HHDocotrAndNIMKitSpecs.git'
+# CocoaPods Source
+source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '9.0'
 #use_frameworks!
@@ -21,9 +25,8 @@ target 'Doctor' do
 #    朋友圈用
     pod "MLLabel"
     pod "UUButton"
-    # 暂时去掉和缓
-#    pod 'HHDoctorSDK', :git => 'http://code.hh-medic.com/hh_public/HHDoctorSDK.ios.git'
-    pod 'NIMKit/Full'
+    # 和缓使用整合后的私有库
+    pod "NIMKit/Full"
 
 end
 

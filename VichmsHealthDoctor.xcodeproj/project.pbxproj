@@ -160,6 +160,8 @@
 		7B2BD8CF21D3C67000256EFB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2BD83621D3C67000256EFB /* AppDelegate.m */; };
 		7B2BD8D321D3CAC300256EFB /* VideoEvaluationImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2BD8D221D3CAC200256EFB /* VideoEvaluationImageCell.m */; };
 		7B2BD8D721D3CB0A00256EFB /* DoctorLoginManage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2BD8D621D3CB0A00256EFB /* DoctorLoginManage.m */; };
+		7B5E336721EA350100E503CB /* NewMyServiceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E336521EA350100E503CB /* NewMyServiceTableViewCell.m */; };
+		7B5E336821EA350100E503CB /* NewMyServiceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B5E336621EA350100E503CB /* NewMyServiceTableViewCell.xib */; };
 		7B671F0921DF93EC00DD7C32 /* ForgetPwdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B671F0821DF93EC00DD7C32 /* ForgetPwdVC.m */; };
 		7B671F0F21DF955300DD7C32 /* BookingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B671F0C21DF955300DD7C32 /* BookingVC.m */; };
 		7B671F1321DF9A4A00DD7C32 /* LFNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B671F1121DF9A4A00DD7C32 /* LFNavigationController.m */; };
@@ -524,6 +526,9 @@
 		7B2BD8D221D3CAC200256EFB /* VideoEvaluationImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoEvaluationImageCell.m; sourceTree = "<group>"; };
 		7B2BD8D521D3CB0A00256EFB /* DoctorLoginManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoctorLoginManage.h; sourceTree = "<group>"; };
 		7B2BD8D621D3CB0A00256EFB /* DoctorLoginManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoctorLoginManage.m; sourceTree = "<group>"; };
+		7B5E336421EA350100E503CB /* NewMyServiceTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewMyServiceTableViewCell.h; sourceTree = "<group>"; };
+		7B5E336521EA350100E503CB /* NewMyServiceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewMyServiceTableViewCell.m; sourceTree = "<group>"; };
+		7B5E336621EA350100E503CB /* NewMyServiceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewMyServiceTableViewCell.xib; sourceTree = "<group>"; };
 		7B671F0721DF93EB00DD7C32 /* ForgetPwdVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForgetPwdVC.h; sourceTree = "<group>"; };
 		7B671F0821DF93EC00DD7C32 /* ForgetPwdVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdVC.m; sourceTree = "<group>"; };
 		7B671F0C21DF955300DD7C32 /* BookingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookingVC.m; sourceTree = "<group>"; };
@@ -1667,6 +1672,9 @@
 				7BA42FF921E1FAAF007ADB7F /* StartCommentTableViewCell.h */,
 				7BA42FFA21E1FAAF007ADB7F /* StartCommentTableViewCell.m */,
 				7BA42FFB21E1FAAF007ADB7F /* StartCommentTableViewCell.xib */,
+				7B5E336421EA350100E503CB /* NewMyServiceTableViewCell.h */,
+				7B5E336521EA350100E503CB /* NewMyServiceTableViewCell.m */,
+				7B5E336621EA350100E503CB /* NewMyServiceTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1808,6 +1816,7 @@
 				18BA9A61212C3F47004A5721 /* Frameworks */,
 				18BA9A62212C3F47004A5721 /* Resources */,
 				8EBD35385924009CC453B9C0 /* [CP] Copy Pods Resources */,
+				559168404842131D5ACA8A30 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1874,6 +1883,7 @@
 				7B671F1B21DFA57300DD7C32 /* PInfoVC.xib in Resources */,
 				7B2BD83E21D3C67000256EFB /* CommonCell0.xib in Resources */,
 				7B2BD84D21D3C67000256EFB /* BRCity.plist in Resources */,
+				7B5E336821EA350100E503CB /* NewMyServiceTableViewCell.xib in Resources */,
 				7B2BD84721D3C67000256EFB /* CollectionTableViewCell.xib in Resources */,
 				7B2BD83921D3C67000256EFB /* LaunchScreen.storyboard in Resources */,
 			);
@@ -1882,6 +1892,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		559168404842131D5ACA8A30 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-frameworks.sh",
+				"${PODS_ROOT}/HHSDKAndNIMKit/HHSDKAndNIMKit/Framework/HHDoctorSDK.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HHDoctorSDK.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		8EBD35385924009CC453B9C0 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1889,6 +1917,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh",
+				"${PODS_ROOT}/HHSDKAndNIMKit/HHSDKAndNIMKit/Framework/resources/SecurityKit.bundle",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/NIMKit/NIMKit/Resources/NIMKitEmoticon.bundle",
@@ -1899,6 +1928,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SecurityKit.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/NIMKitEmoticon.bundle",
@@ -1945,6 +1975,7 @@
 				7B2BD8B321D3C67000256EFB /* SmsCodeResultModel.m in Sources */,
 				7B98AAF121DE72C000EB9809 /* LoginVC.m in Sources */,
 				7B2BD8AD21D3C67000256EFB /* OrderCreateResultModel.m in Sources */,
+				7B5E336721EA350100E503CB /* NewMyServiceTableViewCell.m in Sources */,
 				7B2BD87621D3C67000256EFB /* QNDnspodEnterprise.m in Sources */,
 				7B2BD85A21D3C67000256EFB /* QNFile.m in Sources */,
 				7B98AAF821DE8AD400EB9809 /* PersonalSettingVC.m in Sources */,
@@ -2263,7 +2294,7 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Doctor/Common/PrefixHeader.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Doctor/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vichms.health.Doctor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2287,7 +2318,7 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Doctor/Common/PrefixHeader.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Doctor/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vichms.health.Doctor;
 				PRODUCT_NAME = "$(TARGET_NAME)";

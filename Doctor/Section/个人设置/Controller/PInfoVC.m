@@ -28,10 +28,35 @@
     self.introTextView.layer.borderWidth = 1;
     [self.introTextView setPlaceholder:@"输入介绍" placeholdColor:[HEXCOLOR(0x919191) colorWithAlphaComponent:0.8]];
     self.introTextView.font = self.nameTextField.font;
-    
+    self.nameTextField.enabled = NO;
     [self.headerImage addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(selectHeader)]];
+    
+    [self loadData];
 }
 
+- (void)loadData {
+    [HYBNetworking getWithUrl:URL_Me refreshCache:YES success:^(id response) {
+        NSLog(@"====个人信息%@",response);
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            NSDictionary *data = dic[@"data"];
+            NSString *name = data[@"name"];
+            NSString *headPic = data[@"headPic"];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (name.length == 0) {
+                    self.nameTextField.enabled = YES;
+                }else {
+                    self.nameTextField.enabled = NO;
+                    self.nameTextField.text = name;
+                }
+                [self.headerImage sd_setImageWithURL:[NSURL URLWithString:headPic]];
+            });
+            
+        }
+    } fail:^(NSError *error, NSInteger statusCode) {
+        
+    }];
+}
 - (void)selectHeader {
     TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] init];
     imagePickerVc.maxImagesCount = 1;

@@ -11,7 +11,6 @@
 #import "PInfoVC.h"
 #import "MessageListVC.h"
 #import "AboutUsVC.h"
-#import "UserInfoManager.h"
 #import "MBProgressHUD+SimpleLoad.h"
 #import "StatisticsViewController.h"
 #import "ExpertIntroduceVC.h"
@@ -55,7 +54,8 @@
         // 客服
         self.dataArray = @[@[@{@"title":@"个人信息",@"image":@"pInfo"},
                              @{@"title":@"消息通知",@"image":@"msgNoti"},
-                             @{@"title":@"我的医生",@"image":@"myDoctor"}],
+                             @{@"title":@"我的医生",@"image":@"myDoctor"},
+                             @{@"title":@"订单列表",@"image":@"aboutUs"}],
                            @[@{@"title":@"关于我们",@"image":@"aboutUs"}]];
     }
 }

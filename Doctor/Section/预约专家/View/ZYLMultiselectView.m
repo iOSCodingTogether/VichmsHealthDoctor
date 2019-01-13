@@ -138,34 +138,43 @@
     
     if (self.resultArr.count != 0) {
     
-    for (int i = 0; i < self.resultArr.count; i ++) {
-        
-        int row = [self.resultArr[i] intValue];
+        int row = [self.resultArr[0] intValue];
         
         if (indexPath.row == row) {
             
-            [self.resultArr removeObjectAtIndex:i];
-            
-            break;
-            
+        }else {
+            self.resultArr = [NSMutableArray array];
+            [self.resultArr addObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
         }
-        
-        if (i == self.resultArr.count - 1) {
-        
-            if (indexPath.row != row) {
-                
-                [self.resultArr addObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
-                
-            }
-            
-            break;
 
-        }
-        
-    }
+//    for (int i = 0; i < self.resultArr.count; i ++) {
+//
+//        int row = [self.resultArr[i] intValue];
+//
+//        if (indexPath.row == row) {
+//
+//            [self.resultArr removeObjectAtIndex:i];
+//
+//            break;
+//
+//        }
+//
+//        if (i == self.resultArr.count - 1) {
+//
+//            if (indexPath.row != row) {
+//
+//                [self.resultArr addObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+//
+//            }
+//
+//            break;
+//
+//        }
+//
+//    }
     
     }else{
-        
+        self.resultArr = [NSMutableArray array];
         [self.resultArr addObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
     
     }

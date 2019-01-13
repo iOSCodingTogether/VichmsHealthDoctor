@@ -12,6 +12,7 @@
 #import "CommonManage.h"
 #import "UIButton+Block.h"
 #import "AccompanyRecordVC.h"
+#import "UserInfoManager.h"
 @interface AccompanyVC ()< UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate>
 @property (nonatomic, strong) UISearchBar *mSearchBar;
 
@@ -36,9 +37,20 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self createViews];
     _orderpageSubModelArr = [NSMutableArray array];
-    //    [self request:NO];
+    [self request:NO];
     
     [self reloadData];
+}
+- (void)request:(BOOL)isRefresh {
+    
+    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%d&pageSize=%d&search_EQ_attendId=%@",URL_AttenderPage,1,10,[UserInfoManager shareInstance].user.phone];
+    [HYBNetworking getWithUrl:url refreshCache:YES success:^(id response) {
+        
+        NSLog(@"=====陪诊记录%@",response);
+    } fail:^(NSError *error, NSInteger statusCode) {
+        NSLog(@"%@",error);
+
+    }];
 }
 - (void)createViews{
     registerNibWithCellName(self.mainTableView, @"AccompanyTableViewCell");
@@ -245,6 +257,7 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    //如果是
     if (indexPath.section == 0) {
         //确认接单
         [cell.statusBtn setTitle:@"确认接单" forState:UIControlStateNormal];

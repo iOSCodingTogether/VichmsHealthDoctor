@@ -291,7 +291,7 @@ static inline NSString *cachePath() {
     // manager
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST"
-                                                                                 URLString:url
+                                                                                 URLString:[URL_HOST stringByAppendingString:url]
                                                                                 parameters:nil
                                                                                      error:nil];
     request.timeoutInterval= 10;
@@ -368,7 +368,7 @@ static inline NSString *cachePath() {
 //  }
 
 
-  [manager.requestSerializer setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"token"] forHTTPHeaderField:@"Authorization"];
+  [manager.requestSerializer setValue:[[NSUserDefaults standardUserDefaults]objectForKey:@"token"] forHTTPHeaderField:@"token"];
 
   NSString *absolute = [self absoluteUrlWithPath:url];
   
@@ -569,18 +569,27 @@ static inline NSString *cachePath() {
       }
     }];
   } else if (httpMethod == 3) {
-      @weakify(success, fail);
+//      @weakify(success, fail);
       session = [manager GET:url
                   parameters:params
                     progress:nil
                      success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                         @strongify(success, fail);
+//                         @strongify(success, fail);
                          NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *)task.response;
                          
-                         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
+                         if (!responseObject
+                             || ![responseObject isKindOfClass:[NSDictionary class]]) {
+                             NSError *err = [NSError errorWithDomain:@"数据异常"
+                                                                code:-1
+                                                            userInfo:@{}];
+                             if (fail) {
+                                 fail(err, httpResponse.statusCode);
+                             }
+                             return;
+                         }
                          // code不为100时，报错msg
-                         if (![[jsonDict objectForKey:@"code"] isEqual:@(100)]) {
-                             NSError *err = [NSError errorWithDomain:[jsonDict objectForKey:@"msg"]
+                         if (![[responseObject objectForKey:@"code"] isEqual:@(100)]) {
+                             NSError *err = [NSError errorWithDomain:[responseObject objectForKey:@"msg"]
                                                                 code:-1
                                                             userInfo:@{}];
                              if (fail) {
@@ -591,10 +600,10 @@ static inline NSString *cachePath() {
                          }
                          
                          if (success) {
-                             success(jsonDict);
+                             success(responseObject);
                          }
                      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                         @strongify(fail);
+//                         @strongify(fail);
                          NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse *)task.response;
                          
                          NSError *err = error ?: [NSError errorWithDomain:@"网络出错了" code:-1 userInfo:@{}];

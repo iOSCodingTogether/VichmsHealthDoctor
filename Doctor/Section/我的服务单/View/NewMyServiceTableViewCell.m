@@ -1,20 +1,18 @@
 //
-//  BookTableViewCell.m
+//  NewMyServiceTableViewCell.m
 //  Doctor
 //
-//  Created by zt on 2019/1/5.
+//  Created by zt on 2019/1/12.
 //  Copyright © 2019年 AnyOne. All rights reserved.
 //
 
-#import "BookTableViewCell.h"
+#import "NewMyServiceTableViewCell.h"
 
-@implementation BookTableViewCell
+@implementation NewMyServiceTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.chatBtn.layer.cornerRadius = 3;
-    self.chatBtn.layer.borderColor = HEXCOLOR(0x00A3FE).CGColor;
-    self.chatBtn.layer.borderWidth = 1;
+    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
