@@ -75,7 +75,6 @@
     self.avatar.layer.borderWidth = 2.f;
     self.avatar.layer.borderColor = [UIColor whiteColor].CGColor;
     
-    
     self.nameLabel = [UILabel new];
     [headView addSubview:self.nameLabel];
     self.nameLabel.textColor = [UIColor whiteColor];

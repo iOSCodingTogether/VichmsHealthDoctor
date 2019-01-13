@@ -92,7 +92,7 @@
 
 - (void)selectTypeAction:(UIButton *)btn {
     
-    [HYBNetworking getWithUrl:URL_FindById refreshCache:YES success:^(id response) {
+    [HYBNetworking getWithUrl:URL_DepartmentPage refreshCache:YES success:^(id response) {
         
         NSLog(@"===预约专家--查找科室%@",response);
     } fail:^(NSError *error, NSInteger statusCode) {

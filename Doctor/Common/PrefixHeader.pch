@@ -10,6 +10,7 @@
 #define PrefixHeader_pch
 
 #import "HYBNetworking.h"
+#import "MBProgressHUD+Additions.h"
 
 #import "AppDefine.h"
 #import "BaseDefine.h"

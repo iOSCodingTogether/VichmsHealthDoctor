@@ -11,8 +11,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface StatisticsViewController : BaseViewController
+@property (weak, nonatomic) IBOutlet UIView *selectDateView;
 @property (weak, nonatomic) IBOutlet UILabel *dataLabel;
 @property (weak, nonatomic) IBOutlet UIButton *selectDataBtn;
+@property (weak, nonatomic) IBOutlet UILabel *firstComLabel;
+@property (weak, nonatomic) IBOutlet UILabel *secondComLabel;
+@property (weak, nonatomic) IBOutlet UILabel *thirdComLabel;
+@property (weak, nonatomic) IBOutlet UILabel *serviceCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *servicePcountLabel;
 
 @end
 

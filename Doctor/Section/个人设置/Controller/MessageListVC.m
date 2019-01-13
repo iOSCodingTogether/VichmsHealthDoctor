@@ -11,7 +11,9 @@
 #import "MessagePageRequestModel.h"
 
 @interface MessageListVC ()
-@property (nonatomic, strong) NSMutableArray <MessagePageResultSubModel *> *messagepageSubModelArr;     //
+@property (nonatomic,strong) NSMutableArray *dataArray;
+//@property (nonatomic, strong) NSMutableArray <MessagePageResultSubModel *> *messagepageSubModelArr;     //
+@property (nonatomic,assign) NSInteger pageIndex;
 
 @end
 
@@ -23,31 +25,62 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self configWithTitle:@"消息通知" backImage:@""];
     registerNibWithCellName(self.mainTableView, @"MessageListTableViewCell");
-
-    self.messagepageSubModelArr = [NSMutableArray array];
+    self.dataArray = [NSMutableArray array];
+    LRWeakSelf;
+    self.mainTableView.mj_header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        if (weakSelf.pageIndex > 1) {
+            weakSelf.pageIndex --;
+        }
+        [weakSelf request:YES];
+    }];
+    self.mainTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.pageIndex ++;
+        [weakSelf request:YES];
+    }];
+    
     [self request:NO];
     
     
 
-//    LRWeakSelf;
-//    self.mainTableView.mj_header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
-//        [weakSelf request:NO];
-//
-//    }];
+    
     
 }
 
 
 -(void)request:(BOOL)isLoadMore{
     
+    LRWeakSelf;
+    if (self.pageIndex < 1) {
+        self.pageIndex = 1;
+    }
     [HYBNetworking getWithUrl:URL_Message_MY refreshCache:YES success:^(id response) {
         
         NSLog(@"====消息列表%@",response);
-        [self.mainTableView.mj_header endRefreshing];
-        [self.mainTableView.mj_footer endRefreshing];
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            NSDictionary *data = dic[@"data"];
+            NSArray *arr = data[@"list"];
+            
+            if (weakSelf.pageIndex == 1) {
+                weakSelf.dataArray = [NSMutableArray arrayWithArray:arr];
+            }else {
+                [weakSelf.dataArray addObjectsFromArray:arr];
+            }
+            if (arr.count == 0) {
+                self.pageIndex --;
+            }
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+        }
+        [weakSelf.mainTableView reloadData];
+        [weakSelf.mainTableView.mj_header endRefreshing];
+        [weakSelf.mainTableView.mj_footer endRefreshing];
 
     } fail:^(NSError *error, NSInteger statusCode) {
-        
+        [weakSelf.mainTableView.mj_header endRefreshing];
+        [weakSelf.mainTableView.mj_footer endRefreshing];
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+
     }];
     
 }
@@ -60,7 +93,7 @@
 }
 #pragma mark - UITableViewDelegate UITableViewDatasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return self.dataArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -78,13 +111,9 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 //    MessagePageResultSubModel *model = self.messagepageSubModelArr[indexPath.row];
 
+    NSDictionary *dic = self.dataArray[indexPath.section];
     cell.tLabel.text = @"系统消息";
-//    cell.dLabel.text = model.message;
-    if (indexPath.section == 0) {
-        cell.dLabel.text = @"尊敬的小小，你提交的紧急就医服务已预约成功！请您按时就诊，如有疑问请联系您的专属客服！联系电话：400-400-400尊敬的小小，你提交的紧急就医服务已预约成功！请您按时就诊，如有疑问请联系您的专属客服！联系电话：400-400-400";
-    }else {
-        cell.dLabel.text = @"akj ;aklsjdf k;ajl ;jd;lkj a;dlfakj ;lkaj ;sdkaj a; kj";
-    }
+    cell.dLabel.text = dic[@"message"];
     return cell;
 }
 

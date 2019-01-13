@@ -9,6 +9,7 @@
 #ifndef MarcoDefine_h
 #define MarcoDefine_h
 
+#define PageSize 10
 #define Font @"MicrosoftYaHei"
 #define RGB(r,g,b,alp) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:alp]
 /*十六进制颜色设置**/

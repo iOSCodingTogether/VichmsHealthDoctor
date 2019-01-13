@@ -7,7 +7,8 @@
 //
 
 #import "CommentVC.h"
-#import "MyServiceTableViewCell.h"
+//#import "MyServiceTableViewCell.h"
+#import "NewMyServiceTableViewCell.h"
 #import "CommonTextViewTableViewCell.h"
 #import "CollectionTableViewCell.h"
 #import "StartCommentTableViewCell.h"
@@ -15,6 +16,7 @@
 
 @interface CommentVC ()<UITableViewDelegate,UITableViewDataSource>
 
+@property (nonatomic,strong) NSDictionary *rootDic;
 @end
 
 @implementation CommentVC
@@ -25,15 +27,37 @@
     [self configWithTitle:@"评价" backImage:@""];
     self.naviBGView.backgroundColor = [UIColor whiteColor];
 
-    registerNibWithCellName(self.mainTableView, @"MyServiceTableViewCell");
+    registerNibWithCellName(self.mainTableView, @"NewMyServiceTableViewCell");
     registerNibWithCellName(self.mainTableView, @"CollectionTableViewCell");
     registerNibWithCellName(self.mainTableView, @"CommonTextViewTableViewCell");
     registerNibWithCellName(self.mainTableView, @"StartCommentTableViewCell");
 
     self.mainTableView.frame = CGRectMake(0, kNavigationBarHeight, SCREENW, SCREENH - kNavigationBarHeight);
+    [self getData];
 }
 
-
+- (void)getData {
+    @weakify(self);
+    [HYBNetworking getWithUrl:[NSString stringWithFormat:@"%@?orderId=%@",URL_GetOrderEvaluationByOrderId,self.orderId] refreshCache:YES success:^(id response) {
+        NSLog(@"===查看评论%@",response);
+        @strongify(self);
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            if (![dic[@"data"] isKindOfClass:[NSNull class]]) {
+                self.rootDic = dic[@"data"];
+                [self.mainTableView reloadData];
+//                [self.mainTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:NO];
+            }else {
+                [MBProgressHUD showAlertWithView:self.view andTitle:@"暂无评价"];
+            }
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+        }
+    } fail:^(NSError *error, NSInteger statusCode) {
+        
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+    }];
+}
 #pragma mark - UITableViewDelegate UITableViewDatasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (!self.isEdit) {
@@ -53,7 +77,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        return 219;
+        return 154;
     }else if (indexPath.section == 1 || indexPath.section == 2) {
         return UITableViewAutomaticDimension;
     }else if (indexPath.section == 3) {
@@ -72,17 +96,59 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
         return cell;
     }else if (indexPath.section == 0) {
-        MyServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MyServiceTableViewCell"];
+        NewMyServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewMyServiceTableViewCell"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.lookComment.hidden = YES;
+        cell.cellBtn.hidden = YES;
+        cell.nameLabel.text = self.topDic[@"personName"];
+        cell.ageLabel.text = self.topDic[@"personAge"];
+        cell.doctoreLabel.text = self.topDic[@"doctor"];
+        cell.orderTimeLabel.text = [self testDateZone:self.topDic[@"orderTime"]];
         return cell;
     }
     StartCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"StartCommentTableViewCell"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell configWithScore:@"3.5分" comment:@"我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论我的评论"];
+    
+    if ([self.rootDic.allKeys containsObject:@"count"]) {
+        CGFloat score = [self.rootDic[@"count"] floatValue];
+        NSString *commentStr = self.rootDic[@"evaluation"];
+        [cell configWithScore:[NSString stringWithFormat:@"%.1f分",score] comment:commentStr];
+    }else {
+        [cell configWithScore:@"暂无评分" comment:@"暂无评价"];
 
+    }
+    
+    
     return cell;
     
 }
 
+-(NSString *)testDateZone:(NSString *)timeDate
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+    
+    NSDate *localDate = [dateFormatter dateFromString:timeDate];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *strDate = [dateFormatter stringFromDate:[self getNowDateFromatAnDate:localDate]];
+    NSLog(@"strDate = %@",strDate);
+    [dateFormatter setDateStyle:NSDateFormatterFullStyle];
+    return strDate;
+}
+
+- (NSDate *)getNowDateFromatAnDate:(NSDate *)anyDate
+{
+    //设置源日期时区
+    NSTimeZone* sourceTimeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];//或GMT
+    //设置转换后的目标日期时区
+    NSTimeZone* destinationTimeZone = [NSTimeZone localTimeZone];
+    //得到源日期与世界标准时间的偏移量
+    NSInteger sourceGMTOffset = [sourceTimeZone secondsFromGMTForDate:anyDate];
+    //目标日期与本地时区的偏移量
+    NSInteger destinationGMTOffset = [destinationTimeZone secondsFromGMTForDate:anyDate];
+    //得到时间偏移量的差值
+    NSTimeInterval interval = destinationGMTOffset - sourceGMTOffset;
+    //转为现在时间
+    NSDate* destinationDateNow = [[NSDate alloc] initWithTimeInterval:interval sinceDate:anyDate];
+    return destinationDateNow;
+}
 @end

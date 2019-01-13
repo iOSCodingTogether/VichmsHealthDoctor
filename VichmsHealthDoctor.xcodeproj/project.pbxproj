@@ -162,6 +162,8 @@
 		7B2BD8D721D3CB0A00256EFB /* DoctorLoginManage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2BD8D621D3CB0A00256EFB /* DoctorLoginManage.m */; };
 		7B5E336721EA350100E503CB /* NewMyServiceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E336521EA350100E503CB /* NewMyServiceTableViewCell.m */; };
 		7B5E336821EA350100E503CB /* NewMyServiceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B5E336621EA350100E503CB /* NewMyServiceTableViewCell.xib */; };
+		7B5E336D21EB29B200E503CB /* ZTMonthSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E336921EB29B100E503CB /* ZTMonthSelector.m */; };
+		7B5E336E21EB29B200E503CB /* ZTMonthCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E336A21EB29B100E503CB /* ZTMonthCollectionViewCell.m */; };
 		7B671F0921DF93EC00DD7C32 /* ForgetPwdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B671F0821DF93EC00DD7C32 /* ForgetPwdVC.m */; };
 		7B671F0F21DF955300DD7C32 /* BookingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B671F0C21DF955300DD7C32 /* BookingVC.m */; };
 		7B671F1321DF9A4A00DD7C32 /* LFNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B671F1121DF9A4A00DD7C32 /* LFNavigationController.m */; };
@@ -529,6 +531,10 @@
 		7B5E336421EA350100E503CB /* NewMyServiceTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewMyServiceTableViewCell.h; sourceTree = "<group>"; };
 		7B5E336521EA350100E503CB /* NewMyServiceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewMyServiceTableViewCell.m; sourceTree = "<group>"; };
 		7B5E336621EA350100E503CB /* NewMyServiceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewMyServiceTableViewCell.xib; sourceTree = "<group>"; };
+		7B5E336921EB29B100E503CB /* ZTMonthSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZTMonthSelector.m; sourceTree = "<group>"; };
+		7B5E336A21EB29B100E503CB /* ZTMonthCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZTMonthCollectionViewCell.m; sourceTree = "<group>"; };
+		7B5E336B21EB29B200E503CB /* ZTMonthCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZTMonthCollectionViewCell.h; sourceTree = "<group>"; };
+		7B5E336C21EB29B200E503CB /* ZTMonthSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZTMonthSelector.h; sourceTree = "<group>"; };
 		7B671F0721DF93EB00DD7C32 /* ForgetPwdVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForgetPwdVC.h; sourceTree = "<group>"; };
 		7B671F0821DF93EC00DD7C32 /* ForgetPwdVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdVC.m; sourceTree = "<group>"; };
 		7B671F0C21DF955300DD7C32 /* BookingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookingVC.m; sourceTree = "<group>"; };
@@ -1614,6 +1620,10 @@
 		7B98AACF21DE5E4400EB9809 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7B5E336B21EB29B200E503CB /* ZTMonthCollectionViewCell.h */,
+				7B5E336A21EB29B100E503CB /* ZTMonthCollectionViewCell.m */,
+				7B5E336C21EB29B200E503CB /* ZTMonthSelector.h */,
+				7B5E336921EB29B100E503CB /* ZTMonthSelector.m */,
 				7BA42FE821E10F45007ADB7F /* ExpertIntroduceTopCell.h */,
 				7BA42FE921E10F45007ADB7F /* ExpertIntroduceTopCell.m */,
 				7BA42FE721E10F45007ADB7F /* ExpertIntroduceTopCell.xib */,
@@ -2016,6 +2026,7 @@
 				7B2BD87221D3C67000256EFB /* QNNetworkInfo.m in Sources */,
 				7B671F2F21DFC85E00DD7C32 /* MessageListTableViewCell.m in Sources */,
 				7B2BD84921D3C67000256EFB /* BRStringPickerView.m in Sources */,
+				7B5E336E21EB29B200E503CB /* ZTMonthCollectionViewCell.m in Sources */,
 				7B2BD8B621D3C67000256EFB /* BaseWebVC.m in Sources */,
 				7B98AB0A21DE8FC200EB9809 /* UserInfoManager.m in Sources */,
 				7B2BD85221D3C67000256EFB /* QNConfiguration.m in Sources */,
@@ -2134,6 +2145,7 @@
 				7B2BD85C21D3C67000256EFB /* QNSystem.m in Sources */,
 				7B2BD8BB21D3C67000256EFB /* BaseUserDefaults.m in Sources */,
 				7B2BD8B021D3C67000256EFB /* DepartmentPageResultModel.m in Sources */,
+				7B5E336D21EB29B200E503CB /* ZTMonthSelector.m in Sources */,
 				7B2BD88521D3C67000256EFB /* CouponUseUsableResultSubModel.m in Sources */,
 				7B2BD87721D3C67000256EFB /* QNRefresher.m in Sources */,
 				7B2BD8C121D3C67000256EFB /* NSDate+CCategory.m in Sources */,

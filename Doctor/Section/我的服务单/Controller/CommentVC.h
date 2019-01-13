@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CommentVC : BaseViewController
 
+@property (nonatomic,strong) NSDictionary *topDic;//上面view的内容
+@property (nonatomic,strong) NSString *orderId;
 
 /**
  yes则是提交评价，NO则是查看评价

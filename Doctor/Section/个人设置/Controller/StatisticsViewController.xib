@@ -13,7 +13,13 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StatisticsViewController">
             <connections>
                 <outlet property="dataLabel" destination="XOQ-Z3-xPk" id="1dQ-a6-rFr"/>
+                <outlet property="firstComLabel" destination="KjQ-je-6dD" id="gUn-HD-9ZM"/>
+                <outlet property="secondComLabel" destination="Fmf-iU-LAV" id="H6X-WQ-5jR"/>
                 <outlet property="selectDataBtn" destination="oTZ-ht-nCK" id="jEf-YI-jYY"/>
+                <outlet property="selectDateView" destination="Azc-a9-Mhh" id="VB2-Mc-d44"/>
+                <outlet property="serviceCountLabel" destination="5w4-CD-Hq4" id="cb2-KZ-ELx"/>
+                <outlet property="servicePcountLabel" destination="I26-1E-CjD" id="xkh-rD-8Zn"/>
+                <outlet property="thirdComLabel" destination="Hvl-Ok-xDj" id="yfd-xt-wcP"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

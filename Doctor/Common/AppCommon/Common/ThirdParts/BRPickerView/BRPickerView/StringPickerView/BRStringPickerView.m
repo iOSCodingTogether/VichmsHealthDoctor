@@ -159,6 +159,7 @@
         
         if (self.selectedItems == nil || self.selectedItems.count != self.dataSource.count || !isSelectedItemsValid) {
             NSMutableArray *mutableArray = [NSMutableArray array];
+            
             for (NSArray* componentItem in _dataSource) {
                 [mutableArray addObject:componentItem.firstObject];
             }

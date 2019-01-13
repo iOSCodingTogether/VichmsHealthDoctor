@@ -124,6 +124,13 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <connections>
+                <outlet property="ageLabel" destination="Vaz-w0-Ftg" id="6qK-ql-JJu"/>
+                <outlet property="cellBtn" destination="xHE-eB-bBB" id="HaS-n6-Drf"/>
+                <outlet property="doctoreLabel" destination="S7I-a6-2By" id="G9x-Hv-K52"/>
+                <outlet property="nameLabel" destination="3nL-yZ-7xF" id="JxU-22-yH8"/>
+                <outlet property="orderTimeLabel" destination="8ba-Kv-eWg" id="0l4-6e-xhh"/>
+            </connections>
             <point key="canvasLocation" x="169.59999999999999" y="264.46776611694156"/>
         </tableViewCell>
     </objects>

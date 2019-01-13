@@ -16,6 +16,8 @@
 @interface AccompanyVC ()< UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate>
 @property (nonatomic, strong) UISearchBar *mSearchBar;
 
+@property (nonatomic,assign) NSInteger pageIndex;
+
 @property (nonatomic, strong) NSMutableArray *dataArr;//获取到的数据
 @property (nonatomic, strong) NSMutableArray *showArr;
 @property (nonatomic, strong) NSString * searchGoodsTypeType;     //
@@ -36,30 +38,62 @@
     self.naviBGView.backgroundColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor whiteColor];
     [self createViews];
-    _orderpageSubModelArr = [NSMutableArray array];
+//    _orderpageSubModelArr = [NSMutableArray array];
     [self request:NO];
     
-    [self reloadData];
+//    [self reloadData];
 }
 - (void)request:(BOOL)isRefresh {
     
-    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%d&pageSize=%d&search_EQ_attendId=%@",URL_AttenderPage,1,10,[UserInfoManager shareInstance].user.phone];
+    LRWeakSelf;
+    if (self.pageIndex < 1) {
+        self.pageIndex = 1;
+    }
+    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%d&pageSize=%d&search_EQ_attendId=%@",URL_AttenderPage,1,PageSize,[UserInfoManager shareInstance].user.phone];
     [HYBNetworking getWithUrl:url refreshCache:YES success:^(id response) {
         
-        NSLog(@"=====陪诊记录%@",response);
+        NSLog(@"====陪诊页面%@",response);
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            NSArray *data = dic[@"data"];
+//
+            if (weakSelf.pageIndex == 1) {
+                weakSelf.dataArr = [NSMutableArray arrayWithArray:data];
+            }else {
+                [weakSelf.dataArr addObjectsFromArray:data];
+            }
+            if (data.count == 0) {
+                self.pageIndex --;
+            }
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+        }
+        [weakSelf.mainTableView reloadData];
+        [weakSelf.mainTableView.mj_header endRefreshing];
+        [weakSelf.mainTableView.mj_footer endRefreshing];
+        
     } fail:^(NSError *error, NSInteger statusCode) {
-        NSLog(@"%@",error);
-
+        [weakSelf.mainTableView.mj_header endRefreshing];
+        [weakSelf.mainTableView.mj_footer endRefreshing];
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
     }];
+    
 }
 - (void)createViews{
     registerNibWithCellName(self.mainTableView, @"AccompanyTableViewCell");
     [self createSearchBar];
     LRWeakSelf;
     self.mainTableView.mj_header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        //        [self request:YES];
-        
+        if (weakSelf.pageIndex > 1) {
+            weakSelf.pageIndex --;
+        }
+        [weakSelf request:YES];
     }];
+    self.mainTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.pageIndex ++;
+        [weakSelf request:YES];
+    }];
+    
 }
 - (void)createSearchBar {
     _mSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, kNavigationBarHeight - 0.5, self.view.frame.size.width, 56)];
@@ -239,7 +273,7 @@
 
 #pragma mark - UITableViewDelegate UITableViewDatasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return self.dataArr.count;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 //    return self.orderpageSubModelArr.count;
@@ -256,25 +290,63 @@
     AccompanyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AccompanyTableViewCell"];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    NSDictionary *orderType = @{@"1":@"第一次就诊",@"2":@"复诊"};
+
+    NSDictionary *dic = self.dataArr[indexPath.section];
+    NSDictionary *orderDic = dic[@"order"];
+    cell.typeLabel.text = [orderType objectForKey:orderDic[@"orderType"]];
+    cell.nameLabel.text = [NSString stringWithFormat:@"%@",orderDic[@"personName"]];
+    cell.hospitalLabel.text = [NSString stringWithFormat:@"%@",orderDic[@"hospital"]];
+    cell.dataLabel.text = [self testDateZone:orderDic[@"visitTime"]];
+    cell.ageLabel.text = [NSString stringWithFormat:@"%@",orderDic[@"personAge"]];
+    cell.keshiLabel.text = [NSString stringWithFormat:@"%@",orderDic[@"department"]];
     
-    //如果是
-    if (indexPath.section == 0) {
+    NSDictionary *nurseDic = dic[@"nurse"];
+    if (![nurseDic isKindOfClass:[NSNull class]]) {
+        NSInteger status = [nurseDic[@"nurseStatus"] integerValue];
+        //如果是
+        switch (status) {
+            case 0:
+            {
+                //确认接单
+                [cell.statusBtn setTitle:@"确认接单" forState:UIControlStateNormal];
+                cell.statusBtn.backgroundColor = HEXCOLOR(0x00A3FE);
+                [cell.statusBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            }
+                break;
+            case 1:
+            {
+                //开始陪诊
+                [cell.statusBtn setTitle:@"开始陪诊" forState:UIControlStateNormal];
+                cell.statusBtn.backgroundColor = HEXCOLOR(0x00A3FE);
+                [cell.statusBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                
+            }
+                break;
+            case 2:
+            {
+                //陪诊记录
+                [cell.statusBtn setTitle:@"陪诊记录" forState:UIControlStateNormal];
+                cell.statusBtn.backgroundColor = [UIColor whiteColor];
+                [cell.statusBtn setTitleColor:HEXCOLOR(0x00A3FE) forState:UIControlStateNormal];
+            }
+                break;
+            case 3:
+            {
+                
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }else {
         //确认接单
         [cell.statusBtn setTitle:@"确认接单" forState:UIControlStateNormal];
         cell.statusBtn.backgroundColor = HEXCOLOR(0x00A3FE);
         [cell.statusBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    }else if(indexPath.section == 1) {
-        //开始陪诊
-        [cell.statusBtn setTitle:@"开始陪诊" forState:UIControlStateNormal];
-        cell.statusBtn.backgroundColor = HEXCOLOR(0x00A3FE);
-        [cell.statusBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-
-    }else if(indexPath.section == 2) {
-        //陪诊记录
-        [cell.statusBtn setTitle:@"陪诊记录" forState:UIControlStateNormal];
-        cell.statusBtn.backgroundColor = [UIColor whiteColor];
-        [cell.statusBtn setTitleColor:HEXCOLOR(0x00A3FE) forState:UIControlStateNormal];
     }
+    
     [cell.statusBtn addTarget:self action:@selector(lookRecord:) forControlEvents:UIControlEventTouchUpInside];
     //    OrderPageMyResultSubModel *model = self.orderpageSubModelArr[indexPath.row];
     //    cell.labelTop.text = model.doctor;
@@ -352,6 +424,37 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+-(NSString *)testDateZone:(NSString *)timeDate
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+    
+    NSDate *localDate = [dateFormatter dateFromString:timeDate];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *strDate = [dateFormatter stringFromDate:[self getNowDateFromatAnDate:localDate]];
+    NSLog(@"strDate = %@",strDate);
+    [dateFormatter setDateStyle:NSDateFormatterFullStyle];
+    return strDate;
+}
+
+- (NSDate *)getNowDateFromatAnDate:(NSDate *)anyDate
+{
+    //设置源日期时区
+    NSTimeZone* sourceTimeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];//或GMT
+    //设置转换后的目标日期时区
+    NSTimeZone* destinationTimeZone = [NSTimeZone localTimeZone];
+    //得到源日期与世界标准时间的偏移量
+    NSInteger sourceGMTOffset = [sourceTimeZone secondsFromGMTForDate:anyDate];
+    //目标日期与本地时区的偏移量
+    NSInteger destinationGMTOffset = [destinationTimeZone secondsFromGMTForDate:anyDate];
+    //得到时间偏移量的差值
+    NSTimeInterval interval = destinationGMTOffset - sourceGMTOffset;
+    //转为现在时间
+    NSDate* destinationDateNow = [[NSDate alloc] initWithTimeInterval:interval sinceDate:anyDate];
+    return destinationDateNow;
 }
 
 @end

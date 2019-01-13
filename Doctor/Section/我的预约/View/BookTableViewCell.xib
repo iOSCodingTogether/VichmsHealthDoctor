@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2018-09-25 18:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XUK-qD-opY">
-                        <rect key="frame" x="127" y="32" width="132.5" height="18"/>
+                        <rect key="frame" x="74" y="32" width="132.5" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.56862745100000001" green="0.56862745100000001" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -61,20 +61,20 @@
                         <color key="textColor" red="0.56862745100000001" green="0.56862745100000001" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="通话开始时间：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3v-PV-cFT">
-                        <rect key="frame" x="33" y="32" width="93" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="类型：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3v-PV-cFT">
+                        <rect key="frame" x="33" y="32" width="40" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="Gq2-pW-wnc"/>
-                            <constraint firstAttribute="width" constant="93" id="I3C-cn-uMe"/>
+                            <constraint firstAttribute="width" constant="40" id="I3C-cn-uMe"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.56862745100000001" green="0.56862745100000001" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="通话结束时间：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VUS-Mj-LoZ">
-                        <rect key="frame" x="33" y="144" width="93" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="预约时间：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VUS-Mj-LoZ">
+                        <rect key="frame" x="33" y="144" width="67" height="18"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="93" id="Glp-pA-R32"/>
+                            <constraint firstAttribute="width" constant="67" id="Glp-pA-R32"/>
                             <constraint firstAttribute="height" constant="18" id="fVx-8Q-hcU"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -82,7 +82,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2018-09-25 18:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I5q-tg-8dF">
-                        <rect key="frame" x="127" y="144" width="132.5" height="18"/>
+                        <rect key="frame" x="101" y="144" width="132.5" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.56862745100000001" green="0.56862745100000001" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -146,7 +146,12 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
+                <outlet property="ageLabel" destination="taY-M5-Sg3" id="fTF-D7-YL5"/>
                 <outlet property="chatBtn" destination="8lZ-EU-XuP" id="et2-PX-b9S"/>
+                <outlet property="doctorLabel" destination="90L-6k-BeY" id="ZnI-NV-W8I"/>
+                <outlet property="endLabel" destination="I5q-tg-8dF" id="gYv-dt-kBr"/>
+                <outlet property="nameLabel" destination="1L4-Hg-72D" id="7lu-g4-2an"/>
+                <outlet property="startTimeLabel" destination="XUK-qD-opY" id="uwN-c3-yjD"/>
             </connections>
             <point key="canvasLocation" x="185.59999999999999" y="210.94452773613196"/>
         </tableViewCell>
