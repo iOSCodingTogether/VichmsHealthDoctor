@@ -35,6 +35,7 @@
         self.tableview.backgroundColor = [UIColor clearColor];
         
         [self.alertV addSubview:self.tableview];
+        self.tableview.tableFooterView = [UIView new];
         
         self.tableview.scrollEnabled = YES;
         [self.tableview setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 10)];

@@ -164,6 +164,7 @@
 		7B5E336821EA350100E503CB /* NewMyServiceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B5E336621EA350100E503CB /* NewMyServiceTableViewCell.xib */; };
 		7B5E336D21EB29B200E503CB /* ZTMonthSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E336921EB29B100E503CB /* ZTMonthSelector.m */; };
 		7B5E336E21EB29B200E503CB /* ZTMonthCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E336A21EB29B100E503CB /* ZTMonthCollectionViewCell.m */; };
+		7B5E337121EB970D00E503CB /* OrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E337021EB970D00E503CB /* OrderVC.m */; };
 		7B671F0921DF93EC00DD7C32 /* ForgetPwdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B671F0821DF93EC00DD7C32 /* ForgetPwdVC.m */; };
 		7B671F0F21DF955300DD7C32 /* BookingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B671F0C21DF955300DD7C32 /* BookingVC.m */; };
 		7B671F1321DF9A4A00DD7C32 /* LFNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B671F1121DF9A4A00DD7C32 /* LFNavigationController.m */; };
@@ -535,6 +536,8 @@
 		7B5E336A21EB29B100E503CB /* ZTMonthCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZTMonthCollectionViewCell.m; sourceTree = "<group>"; };
 		7B5E336B21EB29B200E503CB /* ZTMonthCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZTMonthCollectionViewCell.h; sourceTree = "<group>"; };
 		7B5E336C21EB29B200E503CB /* ZTMonthSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZTMonthSelector.h; sourceTree = "<group>"; };
+		7B5E336F21EB970D00E503CB /* OrderVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OrderVC.h; sourceTree = "<group>"; };
+		7B5E337021EB970D00E503CB /* OrderVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrderVC.m; sourceTree = "<group>"; };
 		7B671F0721DF93EB00DD7C32 /* ForgetPwdVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForgetPwdVC.h; sourceTree = "<group>"; };
 		7B671F0821DF93EC00DD7C32 /* ForgetPwdVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdVC.m; sourceTree = "<group>"; };
 		7B671F0C21DF955300DD7C32 /* BookingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookingVC.m; sourceTree = "<group>"; };
@@ -1606,6 +1609,8 @@
 				7BA42FE121E0FBB6007ADB7F /* StatisticsViewController.xib */,
 				7BA42FE421E10F3C007ADB7F /* ExpertIntroduceVC.h */,
 				7BA42FE521E10F3C007ADB7F /* ExpertIntroduceVC.m */,
+				7B5E336F21EB970D00E503CB /* OrderVC.h */,
+				7B5E337021EB970D00E503CB /* OrderVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2097,6 +2102,7 @@
 				7B2BD87521D3C67000256EFB /* QNDnspodFree.m in Sources */,
 				7B2BD85B21D3C67000256EFB /* QNEtag.m in Sources */,
 				7B2BD89921D3C67000256EFB /* ForumPageRequestModel.m in Sources */,
+				7B5E337121EB970D00E503CB /* OrderVC.m in Sources */,
 				7B2BD89221D3C67000256EFB /* HomeBannerResultModel.m in Sources */,
 				7B2BD86821D3C67000256EFB /* QNIP.m in Sources */,
 				7B2BD8CD21D3C67000256EFB /* BaseErrResultModel.m in Sources */,

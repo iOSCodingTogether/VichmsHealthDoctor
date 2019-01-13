@@ -22,6 +22,8 @@
 @property (nonatomic, strong) NSMutableArray *showArr;
 @property (nonatomic, strong) NSString * searchGoodsTypeType;     //
 
+@property (nonatomic,copy) NSString *nameStr;
+
 @property (nonatomic, strong) NSMutableArray <OrderPageMyResultSubModel *> *orderpageSubModelArr;     //
 
 @end
@@ -30,6 +32,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    self.pageIndex = 1;
+    [self request:NO];
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,7 +44,6 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self createViews];
 //    _orderpageSubModelArr = [NSMutableArray array];
-    [self request:NO];
     
 //    [self reloadData];
 }
@@ -49,8 +53,8 @@
     if (self.pageIndex < 1) {
         self.pageIndex = 1;
     }
-    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%d&pageSize=%d&search_EQ_attendId=%@",URL_AttenderPage,1,PageSize,[UserInfoManager shareInstance].user.phone];
-    [HYBNetworking getWithUrl:url refreshCache:YES success:^(id response) {
+    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%d&pageSize=%d&search_EQ_attendId=%@&personName=%@",URL_AttenderPage,1,PageSize,[UserInfoManager shareInstance].user.phone,self.nameStr];
+    [HYBNetworking getWithUrl:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] refreshCache:YES success:^(id response) {
         
         NSLog(@"====陪诊页面%@",response);
         NSDictionary *dic = response;
@@ -372,10 +376,87 @@
 }
 
 - (void)lookRecord:(UIButton *)btn {
+    UIView *contentView = [btn superview];
+    AccompanyTableViewCell *cell = (AccompanyTableViewCell *)[contentView superview];
+    NSIndexPath *indexPath = [self.mainTableView indexPathForCell:cell];
+    NSDictionary *dic = self.dataArr[indexPath.section];
+    NSDictionary *nurseDic = dic[@"nurse"];
+    if ([nurseDic isKindOfClass:[NSNull class]]) {
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"没有nurseId"];
+        return;
+    }
     if ([btn.titleLabel.text isEqualToString:@"陪诊记录"]) {
         AccompanyRecordVC *vc = [AccompanyRecordVC new];
         [self.navigationController pushViewController:vc animated:YES];
+        return;
     }
+    NSInteger status = [nurseDic[@"nurseStatus"] integerValue];
+    //如果是
+    switch (status) {
+        case 0:
+        {
+            //确认接单
+            [self makeSureWithId:nurseDic[@"nurseId"]];
+        }
+            break;
+        case 1:
+        {
+            //开始陪诊
+            
+        }
+            break;
+        case 2:
+        {
+            //陪诊记录
+            [cell.statusBtn setTitle:@"陪诊记录" forState:UIControlStateNormal];
+            cell.statusBtn.backgroundColor = [UIColor whiteColor];
+            [cell.statusBtn setTitleColor:HEXCOLOR(0x00A3FE) forState:UIControlStateNormal];
+        }
+            break;
+        case 3:
+        {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+}
+//MARK:开始陪诊
+- (void)beginWithNurseId:(NSString *)nurseId {
+    [HYBNetworking getWithUrl:[NSString stringWithFormat:@"%@?nurseid=%@",URL_NurseBegin,nurseId] refreshCache:YES success:^(id response) {
+        NSLog(@"%@",response);
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"您已确认开始陪诊了"];
+            self.pageIndex = 1;
+            [self request:YES];
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+        }
+    } fail:^(NSError *error, NSInteger statusCode) {
+        
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+    }];
+}
+//MARK:确认接单
+- (void)makeSureWithId:(NSString *)nurseId {
+    [HYBNetworking getWithUrl:[NSString stringWithFormat:@"%@?nurseid=%@",URL_NurseSure,nurseId] refreshCache:YES success:^(id response) {
+        NSLog(@"%@",response);
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"您已确认接单了"];
+            self.pageIndex = 1;
+            [self request:YES];
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+        }
+    } fail:^(NSError *error, NSInteger statusCode) {
+        
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+    }];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     NSLog(@"click");
@@ -396,6 +477,12 @@
 #pragma mark - UISearchBar - delegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    if (searchBar.text.length == 0) {
+        self.nameStr = searchBar.text;
+        self.pageIndex = 1;
+        [self request:YES];
+    }
+
     //    if(searchText.length > 0){
     //        self.grayViewButton.hidden = YES;
     //    }
@@ -405,6 +492,9 @@
     [self reloadData];
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar*)searchBar{
+    self.pageIndex = 1;
+    self.nameStr = searchBar.text;
+    [self request:YES];
     [self.view endEditing:YES];
 }
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{

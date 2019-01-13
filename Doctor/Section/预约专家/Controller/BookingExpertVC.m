@@ -8,7 +8,7 @@
 
 #import "BookingExpertVC.h"
 #import "ZYLMultiselectView.h"
-
+#import "BRStringPickerView.h"
 #import "BookingExpertCell.h"
 
 @interface BookingExpertVC ()<UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate>
@@ -17,7 +17,16 @@
 @property (nonatomic, strong) UIButton *selectTypeButton;
 @property (nonatomic, strong) UILabel *selectTypeLabel;
 
+@property (nonatomic,assign) NSInteger pageIndex;
+@property (nonatomic, strong) NSMutableArray *dataArr;//获取到的数据
+@property (nonatomic,assign) NSInteger selectIndex;
+
 @property (nonatomic,strong) NSMutableArray *accompanyArr;//陪诊员
+@property (nonatomic,strong) NSMutableArray *departmentArr;//科室
+@property (nonatomic,strong) NSMutableArray *nurseArr;//护士
+
+@property (nonatomic,assign) NSInteger selectNurseIndex;
+
 
 @end
 
@@ -29,13 +38,56 @@
     self.navigationController.navigationBarHidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     self.accompanyArr = [NSMutableArray array];
-    
+    self.nurseArr = [NSMutableArray array];
+    self.departmentArr = [NSMutableArray array];
     [self configWithTitle:@"专家库" backImage:nil];
     self.backBtn.hidden = YES;
     self.naviBGView.backgroundColor = [UIColor whiteColor];
     [self createSearch];
+    [self request];
 }
 
+- (void)request {
+    LRWeakSelf;
+    if (self.pageIndex < 1) {
+        self.pageIndex = 1;
+    }
+    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d",URL_PayedsPage,(long)self.pageIndex,PageSize];
+//    if (self.selectIndex > 0) {
+//        self.pageIndex = 1;
+//        NSDictionary *typeDic = self.serviceTypeArr[self.selectIndex - 1];
+//        NSString *typeId = typeDic[@"typeCode"];
+//        url = [NSString stringWithFormat:@"%@?search_EQ_buyGoodsType=%@&pageNo=%ld&pageSize=%d",URL_Goods,typeId,(long)self.pageIndex,PageSize];
+//    }
+    [HYBNetworking getWithUrl:url refreshCache:YES success:^(id response) {
+        
+        NSLog(@"====预约专家页面%@",response);
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            NSDictionary *data = dic[@"data"];
+            NSArray *arr = data[@"list"];
+            
+            if (weakSelf.pageIndex == 1) {
+                weakSelf.dataArr = [NSMutableArray arrayWithArray:arr];
+            }else {
+                [weakSelf.dataArr addObjectsFromArray:arr];
+            }
+            if (arr.count == 0) {
+                self.pageIndex --;
+            }
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+        }
+        [weakSelf.mainTableView reloadData];
+        [weakSelf.mainTableView.mj_header endRefreshing];
+        [weakSelf.mainTableView.mj_footer endRefreshing];
+        
+    } fail:^(NSError *error, NSInteger statusCode) {
+        [weakSelf.mainTableView.mj_header endRefreshing];
+        [weakSelf.mainTableView.mj_footer endRefreshing];
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+    }];
+}
 #pragma mark - 搜索
 - (void)createSearch {
     _mSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(130, kNavigationBarHeight - 0.5, self.view.frame.size.width - 140, 56)];
@@ -92,11 +144,38 @@
 
 - (void)selectTypeAction:(UIButton *)btn {
     
+    @weakify(self);
     [HYBNetworking getWithUrl:URL_DepartmentPage refreshCache:YES success:^(id response) {
-        
-        NSLog(@"===预约专家--查找科室%@",response);
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            NSDictionary *data = dic[@"data"];
+            NSArray *list = data[@"list"];
+            self.departmentArr = [NSMutableArray arrayWithArray:list];
+            NSString *str = self.selectTypeLabel.text;
+            BOOL isContains = NO;
+            NSMutableArray *selectArr = [NSMutableArray array];
+            for (NSDictionary *subDic in self.departmentArr) {
+                [selectArr addObject:subDic[@"department"]];
+                if ([subDic[@"department"] isEqualToString:str]) {
+                    isContains = YES;
+                }
+            }
+            if (!isContains) {
+                NSDictionary *dic = self.departmentArr[0];
+                str = dic[@"department"];
+            }
+            [BRStringPickerView showStringPickerWithTitle:@"请选择服务类型" dataSource:selectArr defaultSelValue:str isAutoSelect:NO resultBlock:^(id selectValue) {
+                @strongify(self);
+                NSInteger selectIndex = [selectArr indexOfObject:selectValue];
+                self.selectIndex = selectIndex + 1;
+                self.selectTypeLabel.text = selectArr[selectIndex];
+                [self request];
+            }];
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+        }
     } fail:^(NSError *error, NSInteger statusCode) {
-        
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
     }];
 }
 
@@ -150,52 +229,68 @@
 }
 
 - (void)assignAccompany:(UIButton *)btn {
-    ZYLMultiselectView *zylmus = [[ZYLMultiselectView alloc] initWithFrame:self.view.bounds];
-    zylmus.heraderStr = @"分配陪诊员";
-    
-    zylmus.dataArr = [NSMutableArray arrayWithArray:@[@"护士1",@"护士2",@"护士3",@"护士4",@"护士5",@"护士6",@"护士7",@"护士8",@"护士9",@"护士10",@"护士11"]];
-    
-    if (self.accompanyArr.count != 0) {
-        
-        [zylmus.resultArr addObjectsFromArray:self.accompanyArr];
-        
-    }
-    
-    [self.view addSubview:zylmus];
-    
-    __weak __typeof(self) weakself = self;
-    
-    zylmus.SelectBlock = ^(NSMutableArray *selectArr){
-        
-        if (selectArr != nil) {
+    [HYBNetworking getWithUrl:@"user/attend/page" refreshCache:YES success:^(id response) {
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            NSDictionary *data = dic[@"data"];
+            NSArray *list = data[@"list"];
+            self.nurseArr = [NSMutableArray arrayWithArray:list];
+            ZYLMultiselectView *zylmus = [[ZYLMultiselectView alloc] initWithFrame:self.view.bounds];
+            zylmus.heraderStr = @"分配陪诊员";
+            NSMutableArray *nurseArr = [NSMutableArray array];
+            for (NSDictionary *subDic in self.nurseArr) {
+                [nurseArr addObject:subDic[@"name"]];
+            }
+            zylmus.dataArr = nurseArr;
             
-            [self.accompanyArr removeAllObjects];
-            
-//            [self.resultArr removeAllObjects];
-            
-            [self.accompanyArr addObjectsFromArray:selectArr];
-            
-            for (int i = 0; i < selectArr.count; i ++) {
+            if (self.accompanyArr.count != 0) {
                 
-                int row = [selectArr[i] intValue];
-                
-//                [self.resultArr addObject:weakself.dataArr[row]];
+                [zylmus.resultArr addObjectsFromArray:self.accompanyArr];
                 
             }
             
-//            NSString *str = [self.resultArr componentsJoinedByString:@","];
-//            
-//            [self.btn setTitle:str forState:UIControlStateNormal];
+            [self.view addSubview:zylmus];
             
+            __weak __typeof(self) weakself = self;
             
-        }else{
-            
-            
-            
+            zylmus.SelectBlock = ^(NSMutableArray *selectArr){
+                
+                if (selectArr != nil) {
+                    
+                    [self.accompanyArr removeAllObjects];
+                    
+                    //            [self.resultArr removeAllObjects];
+                    
+                    [self.accompanyArr addObjectsFromArray:selectArr];
+                    
+                    for (int i = 0; i < selectArr.count; i ++) {
+                        
+                        int row = [selectArr[i] intValue];
+                        
+                        //                [self.resultArr addObject:weakself.dataArr[row]];
+                        
+                    }
+                    
+                    //            NSString *str = [self.resultArr componentsJoinedByString:@","];
+                    //
+                    //            [self.btn setTitle:str forState:UIControlStateNormal];
+                    
+                    
+                }else{
+                    
+                    
+                    
+                }
+                
+            };
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
         }
-        
-\
-    };
+    } fail:^(NSError *error, NSInteger statusCode) {
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+    }];
+
+    
 }
 #pragma mark - UISearchBar - delegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText

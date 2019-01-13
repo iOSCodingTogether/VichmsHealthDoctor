@@ -14,6 +14,7 @@
 #import "MBProgressHUD+SimpleLoad.h"
 #import "StatisticsViewController.h"
 #import "ExpertIntroduceVC.h"
+#import "OrderVC.h"
 
 #import "LoginVC.h"
 #import <NIMSDK/NIMSDK.h>
@@ -141,7 +142,8 @@
                             @"消息通知":[MessageListVC new],
                             @"关于我们":[AboutUsVC new],
                             @"统计":[StatisticsViewController new],
-                            @"我的医生":[ExpertIntroduceVC new]
+                            @"我的医生":[ExpertIntroduceVC new],
+                            @"订单列表":[OrderVC new]
                             };
     UIViewController *vc = [vcDic objectForKey:dic[@"title"]];
     [self.navigationController pushViewController:vc animated:YES];
