@@ -52,7 +52,7 @@
     if (self.pageIndex < 1) {
         self.pageIndex = 1;
     }
-    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d",URL_PayedsPage,(long)self.pageIndex,PageSize];
+    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_orderStatus=2,3,4",URL_PayedsPage,(long)self.pageIndex,PageSize];
 //    if (self.selectIndex > 0) {
 //        self.pageIndex = 1;
 //        NSDictionary *typeDic = self.serviceTypeArr[self.selectIndex - 1];
@@ -164,7 +164,7 @@
                 NSDictionary *dic = self.departmentArr[0];
                 str = dic[@"department"];
             }
-            [BRStringPickerView showStringPickerWithTitle:@"请选择服务类型" dataSource:selectArr defaultSelValue:str isAutoSelect:NO resultBlock:^(id selectValue) {
+            [BRStringPickerView showStringPickerWithTitle:@"请选择科室" dataSource:selectArr defaultSelValue:str isAutoSelect:NO resultBlock:^(id selectValue) {
                 @strongify(self);
                 NSInteger selectIndex = [selectArr indexOfObject:selectValue];
                 self.selectIndex = selectIndex + 1;
@@ -219,6 +219,11 @@
     BookingExpertCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BookingExpertCell"];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    NSDictionary *dic = self.dataArr[indexPath.section];
+    cell.nameLabel.text = [NSString stringWithFormat:@"%@",dic[@"doctor"]];
+    cell.midLabel.text = [NSString stringWithFormat:@"%@",dic[@"department"]];
+    cell.hospitalLabel.text = [NSString stringWithFormat:@"%@",dic[@"hospital"]];
+    cell.bookingIntro.text = [NSString stringWithFormat:@"%@",dic[@"hospital"]];
     [cell.rightBtn addTarget:self action:@selector(assignAccompany:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;

@@ -53,7 +53,10 @@
     if (self.pageIndex < 1) {
         self.pageIndex = 1;
     }
-    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%d&pageSize=%d&search_EQ_attendId=%@&personName=%@",URL_AttenderPage,1,PageSize,[UserInfoManager shareInstance].user.phone,self.nameStr];
+    if (self.nameStr.length == 0) {
+        self.nameStr = @"";
+    }
+    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%d&pageSize=%d&search_EQ_attendId=%@&search_EQ_personName=%@",URL_AttenderPage,1,PageSize,[UserInfoManager shareInstance].user.phone,self.nameStr];
     [HYBNetworking getWithUrl:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] refreshCache:YES success:^(id response) {
         
         NSLog(@"====陪诊页面%@",response);
@@ -385,32 +388,29 @@
         [MBProgressHUD showAlertWithView:self.view andTitle:@"没有nurseId"];
         return;
     }
-    if ([btn.titleLabel.text isEqualToString:@"陪诊记录"]) {
-        AccompanyRecordVC *vc = [AccompanyRecordVC new];
-        [self.navigationController pushViewController:vc animated:YES];
-        return;
-    }
     NSInteger status = [nurseDic[@"nurseStatus"] integerValue];
     //如果是
     switch (status) {
         case 0:
         {
             //确认接单
-            [self makeSureWithId:nurseDic[@"nurseId"]];
+            [self makeSureWithId:nurseDic[@"id"]];
         }
             break;
         case 1:
         {
             //开始陪诊
+            [self beginWithNurseId:nurseDic[@"id"]];
             
         }
             break;
         case 2:
         {
             //陪诊记录
-            [cell.statusBtn setTitle:@"陪诊记录" forState:UIControlStateNormal];
-            cell.statusBtn.backgroundColor = [UIColor whiteColor];
-            [cell.statusBtn setTitleColor:HEXCOLOR(0x00A3FE) forState:UIControlStateNormal];
+            AccompanyRecordVC *vc = [AccompanyRecordVC new];
+            vc.nurseId = nurseDic[@"id"];
+            [self.navigationController pushViewController:vc animated:YES];
+
         }
             break;
         case 3:

@@ -49,9 +49,25 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     // Do any additional setup after loading the view.
     self.valueDic = [NSMutableDictionary dictionary];
     [self createViews];
+    [self request];
     [self reloadData];
 }
-
+- (void)request {
+    @weakify(self);
+    [HYBNetworking getWithUrl:[NSString stringWithFormat:@"%@?nurseid=%@",URL_GetNurseById,self.nurseId] refreshCache:YES success:^(id response) {
+        @strongify(self);
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            NSDictionary *data = dic[@"data"];
+            [self.mainTableView reloadData];
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+        }
+    } fail:^(NSError *error, NSInteger statusCode) {
+        
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+    }];
+}
 -(void)reloadData{
     [self.mainTableView reloadData];
 }

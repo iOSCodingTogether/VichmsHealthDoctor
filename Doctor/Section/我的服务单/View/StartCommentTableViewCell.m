@@ -13,10 +13,16 @@
 - (void)configWithScore:(NSString *)score comment:(NSString *)comment {
     self.commentLabel.text = comment;
     self.scoreLabel.text = score;
-    CGFloat scale = [score floatValue];
-    [self.yellowStar layoutIfNeeded];
-    CGRect rect = self.yellowStar.frame;
-    self.yellowStarWidth.constant = rect.size.width/5.0 * scale;
+    if ([score isEqualToString:@"暂无评分"]) {
+        self.yellowStar.hidden = YES;
+    }else {
+        self.yellowStar.hidden = NO;
+        CGFloat scale = [score floatValue];
+        [self.yellowStar layoutIfNeeded];
+        CGRect rect = self.yellowStar.frame;
+        self.yellowStarWidth.constant = rect.size.width/5.0 * scale;
+
+    }
 
 }
 - (void)awakeFromNib {

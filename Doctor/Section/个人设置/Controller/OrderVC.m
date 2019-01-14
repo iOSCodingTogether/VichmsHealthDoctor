@@ -45,9 +45,9 @@
     if (self.pageIndex < 1) {
         self.pageIndex = 1;
     }
-    [HYBNetworking getWithUrl:URL_Message_MY refreshCache:YES success:^(id response) {
+    [HYBNetworking getWithUrl:URL_AttendPage refreshCache:YES success:^(id response) {
         
-        NSLog(@"====消息列表%@",response);
+        NSLog(@"====订单列表%@",response);
         NSDictionary *dic = response;
         if ([dic[@"code"] isEqual:@100]) {
             NSDictionary *data = dic[@"data"];

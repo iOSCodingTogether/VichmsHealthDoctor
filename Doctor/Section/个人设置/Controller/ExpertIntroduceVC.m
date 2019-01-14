@@ -17,6 +17,9 @@
 @property (nonatomic,strong) UILabel *selectTypeLabel;
 //@property (nonatomic, strong) DoctorPageResultSubModel * infoModel;;     //
 
+@property (nonatomic,strong) NSMutableArray *dataArray;
+@property (nonatomic,assign) NSInteger pageIndex;
+
 @end
 
 @implementation ExpertIntroduceVC
@@ -24,7 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self createViews];
-//    [self request];
+    [self request];
 }
 
 -(void)createViews{
@@ -98,23 +101,41 @@
     
 }
 //
-//-(void)request{
-//    DoctorPageRequestModel *model = [DoctorPageRequestModel new];
-//    model.search_EQ_id=self.doctorId;
-//    [BaseRequest requestWithRequestModel:model ret:^(BOOL success, __kindof DoctorPageResultModel *dataModel, NSString *jsonObjc) {
-//        if(dataModel.success){
-//            if(dataModel.list.count>0){
-//                self.infoModel = dataModel.list[0];
-//            }
-//            [self reloadData];
-//        }
-//        [self.mainTableView.mj_header endRefreshing];
-//        [self.mainTableView.mj_footer endRefreshing];
-//
-//    }];
-//
-//
-//}
+-(void)request{
+    LRWeakSelf;
+    if (self.pageIndex < 1) {
+        self.pageIndex = 1;
+    }
+    [HYBNetworking getWithUrl:URL_Doctors refreshCache:YES success:^(id response) {
+        
+        NSLog(@"====我的医生%@",response);
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            NSArray *arr = dic[@"data"];
+            
+            if (weakSelf.pageIndex == 1) {
+                weakSelf.dataArray = [NSMutableArray arrayWithArray:arr];
+            }else {
+                [weakSelf.dataArray addObjectsFromArray:arr];
+            }
+            if (arr.count == 0) {
+                self.pageIndex --;
+            }
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+        }
+        [weakSelf.mainTableView reloadData];
+        [weakSelf.mainTableView.mj_header endRefreshing];
+        [weakSelf.mainTableView.mj_footer endRefreshing];
+        
+    } fail:^(NSError *error, NSInteger statusCode) {
+        [weakSelf.mainTableView.mj_header endRefreshing];
+        [weakSelf.mainTableView.mj_footer endRefreshing];
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+        
+    }];
+
+}
 
 //-(void)reloadData{
 //    [self.mainTableView reloadData];
