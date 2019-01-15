@@ -340,7 +340,10 @@
                 break;
             case 3:
             {
-                
+                //陪诊记录
+                [cell.statusBtn setTitle:@"陪诊记录" forState:UIControlStateNormal];
+                cell.statusBtn.backgroundColor = [UIColor whiteColor];
+                [cell.statusBtn setTitleColor:HEXCOLOR(0x00A3FE) forState:UIControlStateNormal];
             }
                 break;
                 
@@ -384,6 +387,7 @@
     NSIndexPath *indexPath = [self.mainTableView indexPathForCell:cell];
     NSDictionary *dic = self.dataArr[indexPath.section];
     NSDictionary *nurseDic = dic[@"nurse"];
+    NSDictionary *orderDic = dic[@"order"];
     if ([nurseDic isKindOfClass:[NSNull class]]) {
         [MBProgressHUD showAlertWithView:self.view andTitle:@"没有nurseId"];
         return;
@@ -408,7 +412,7 @@
         {
             //陪诊记录
             AccompanyRecordVC *vc = [AccompanyRecordVC new];
-            vc.nurseId = nurseDic[@"id"];
+            vc.orderId = orderDic[@"id"];
             [self.navigationController pushViewController:vc animated:YES];
 
         }
@@ -426,11 +430,13 @@
 }
 //MARK:开始陪诊
 - (void)beginWithNurseId:(NSString *)nurseId {
+    @weakify(self);
     [HYBNetworking getWithUrl:[NSString stringWithFormat:@"%@?nurseid=%@",URL_NurseBegin,nurseId] refreshCache:YES success:^(id response) {
         NSLog(@"%@",response);
+        @strongify(self);
         NSDictionary *dic = response;
         if ([dic[@"code"] isEqual:@100]) {
-            [MBProgressHUD showAlertWithView:self.view andTitle:@"您已确认开始陪诊了"];
+            [MBProgressHUD showAlertWithView:self.view andTitle:[NSString stringWithFormat:@"%@",dic[@"msg"]]];
             self.pageIndex = 1;
             [self request:YES];
         }else {
@@ -447,7 +453,7 @@
         NSLog(@"%@",response);
         NSDictionary *dic = response;
         if ([dic[@"code"] isEqual:@100]) {
-            [MBProgressHUD showAlertWithView:self.view andTitle:@"您已确认接单了"];
+            [MBProgressHUD showAlertWithView:self.view andTitle:[NSString stringWithFormat:@"%@",dic[@"msg"]]];
             self.pageIndex = 1;
             [self request:YES];
         }else {
@@ -525,7 +531,6 @@
     NSDate *localDate = [dateFormatter dateFromString:timeDate];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSString *strDate = [dateFormatter stringFromDate:[self getNowDateFromatAnDate:localDate]];
-    NSLog(@"strDate = %@",strDate);
     [dateFormatter setDateStyle:NSDateFormatterFullStyle];
     return strDate;
 }

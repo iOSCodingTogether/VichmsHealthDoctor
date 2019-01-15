@@ -27,6 +27,8 @@ target 'Doctor' do
     pod "UUButton"
     # 和缓使用整合后的私有库
     pod "NIMKit/Full"
+pod 'Qiniu'
+
 
 end
 

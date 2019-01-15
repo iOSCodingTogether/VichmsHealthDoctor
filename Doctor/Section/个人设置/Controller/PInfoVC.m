@@ -9,11 +9,17 @@
 #import "PInfoVC.h"
 #import "UITextView+MWPlaceholder.h"
 #import "TZImagePickerController.h"
+
+#import "QiniuSDK.h"
+#import <QN_GTM_Base64.h>
+#import <CommonCrypto/CommonDigest.h>
+#import <CommonCrypto/CommonHMAC.h>
+
 @interface PInfoVC ()
+@property (nonatomic , assign) int expires; //怎么定义随你...
 @property (weak, nonatomic) IBOutlet UIImageView *headerImage;
 @property (weak, nonatomic) IBOutlet UITextView *introTextView;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
-
 @end
 
 @implementation PInfoVC
@@ -88,10 +94,97 @@
     imagePickerVc.allowPickingVideo = NO;
     imagePickerVc.allowPickingImage = YES;
     [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
+        
+        NSData *imgData = UIImageJPEGRepresentation(photos[0], 0.5);
+        [self getQNTokenWithImageData:imgData];
         self.headerImage.image = photos[0];
 //        [self upLoadImageWithPhotos:photos assets:assets isSelectOriginalPhoto:YES withKey:dic[@"title"]];
     }];
     [self presentViewController:imagePickerVc animated:YES completion:nil];
 }
+
+//MARK:从服务器获取token
+- (void)getQNTokenWithImageData:(NSData *)data {
+
+    @weakify(self);
+    [HYBNetworking getWithUrl:[NSString stringWithFormat:@"%@",URL_GetQNKey] refreshCache:YES success:^(id response) {
+        NSLog(@"====七牛token服务器%@",response);
+        @strongify(self);
+        if ([response[@"code"] isEqual:@100]) {
+            NSDictionary *dic = response[@"data"];
+            if (![dic isKindOfClass:[NSNull class]]) {
+                //MARK:上传七牛
+                [self upLoadQN:dic imageData:data];
+            }
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+        }
+    } fail:^(NSError *error, NSInteger statusCode) {
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+    }];
+}
+- (void)upLoadQN:(NSDictionary *)dic imageData:(NSData*)imgData{
+    NSString *accesskey = dic[@"accesskey"];
+    NSString *secretKey = dic[@"secretKey"];
+
+    QNConfiguration *config = [QNConfiguration build:^(QNConfigurationBuilder *builder) {
+        builder.useHttps = YES;
+    }];
+    QNUploadManager *upManager = [[QNUploadManager alloc] initWithConfiguration:config];
+    [upManager putData:imgData
+                   key:accesskey
+                 token:[self generateToken:accesskey secretKey:secretKey]
+              complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+                  NSLog(@"%@",resp);
+                  if (info.ok) {
+                      if ([resp[@"status"] isEqual:@0]) {
+                      }
+                  }
+                  else {
+                      
+                  }
+              } option:nil];
+}
+
+/**生成token*/
+-(NSString*)generateToken:(NSString *)accessKey secretKey:(NSString *)secretKey{
+    NSString *encodedString = [self encodedString];
+    NSString*encodedSignedString = [self HMACSHA1:secretKey text:encodedString];
+    return[NSString stringWithFormat:@"%@:%@:%@",accessKey,encodedSignedString,encodedString];
+}
+/**生成encodedString*/
+-(NSString*)encodedString {
+    NSMutableDictionary *authInfo = [[NSMutableDictionary alloc] init];
+    authInfo[@"scope"] =@"demo";
+//    authInfo[@"deadline"] = @(Deadline);
+    /** 时间*/
+    NSData *authInfoData = [NSJSONSerialization dataWithJSONObject:authInfo
+                                                           options:0
+                                                             error:nil];
+    NSString* encoded = [self URLSafeBase64Encode:authInfoData];
+    return encoded;
+}
+/** URL安全的Base64编码 */
+- (NSString*)URLSafeBase64Encode:(NSData*)text {
+    NSString *base64 = [[NSString alloc] initWithData:[QN_GTM_Base64 encodeData:text]
+                                             encoding:NSUTF8StringEncoding];
+    base64 = [base64 stringByReplacingOccurrencesOfString:@"+" withString:@"-"];
+    base64 = [base64 stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+    return base64;
+    
+}
+/**URL安全的Base64编码*/
+- (NSString*)HMACSHA1:(NSString*)key text:(NSString*)text
+{
+    const char *cKey = [key cStringUsingEncoding:NSUTF8StringEncoding];
+    const char *cData = [text cStringUsingEncoding:NSUTF8StringEncoding];
+    char cHMAC[CC_SHA1_DIGEST_LENGTH];
+    CCHmac(kCCHmacAlgSHA1, cKey,strlen(cKey), cData,strlen(cData), cHMAC);
+    NSData *HMAC = [[NSData alloc]initWithBytes:cHMAC length:CC_SHA1_DIGEST_LENGTH];
+    NSString *hash = [self URLSafeBase64Encode:HMAC];
+    return hash;
+    
+}
+
 
 @end

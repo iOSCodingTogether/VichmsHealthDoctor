@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AccompanyRecordVC : BaseViewController
 
-@property (nonatomic,copy) NSString *nurseId;
+@property (nonatomic,copy) NSString *orderId;
 
 //@property (nonatomic, strong) OrderCreateRequestModel * orderCreateModel;     //
 

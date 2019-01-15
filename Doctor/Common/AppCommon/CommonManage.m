@@ -103,7 +103,7 @@ static CommonManage * sharedInstance = nil;
                                                            params:@{ @"x:foo":@"fooval" } checkCrc:YES cancellationSignal:nil];
 //        QNUploadManager *upManager = [[QNUploadManager alloc] init];
         QNUploadManager *upManager = [ QNUploadManager sharedInstanceWithConfiguration:[QNConfiguration build:^(QNConfigurationBuilder *builder) {
-            builder.zone = [QNZone zone0];
+//            builder.zone = [QNZone zone0];
         }]];
 
         [upManager putData:data key:key token:token

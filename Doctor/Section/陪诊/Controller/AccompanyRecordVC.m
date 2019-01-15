@@ -32,14 +32,12 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 
 @interface AccompanyRecordVC ()
 
-@property (nonatomic,strong) NSMutableDictionary *valueDic;//接口要提交的数据
-
-@property (nonatomic, strong) UIView * genderView;     //
-@property (nonatomic, strong) UIButton * maleButton;     //
-@property (nonatomic, strong) UIButton * femaleButton;     //
+@property (nonatomic,strong) NSMutableDictionary *orderDic;//接口订单
+@property (nonatomic,strong) NSMutableDictionary *nurseDic;//接口护士
+//@property (nonatomic, strong) UIView * genderView;     //
+//@property (nonatomic, strong) UIButton * maleButton;     //
+//@property (nonatomic, strong) UIButton * femaleButton;     //
 @property (nonatomic,strong) NSMutableArray *dataArray;//数据源
-//@property (nonatomic, strong) NSMutableArray<IMageOrVideoModel *> * imagesModelArr;     //
-//@property (nonatomic, strong) NSMutableArray<IMageOrVideoModel *> * videosModelArr;     //
 
 @end
 @implementation AccompanyRecordVC
@@ -47,18 +45,22 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.valueDic = [NSMutableDictionary dictionary];
+    self.orderDic = [NSMutableDictionary dictionary];
+    self.nurseDic = [NSMutableDictionary dictionary];
     [self createViews];
     [self request];
-    [self reloadData];
 }
 - (void)request {
     @weakify(self);
-    [HYBNetworking getWithUrl:[NSString stringWithFormat:@"%@?nurseid=%@",URL_GetNurseById,self.nurseId] refreshCache:YES success:^(id response) {
+    [HYBNetworking getWithUrl:[NSString stringWithFormat:@"%@?orderId=%@",URL_GetOrderNurseByOrserId,self.orderId] refreshCache:YES success:^(id response) {
         @strongify(self);
         NSDictionary *dic = response;
         if ([dic[@"code"] isEqual:@100]) {
             NSDictionary *data = dic[@"data"];
+            if ([data isKindOfClass:[NSDictionary class]]) {
+                self.orderDic = [NSMutableDictionary dictionaryWithDictionary:data[@"order"]];
+                self.nurseDic = [NSMutableDictionary dictionaryWithDictionary:data[@"nurseDic"]];
+            }
             [self.mainTableView reloadData];
         }else {
             [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
@@ -68,22 +70,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
         [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
     }];
 }
--(void)reloadData{
-    [self.mainTableView reloadData];
-}
 
-//-(NSMutableArray <IMageOrVideoModel *>*)imagesModelArr{
-//    if(!_imagesModelArr){
-//        _imagesModelArr = [NSMutableArray array];
-//    }
-//    return _imagesModelArr;
-//}
-//-(NSMutableArray <IMageOrVideoModel *>*)videosModelArr{
-//    if(!_videosModelArr){
-//        _videosModelArr = [NSMutableArray array];
-//    }
-//    return _videosModelArr;
-//}
 -(void)createViews{
     
     [self configWithTitle:@"陪诊记录" backImage:nil];
@@ -95,141 +82,173 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     self.dataArray = [NSMutableArray arrayWithArray:@[@{@"title":@"患者信息",
                                                         @"data":@[@{@"title":@"类型：",
                                                                     @"type":@(CELLTYPE_DROP),
-                                                                    @"value":@"请选择陪诊类型"
+                                                                    @"value":@"请选择陪诊类型",
+                                                                    @"en":@"orderType",
+                                                                    @"isEnabled":@NO
                                                                     },
                                                                   @{@"title":@"姓名：",
                                                                     @"type":@(CELLTYPE_TEXTFIELDSTR),
-                                                                    @"value":@"请输入姓名"
+                                                                    @"value":@"请输入姓名",
+                                                                    @"en":@"personName",
+                                                                    @"isEnabled":@NO
                                                                     },
                                                                   @{@"title":@"性别：",
                                                                     @"type":@(CELLTYPE_SELECTSEX),
-                                                                    @"value":@""
+                                                                    @"value":@"",
+                                                                    @"en":@"personSex",
+                                                                    @"isEnabled":@NO
                                                                     },
                                                                   @{@"title":@"年龄：",
                                                                     @"type":@(CELLTYPE_TEXTFIELDAGE),
-                                                                    @"value":@"请输入年龄"
+                                                                    @"value":@"请输入年龄",
+                                                                    @"en":@"personAge",
+                                                                    @"isEnabled":@NO
                                                                     },
                                                                   @{@"title":@"手机号：",
                                                                     @"type":@(CELLTYPE_TEXTFIELDPHONE),
-                                                                    @"value":@"请输入手机号"
+                                                                    @"value":@"请输入手机号",
+                                                                    @"en":@"personPhone",
+                                                                    @"isEnabled":@NO
                                                                     },
                                                                   @{@"title":@"身份证号：",
                                                                     @"type":@(CELLTYPE_TEXTFIELDIDCARD),
-                                                                    @"value":@"请输入身份证号"
+                                                                    @"value":@"请输入身份证号",
+                                                                    @"en":@"personIdCard",
+                                                                    @"isEnabled":@NO
                                                                     }]},
                                                       @{@"title":@"病情介绍",
                                                         @"data":@[@{@"title":@"",
                                                                     @"type":@(CELLTYPE_TEXTVIEW),
-                                                                    @"value":@"请输入病情介绍"
+                                                                    @"value":@"请输入病情介绍",
+                                                                    @"en":@"sickDes",
+                                                                    @"isEnabled":@NO
                                                                     }]
                                                         },
                                                       @{@"title":@"就诊信息",
                                                         @"data":@[@{@"title":@"就诊时间：",
                                                                     @"type":@(CELLTYPE_DATA),
-                                                                    @"value":@"请选择就诊时间"
+                                                                    @"value":@"请选择就诊时间",
+                                                                    @"en":@"visitTime",
+                                                                    @"isEnabled":@NO
                                                                     },
                                                                   @{@"title":@"医院：",
                                                                     @"type":@(CELLTYPE_TEXTFIELDSTR),
-                                                                    @"value":@"请输入医院"
+                                                                    @"value":@"请输入医院",
+                                                                    @"en":@"hospital",
+                                                                    @"isEnabled":@NO
                                                                     },
                                                                   @{@"title":@"科室：",
                                                                     @"type":@(CELLTYPE_TEXTFIELDSTR),
-                                                                    @"value":@"请输入科室"
+                                                                    @"value":@"请输入科室",
+                                                                    @"en":@"department",
+                                                                    @"isEnabled":@NO
                                                                     }]
                                                         },
                                                       @{@"title":@"病例图片",
                                                         @"data":@[@{@"title":@"",
                                                                     @"type":@(CELLTYPE_IMAGE),
-                                                                    @"value":@""
+                                                                    @"value":@"",
+                                                                    @"en":@"sikPic",
+                                                                    @"isEnabled":@NO
                                                                     }]
                                                         },
                                                       @{@"title":@"病例视频",
                                                         @"data":@[@{@"title":@"",
                                                                     @"type":@(CELLTYPE_VEDIO),
-                                                                    @"value":@""
+                                                                    @"value":@"",
+                                                                    @"en":@"sickVedio",
+                                                                    @"isEnabled":@NO
                                                                     }]
                                                         },
                                                       @{@"title":@"陪诊图片",
                                                         @"data":@[@{@"title":@"",
                                                                     @"type":@(CELLTYPE_IMAGE),
-                                                                    @"value":@""
+                                                                    @"value":@"",
+                                                                    @"en":@"nursePic",
+                                                                    @"isEnabled":@YES
                                                                     }]
                                                         },
                                                       @{@"title":@"陪诊记录",
                                                         @"data":@[@{@"title":@"",
                                                                     @"type":@(CELLTYPE_TEXTVIEW),
-                                                                    @"value":@"请输入陪诊记录"
+                                                                    @"value":@"请输入陪诊记录",
+                                                                    @"en":@"nurseDes",
+                                                                    @"isEnabled":@YES
                                                                     }]
                                                         },
                                                       @{@"title":@"陪诊人信息",
                                                         @"data":@[@{@"title":@"陪诊人：",
                                                                     @"type":@(CELLTYPE_TEXTFIELDSTR),
-                                                                    @"value":@"请输入陪诊人姓名"
+                                                                    @"value":@"请输入陪诊人姓名",
+                                                                    @"en":@"nurseName",
+                                                                    @"isEnabled":@YES
                                                                     },
                                                                   @{@"title":@"陪诊日期：",
                                                                     @"type":@(CELLTYPE_DATA),
-                                                                    @"value":@"请选择陪诊日期"
+                                                                    @"value":@"请选择陪诊日期",
+                                                                    @"en":@"nurseDate",
+                                                                    @"isEnabled":@YES
                                                                     }]
                                                         }]];
     self.mainTableView.estimatedRowHeight = 80;
     
     self.mainTableView.backgroundColor = LR_TABLE_BACKGROUNDCOLOR;
-    self.genderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 60)];
-    UILabel *maleLabel = [UILabel new];
-    [self.genderView addSubview:maleLabel];
-    maleLabel.text = @"男";
-    
-    self.maleButton = [UIButton new];
-    [self.genderView addSubview:self.maleButton];
-    [self.maleButton setImage:LRSTRING2IMAGE(@"icon_31") forState:UIControlStateNormal];
-    [self.maleButton setImage:LRSTRING2IMAGE(@"icon_32") forState:UIControlStateSelected];
-    
-    
-    
-    UILabel *femaleLabel = [UILabel new];
-    [self.genderView addSubview:femaleLabel];
-    femaleLabel.text = @"女";
-    
-    self.femaleButton = [UIButton new];
-    [self.genderView addSubview:self.femaleButton];
-    [self.femaleButton setImage:LRSTRING2IMAGE(@"icon_31") forState:UIControlStateNormal];
-    [self.femaleButton setImage:LRSTRING2IMAGE(@"icon_32") forState:UIControlStateSelected];
-    
-    [maleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(0);
-        make.centerY.mas_equalTo(0);
-    }];
-    [self.maleButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(maleLabel.mas_right).offset(4);
-        make.centerY.mas_equalTo(0);
-        make.width.height.mas_equalTo(62/3.0);
-    }];
-    [femaleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.maleButton.mas_right).offset(12);
-        make.centerY.mas_equalTo(0);
-    }];
-    [self.femaleButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(femaleLabel.mas_right).offset(4);
-        make.centerY.mas_equalTo(0);
-        make.width.height.mas_equalTo(62/3.0);
-    }];
+//    self.genderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 100, 60)];
+//    UILabel *maleLabel = [UILabel new];
+//    [self.genderView addSubview:maleLabel];
+//    maleLabel.text = @"男";
+//
+//    self.maleButton = [UIButton new];
+//    [self.genderView addSubview:self.maleButton];
+//    [self.maleButton setImage:LRSTRING2IMAGE(@"icon_31") forState:UIControlStateNormal];
+//    [self.maleButton setImage:LRSTRING2IMAGE(@"icon_32") forState:UIControlStateSelected];
+//
+//
+//
+//    UILabel *femaleLabel = [UILabel new];
+//    [self.genderView addSubview:femaleLabel];
+//    femaleLabel.text = @"女";
+//
+//    self.femaleButton = [UIButton new];
+//    [self.genderView addSubview:self.femaleButton];
+//    [self.femaleButton setImage:LRSTRING2IMAGE(@"icon_31") forState:UIControlStateNormal];
+//    [self.femaleButton setImage:LRSTRING2IMAGE(@"icon_32") forState:UIControlStateSelected];
+//
+//    [maleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(0);
+//        make.centerY.mas_equalTo(0);
+//    }];
+//    [self.maleButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(maleLabel.mas_right).offset(4);
+//        make.centerY.mas_equalTo(0);
+//        make.width.height.mas_equalTo(62/3.0);
+//    }];
+//    [femaleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(self.maleButton.mas_right).offset(12);
+//        make.centerY.mas_equalTo(0);
+//    }];
+//    [self.femaleButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(femaleLabel.mas_right).offset(4);
+//        make.centerY.mas_equalTo(0);
+//        make.width.height.mas_equalTo(62/3.0);
+//    }];
     UIView *bottomView = [self crecteBottomViewContainButtonWithTitle:@"提交" action:@selector(bottomButtonAction:)];
     self.mainTableView.tableFooterView = bottomView;
-    self.maleButton.tag =1;
-    self.femaleButton.tag = 0;
-    [self.maleButton addTarget:self action:@selector(userSexSet:) forControlEvents:UIControlEventTouchUpInside];
-    [self.femaleButton addTarget:self action:@selector(userSexSet:) forControlEvents:UIControlEventTouchUpInside];
+//    self.maleButton.tag =1;
+//    self.femaleButton.tag = 0;
+//    [self.maleButton addTarget:self action:@selector(userSexSet:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.femaleButton addTarget:self action:@selector(userSexSet:) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
 -(void)userSexSet:(UIButton *)btn{
     if(btn.tag == 0){
         //女
-        [self.valueDic setObject:@"1" forKey:@"性别："];
+        [self.orderDic setObject:@"1" forKey:@"personSex"];
     }
     else{
         //男
-        [self.valueDic setObject:@"0" forKey:@"性别："];
+        [self.orderDic setObject:@"0" forKey:@"personSex"];
     }
     [self.mainTableView reloadData];
     
@@ -302,46 +321,68 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.rightButton.hidden = YES;
-        if(self.genderView.superview == cell){
-            [self.genderView removeFromSuperview];
-        }
+//        if(self.genderView.superview == cell){
+//            [self.genderView removeFromSuperview];
+//        }
         cell.label0.text = dataDic[@"title"];
         cell.textField.placeholder = dataDic[@"value"];
-        cell.textField.text = [self.valueDic objectForKey:dataDic[@"title"]];
         if (type == CELLTYPE_DROP) {
             cell.textField.userInteractionEnabled = NO;
-            [cell.rightButton setImage:[UIImage imageNamed:@"icon_24"] forState:UIControlStateNormal];
-            cell.rightButton.hidden = NO;
+            if ([dataDic[@"isEnabled"] boolValue]) {
+                cell.textField.enabled = YES;
+                cell.textField.text = [self.nurseDic objectForKey:dataDic[@"en"]];
+                [cell.rightButton setImage:[UIImage imageNamed:@"icon_24"] forState:UIControlStateNormal];
+                cell.rightButton.hidden = NO;
+            }else {
+                cell.textField.enabled = NO;
+                cell.textField.text = [self.orderDic objectForKey:dataDic[@"en"]];
+                cell.rightButton.hidden = YES;
+            }
         }else if(type == CELLTYPE_TEXTFIELDAGE || type == CELLTYPE_TEXTFIELDSTR ||
                  type == CELLTYPE_TEXTFIELDPHONE || type == CELLTYPE_TEXTFIELDIDCARD){
-            cell.textField.text = [self.valueDic objectForKey:dataDic[@"title"]];
             [cell.textField addActiontextFieldChanged:^(UITextField *textField) {
-                [self.valueDic setObject:textField.text forKey:dataDic[@"title"]];
+                [self.nurseDic setObject:textField.text forKey:dataDic[@"en"]];
             }];
-            cell.textField.userInteractionEnabled = YES;
+            if ([dataDic[@"isEnabled"] boolValue]) {
+                cell.textField.enabled = YES;
+                cell.textField.text = [self.nurseDic objectForKey:dataDic[@"en"]];
+            }else {
+                cell.textField.enabled = NO;
+                cell.textField.text = [self.orderDic objectForKey:dataDic[@"en"]];
+            }
+//            cell.textField.userInteractionEnabled = YES;
         }else if (type == CELLTYPE_SELECTSEX) {
-            cell.textField.text = @"";
             cell.textField.placeholder = @"";
             cell.textField.userInteractionEnabled = NO;
-            [cell addSubview:self.genderView];
-            [self.genderView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.top.bottom.mas_equalTo(0);
-                make.left.mas_equalTo(cell.label0.mas_right);
-                make.width.mas_equalTo(200);
-            }];
-            if ([[self.valueDic objectForKey:dataDic[@"title"]] integerValue] == 0) {
-                self.maleButton.selected = YES;
-                self.femaleButton.selected =NO;
+//            [cell addSubview:self.genderView];
+//            [self.genderView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//                make.top.bottom.mas_equalTo(0);
+//                make.left.mas_equalTo(cell.label0.mas_right);
+//                make.width.mas_equalTo(200);
+//            }];
+            if ([[self.orderDic objectForKey:dataDic[@"en"]] integerValue] == 0) {
+//                self.maleButton.selected = YES;
+//                self.femaleButton.selected =NO;
+                cell.textField.text = @"男";
+
             }else {
-                self.maleButton.selected = NO;
-                self.femaleButton.selected =YES;
+//                self.maleButton.selected = NO;
+//                self.femaleButton.selected =YES;
+                cell.textField.text = @"女";
             }
 
         }else if (type == CELLTYPE_DATA) {
             cell.textField.userInteractionEnabled = NO;
-            [cell.rightButton setImage:[UIImage imageNamed:@"icon_33"] forState:UIControlStateNormal];
-            cell.rightButton.hidden = NO;
-
+            if ([dataDic[@"isEnabled"] boolValue]) {
+                cell.textField.enabled = YES;
+                cell.textField.text = [self testDateZone:[self.nurseDic objectForKey:dataDic[@"en"]]];
+                [cell.rightButton setImage:[UIImage imageNamed:@"icon_33"] forState:UIControlStateNormal];
+                cell.rightButton.hidden = NO;
+            }else {
+                cell.textField.enabled = NO;
+                cell.textField.text = [self testDateZone:[self.orderDic objectForKey:dataDic[@"en"]]];
+                cell.rightButton.hidden = YES;
+            }
         }
         return cell;
         
@@ -349,85 +390,105 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     else if(type == CELLTYPE_TEXTVIEW){
         CommonTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommonTextViewTableViewCell"];
         cell.TextView.placeholder = dataDic[@"value"];
+        if ([dataDic[@"isEnabled"] boolValue]) {
+            cell.TextView.editable = YES;
+            cell.TextView.text = [self.nurseDic objectForKey:dataDic[@"en"]];
+        }else {
+            cell.TextView.editable = NO;
+            cell.TextView.text = [self.orderDic objectForKey:dataDic[@"en"]];
+        }
+
         //MARK:待处理
         return cell;
     }
     else if(type == CELLTYPE_IMAGE){
         CollectionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionTableViewCell"];
         cell.accessoryType = UITableViewCellAccessoryNone;
-        if ([[self.valueDic objectForKey:dic[@"title"]] isKindOfClass:[NSArray class]]) {
-            cell.imagesArr = [self.valueDic objectForKey:dic[@"title"]];
+        if([dic[@"title"] isEqualToString:@"陪诊记录"]) {
+            if ([[self.nurseDic objectForKey:dic[@"en"]] isKindOfClass:[NSArray class]]) {
+                cell.imagesArr = [self.nurseDic objectForKey:dic[@"en"]];
+            }else {
+                cell.imagesArr = [NSArray array];
+            }
         }else {
-            cell.imagesArr = [NSArray array];
+            if ([[self.orderDic objectForKey:dic[@"en"]] isKindOfClass:[NSArray class]]) {
+                cell.imagesArr = [self.orderDic objectForKey:dic[@"en"]];
+            }else {
+                cell.imagesArr = [NSArray array];
+            }
         }
-        [cell setDidSelect:^(NSInteger selectIndex) {
-            NSArray *arr = [self.valueDic objectForKey:dic[@"title"]];
-            if(selectIndex == arr.count){//addImage
-                TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] init];
-                imagePickerVc.maxImagesCount = 1;
-                imagePickerVc.allowPickingOriginalPhoto = YES;
-                imagePickerVc.allowPickingVideo = NO;
-                imagePickerVc.allowPickingImage = YES;
-                [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
-                    [self upLoadImageWithPhotos:photos assets:assets isSelectOriginalPhoto:YES withKey:dic[@"title"]];
-                }];
-                [self presentViewController:imagePickerVc animated:YES completion:nil];
-            }
-            else{
-                //
-            }
-        }];
-        [cell setDidDelect:^(NSInteger deleteIndex) {
-            NSMutableArray *arr = [NSMutableArray arrayWithArray:[self.valueDic objectForKey:dic[@"title"]]];
-            if(arr.count > deleteIndex){
-                [arr removeObjectAtIndex:deleteIndex];
-                [self.valueDic setObject:arr forKey:dic[@"title"]];
-                [self reloadData];
-            }
-        }];
+        if ([dataDic[@"isEnabled"] boolValue]) {
+            [cell setDidSelect:^(NSInteger selectIndex) {
+                NSArray *arr = [self.nurseDic objectForKey:dic[@"en"]];
+                if(selectIndex == arr.count){//addImage
+                    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] init];
+                    imagePickerVc.maxImagesCount = 1;
+                    imagePickerVc.allowPickingOriginalPhoto = YES;
+                    imagePickerVc.allowPickingVideo = NO;
+                    imagePickerVc.allowPickingImage = YES;
+                    [imagePickerVc setDidFinishPickingPhotosHandle:^(NSArray<UIImage *> *photos, NSArray *assets, BOOL isSelectOriginalPhoto) {
+                        [self upLoadImageWithPhotos:photos assets:assets isSelectOriginalPhoto:YES withKey:dic[@"title"]];
+                    }];
+                    [self presentViewController:imagePickerVc animated:YES completion:nil];
+                }
+                else{
+                    //
+                }
+            }];
+            [cell setDidDelect:^(NSInteger deleteIndex) {
+                NSMutableArray *arr = [NSMutableArray arrayWithArray:[self.nurseDic objectForKey:dic[@"en"]]];
+                if(arr.count > deleteIndex){
+                    [arr removeObjectAtIndex:deleteIndex];
+                    [self.nurseDic setObject:arr forKey:dic[@"en"]];
+                }
+            }];
+        }else {
+            
+        }
+        
         return cell;
     }
     else if(type == CELLTYPE_VEDIO){
         CollectionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionTableViewCell"];
         cell.accessoryType = UITableViewCellAccessoryNone;
         
-        if ([[self.valueDic objectForKey:dic[@"title"]] isKindOfClass:[NSArray class]]) {
-            cell.imagesArr = [self.valueDic objectForKey:dic[@"title"]];
+        if ([[self.orderDic objectForKey:dic[@"en"]] isKindOfClass:[NSArray class]]) {
+            cell.imagesArr = [self.orderDic objectForKey:dic[@"en"]];
         }else {
             cell.imagesArr = [NSArray array];
         }
         
-        [cell setDidSelect:^(NSInteger selectIndex) {
-            NSArray *arr = [self.valueDic objectForKey:dic[@"title"]];
-            if(selectIndex == arr.count){//addImage
-                TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] init];
-                imagePickerVc.maxImagesCount = 1;
-                imagePickerVc.allowPickingVideo = YES;
-                imagePickerVc.allowPickingImage = NO;
-                [imagePickerVc setDidFinishPickingVideoHandle:^(UIImage *coverImage, PHAsset *asset) {
-                    NSMutableArray *arr = [NSMutableArray arrayWithArray:[self.valueDic objectForKey:dic[@"title"]]];
-                    if(selectIndex == arr.count){//addVideo
-                        [self upLoadVideoWithCoverImage:coverImage asset:asset withKey:dic[@"title"]];
-                    }
-                    else{
-                        //
-                    }
-                    
-                }];
-                [self presentViewController:imagePickerVc animated:YES completion:nil];
-            }else {
-                
-            }
-            
-        }];
-        [cell setDidDelect:^(NSInteger deleteIndex) {
-            NSMutableArray *arr = [NSMutableArray arrayWithArray:[self.valueDic objectForKey:dic[@"title"]]];
-            if(arr.count > deleteIndex){
-                [arr removeObjectAtIndex:deleteIndex];
-                [self.valueDic setObject:arr forKey:dic[@"title"]];
-                [self reloadData];
-            }
-        }];
+//        [cell setDidSelect:^(NSInteger selectIndex) {
+//            NSArray *arr = [self.valueDic objectForKey:dic[@"title"]];
+//            if(selectIndex == arr.count){//addImage
+//                TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] init];
+//                imagePickerVc.maxImagesCount = 1;
+//                imagePickerVc.allowPickingVideo = YES;
+//                imagePickerVc.allowPickingImage = NO;
+//                [imagePickerVc setDidFinishPickingVideoHandle:^(UIImage *coverImage, PHAsset *asset) {
+//                    NSMutableArray *arr = [NSMutableArray arrayWithArray:[self.valueDic objectForKey:dic[@"title"]]];
+//                    if(selectIndex == arr.count){//addVideo
+//                        [self upLoadVideoWithCoverImage:coverImage asset:asset withKey:dic[@"title"]];
+//                    }
+//                    else{
+//                        //
+//                    }
+//
+//                }];
+//                [self presentViewController:imagePickerVc animated:YES completion:nil];
+//            }else {
+//
+//            }
+//
+//        }];
+//        [cell setDidDelect:^(NSInteger deleteIndex) {
+//            NSMutableArray *arr = [NSMutableArray arrayWithArray:[self.valueDic objectForKey:dic[@"title"]]];
+//            if(arr.count > deleteIndex){
+//                [arr removeObjectAtIndex:deleteIndex];
+//                [self.valueDic setObject:arr forKey:dic[@"title"]];
+//                [self reloadData];
+//            }
+//        }];
         return cell;
     }
     
@@ -441,7 +502,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
         NSLog(@"select 0 image");
         return ;
     }
-    NSMutableArray *mutArr = [NSMutableArray arrayWithArray:[self.valueDic objectForKey:key]];
+    NSMutableArray *mutArr = [NSMutableArray arrayWithArray:[self.orderDic objectForKey:key]];
 //    IMageOrVideoModel *imgModel = [[IMageOrVideoModel alloc]init];
 //    imgModel.image = photos[0];
 //    imgModel.imageOther = assets[0];
@@ -449,8 +510,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 //    [mutArr addObject:imgModel];
 //    [self.valueDic setObject:[NSArray arrayWithArray:mutArr] forKey:key];
     [mutArr addObjectsFromArray:photos];
-    [self.valueDic setObject:mutArr forKey:key];
-    [self reloadData];
+    [self.nurseDic setObject:mutArr forKey:key];
 //    NSArray *imageArr = [NSArray array];
 //    if ([[self.valueDic objectForKey:key] isKindOfClass:[NSArray class]]) {
 //        imageArr = [self.valueDic objectForKey:key];
@@ -515,15 +575,14 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
                     NSLog(@"视频转码成功");
                     NSData *data2 = [NSData dataWithContentsOfFile:_outPath];
                     NSLog(@"视频大小2 %lu",(unsigned long)data2.length);
-                    NSMutableArray *mutArr = [NSMutableArray arrayWithArray:[self.valueDic objectForKey:key]];
+                    NSMutableArray *mutArr = [NSMutableArray arrayWithArray:[self.nurseDic objectForKey:key]];
                     IMageOrVideoModel *imgModel = [[IMageOrVideoModel alloc]init];
                     imgModel.image = coverImage;
                     imgModel.imageOther = data2;
                     imgModel.imageURLKey = key;
                     [mutArr addObject:imgModel];
-                    [self.valueDic setObject:[NSArray arrayWithArray:mutArr] forKey:key];
+                    [self.nurseDic setObject:[NSArray arrayWithArray:mutArr] forKey:key];
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self reloadData];
                     });
 
 //                    [CommonManage QNPutimage:data2 forView:LR_KEY_WINDOW key:nil res:^(BOOL success, NSString * _Nonnull key, NSString * _Nonnull imageURL) {
@@ -568,42 +627,36 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     //            }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    LRWeakSelf
+    @weakify(self);
     NSDictionary *dic = self.dataArray[indexPath.section];
     NSArray *dataArr = dic[@"data"];
     NSDictionary *dataDic = dataArr[indexPath.row];
     NSInteger type = [dataDic[@"type"] integerValue];
-    
-    if (type == CELLTYPE_DROP) {
-        NSArray *selectArr =@[@"第一次预约",@"复诊"];
-        NSString *str = dataDic[@"value"];
-        if (![selectArr containsObject:str]) {
-            str = selectArr[0];
-        }
-        [BRStringPickerView showStringPickerWithTitle:dataDic[@"title"] dataSource:selectArr defaultSelValue:str isAutoSelect:NO resultBlock:^(id selectValue) {
-            NSInteger selectIndex = [selectArr indexOfObject:selectValue];
-            [weakSelf.valueDic setObject:selectArr[selectIndex] forKey:dataDic[@"title"]];
-            [weakSelf reloadData];
-        }];
-    }else if (type == CELLTYPE_DATA) {
-        NSString *str = dataDic[@"value"];
-        if (str.length == 0) {
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-            str = [dateFormatter stringFromDate:[NSDate date]];
-        }
-        [BRDatePickerView showDatePickerWithTitle:dataDic[@"title"] dateType:UIDatePickerModeDateAndTime defaultSelValue:str minDateStr:@"" maxDateStr:@"" isAutoSelect:NO resultBlock:^(NSString *selectValue,NSDate *date) {
-            if(date){
-                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
-                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                NSString *destDateString = [dateFormatter stringFromDate:date];
-                [weakSelf.valueDic setObject:destDateString forKey:dataDic[@"title"]];
-                [weakSelf reloadData];
-            }
-        }];
 
+    if ([dataDic[@"isEnabled"] boolValue]) {
+        if (type == CELLTYPE_DATA) {
+            NSString *str = dataDic[@"value"];
+            if (str.length == 0) {
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                str = [dateFormatter stringFromDate:[NSDate date]];
+            }
+            [BRDatePickerView showDatePickerWithTitle:dataDic[@"title"] dateType:UIDatePickerModeDateAndTime defaultSelValue:str minDateStr:@"" maxDateStr:@"" isAutoSelect:NO resultBlock:^(NSString *selectValue,NSDate *date) {
+                @strongify(self);
+                if(date){
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    //                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+                    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+                    NSString *destDateString = [dateFormatter stringFromDate:date];
+                    [self.nurseDic setObject:destDateString forKey:dataDic[@"en"]];
+                    [self.mainTableView reloadData];
+                }
+            }];
+            
+        }
     }
+
+    
 }
 -(void)requestPost{
 //    if(!self.orderCreateModel){
@@ -645,4 +698,35 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     }];
     return bottomView;
 }
+
+
+-(NSString *)testDateZone:(NSString *)timeDate
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+    
+    NSDate *localDate = [dateFormatter dateFromString:timeDate];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *strDate = [dateFormatter stringFromDate:[self getNowDateFromatAnDate:localDate]];
+    [dateFormatter setDateStyle:NSDateFormatterFullStyle];
+    return strDate;
+}
+
+- (NSDate *)getNowDateFromatAnDate:(NSDate *)anyDate
+{
+    //设置源日期时区
+    NSTimeZone* sourceTimeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];//或GMT
+    //设置转换后的目标日期时区
+    NSTimeZone* destinationTimeZone = [NSTimeZone localTimeZone];
+    //得到源日期与世界标准时间的偏移量
+    NSInteger sourceGMTOffset = [sourceTimeZone secondsFromGMTForDate:anyDate];
+    //目标日期与本地时区的偏移量
+    NSInteger destinationGMTOffset = [destinationTimeZone secondsFromGMTForDate:anyDate];
+    //得到时间偏移量的差值
+    NSTimeInterval interval = destinationGMTOffset - sourceGMTOffset;
+    //转为现在时间
+    NSDate* destinationDateNow = [[NSDate alloc] initWithTimeInterval:interval sinceDate:anyDate];
+    return destinationDateNow;
+}
+
 @end

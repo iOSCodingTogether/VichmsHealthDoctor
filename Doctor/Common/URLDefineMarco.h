@@ -18,7 +18,7 @@
 #define URL_AttenderPage @"order/attender/page"
 #define URL_NurseSure @"nurse/sure"//确认接单
 #define URL_NurseBegin @"nurse/begin"//开始陪诊
-#define URL_GetNurseById @"nurse/getNurseById"//陪诊记录
+#define URL_GetOrderNurseByOrserId @"order/getOrderNurseByOrserId"//陪诊记录
 
 #define URL_My @"order/page/Doctor/my"
 #define URL_DepartmentPage @"department/page"//科室
@@ -35,4 +35,5 @@
 #define URL_Count @"doctor/orderEvaluation/count"//统计
 #define URL_AttendPage @"order/attend/page"//订单列表
 #define URL_Doctors @"doctor/server/doctors"//我的医生
+#define URL_GetQNKey @"qiniu/getKey" //七牛key
 #endif /* URLDefineMarco_h */
