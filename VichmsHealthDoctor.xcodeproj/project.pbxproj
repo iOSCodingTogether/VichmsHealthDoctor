@@ -150,6 +150,7 @@
 		7B98AB0421DE8C1D00EB9809 /* AccompanyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B98AB0321DE8C1D00EB9809 /* AccompanyVC.m */; };
 		7B98AB0721DE8C3600EB9809 /* ChatHomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B98AB0621DE8C3600EB9809 /* ChatHomeVC.m */; };
 		7B98AB0A21DE8FC200EB9809 /* UserInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B98AB0921DE8FC200EB9809 /* UserInfoManager.m */; };
+		7B9BB75321F2D2F100CFC1BC /* VHDChatSessionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9BB75221F2D2F100CFC1BC /* VHDChatSessionVC.m */; };
 		7BA42FDB21E0A2C1007ADB7F /* AccompanyRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FDA21E0A2C1007ADB7F /* AccompanyRecordVC.m */; };
 		7BA42FDE21E0A305007ADB7F /* IMageOrVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FDC21E0A305007ADB7F /* IMageOrVideoModel.m */; };
 		7BA42FE221E0FBB6007ADB7F /* StatisticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FE021E0FBB6007ADB7F /* StatisticsViewController.m */; };
@@ -457,6 +458,8 @@
 		7B98AB0621DE8C3600EB9809 /* ChatHomeVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatHomeVC.m; sourceTree = "<group>"; };
 		7B98AB0821DE8FC200EB9809 /* UserInfoManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoManager.h; sourceTree = "<group>"; };
 		7B98AB0921DE8FC200EB9809 /* UserInfoManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoManager.m; sourceTree = "<group>"; };
+		7B9BB75121F2D2F100CFC1BC /* VHDChatSessionVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VHDChatSessionVC.h; sourceTree = "<group>"; };
+		7B9BB75221F2D2F100CFC1BC /* VHDChatSessionVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VHDChatSessionVC.m; sourceTree = "<group>"; };
 		7BA42FD921E0A2C1007ADB7F /* AccompanyRecordVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccompanyRecordVC.h; sourceTree = "<group>"; };
 		7BA42FDA21E0A2C1007ADB7F /* AccompanyRecordVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AccompanyRecordVC.m; sourceTree = "<group>"; };
 		7BA42FDC21E0A305007ADB7F /* IMageOrVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMageOrVideoModel.m; sourceTree = "<group>"; };
@@ -1191,6 +1194,8 @@
 			children = (
 				7B671F0D21DF955300DD7C32 /* BookingVC.h */,
 				7B671F0C21DF955300DD7C32 /* BookingVC.m */,
+				7B9BB75121F2D2F100CFC1BC /* VHDChatSessionVC.h */,
+				7B9BB75221F2D2F100CFC1BC /* VHDChatSessionVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1612,7 +1617,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/NIMKit/NIMKit/Resources/NIMKitEmoticon.bundle",
@@ -1633,7 +1638,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D940FF3DABA5E30E61821328 /* [CP] Check Pods Manifest.lock */ = {
@@ -1725,6 +1730,7 @@
 				7B2BD84821D3C67000256EFB /* AppAlertController.m in Sources */,
 				7B671F3521DFE3A700DD7C32 /* BookTableViewCell.m in Sources */,
 				7B2BD8A521D3C67000256EFB /* CouponuseUserPageResultListCouponModel.m in Sources */,
+				7B9BB75321F2D2F100CFC1BC /* VHDChatSessionVC.m in Sources */,
 				7B2BD87D21D3C67000256EFB /* GoodsDetailPageResultModel.m in Sources */,
 				7B2BD8AC21D3C67000256EFB /* UserInfoResultModel.m in Sources */,
 				7B2BD8BD21D3C67000256EFB /* UIButton+Block.m in Sources */,

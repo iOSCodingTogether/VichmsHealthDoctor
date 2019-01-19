@@ -41,8 +41,8 @@
                         <color key="textColor" red="0.56862745100000001" green="0.56862745100000001" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8lZ-EU-XuP">
-                        <rect key="frame" x="308" y="139" width="55" height="28"/>
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8lZ-EU-XuP">
+                        <rect key="frame" x="309" y="139" width="55" height="28"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="55" id="MQb-lB-9R4"/>
                             <constraint firstAttribute="height" constant="28" id="iDR-U0-Ym8"/>
@@ -54,6 +54,9 @@
                         <state key="highlighted">
                             <color key="titleColor" red="0.0" green="0.63921568630000003" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
+                        <connections>
+                            <action selector="chatAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="fBK-QV-Zwa"/>
+                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="青青" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1L4-Hg-72D">
                         <rect key="frame" x="74" y="60" width="27" height="18"/>

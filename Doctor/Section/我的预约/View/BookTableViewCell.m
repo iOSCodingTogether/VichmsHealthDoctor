@@ -8,6 +8,20 @@
 
 #import "BookTableViewCell.h"
 
+#import <NIMSDK/NIMSDK.h>
+
+@interface BookTableViewCell ()
+// 讨论组Id
+@property (nonatomic, copy) NSString *groupId;
+// 医生Id
+@property (nonatomic, copy) NSString *doctorId;
+// 助理Id
+@property (nonatomic, copy) NSString *assisstandId;
+// 患者Id
+@property (nonatomic, copy) NSString *patientId;
+
+@end
+
 @implementation BookTableViewCell
 
 - (void)awakeFromNib {
@@ -21,6 +35,23 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)setChatInfoWithCellInfo:(NSDictionary *)dic chatAction:(ChatActionBlock)block {
+    self.chatActionBlock = [block copy];
+    if (!dic
+        || [dic[@"groupid"] isKindOfClass:[NSNull class]]) {
+        self.groupId = @"";
+    } else {
+        self.groupId = dic[@"groupid"];
+    }
+    self.doctorId = dic[@"doctoraccId"];
+}
+
+- (IBAction)chatAction:(id)sender {
+    if (self.chatActionBlock) {
+        self.chatActionBlock(self.groupId);
+    }
 }
 
 @end
