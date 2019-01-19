@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+typedef void(^ChatActionBlock)(NSString *teamId);
 
 @interface BookTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIButton *chatBtn;
@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *doctorLabel;
 @property (weak, nonatomic) IBOutlet UILabel *endLabel;
 
-@end
+@property (nonatomic, copy) ChatActionBlock chatActionBlock;
 
-NS_ASSUME_NONNULL_END
+- (void)setChatInfoWithCellInfo:(NSDictionary *)dic chatAction:(ChatActionBlock)block;
+
+@end

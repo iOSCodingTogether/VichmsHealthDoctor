@@ -11,6 +11,8 @@
 #import "OrderPageMyRequestModel.h"
 #import "CommonManage.h"
 #import "UIButton+Block.h"
+#import "VHDChatSessionVC.h"
+#import "NIMKitDataProviderImpl.h"
 
 @interface BookingVC ()< UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate>
 @property (nonatomic,strong) UIView *topView;//上面的选择view
@@ -293,6 +295,38 @@
     cell.doctorLabel.text = [NSString stringWithFormat:@"%@",dic[@"doctor"]];
     cell.endLabel.text = [self testDateZone:dic[@"orderTime"]];
     cell.startTimeLabel.text = [orderType objectForKey:dic[@"orderType"]];
+    @weakify(self);
+    [cell setChatInfoWithCellInfo:dic chatAction:^(NSString * _Nonnull teamId) {
+        @strongify(self);
+        if (teamId.length == 0) {
+            [MBProgressHUD showAlertWithView:self.view
+                                    andTitle:@"群组信息获取失败，请重试"];
+            return;
+        }
+        
+        NIMTeam *teamInfo = [[NIMSDK sharedSDK].teamManager teamById:teamId];
+        
+        if (![[NIMSDK sharedSDK].teamManager isMyTeam:teamInfo.teamId]) {
+            [[NIMSDK sharedSDK].teamManager applyToTeam:teamInfo.teamId
+                                                message:@"医师加入讨论组"
+                                             completion:^(NSError * _Nullable error, NIMTeamApplyStatus applyStatus) {
+                                                 if (error) {
+                                                     [MBProgressHUD showAlertWithView:self.view
+                                                                             andTitle:@"加入群组失败"];
+                                                     return;
+                                                 }
+                                                 
+                                                 NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
+                                                 VHDChatSessionVC *sessionVC = [[VHDChatSessionVC alloc] initWithSession:session];
+                                                 [self.navigationController pushViewController:sessionVC animated:YES];
+                                             }];
+        } else {
+            NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
+            VHDChatSessionVC *sessionVC = [[VHDChatSessionVC alloc] initWithSession:session];
+            [self.navigationController pushViewController:sessionVC animated:YES];
+        }
+        
+    }];
     return cell;
 }
 
