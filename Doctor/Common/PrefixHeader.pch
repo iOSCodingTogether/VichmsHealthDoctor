@@ -16,6 +16,8 @@
 #import <NIMSDK/NIMSDK.h>
 #import "LoginVC.h"
 
+#import "BRStringPickerView.h"
+
 #import "AppDefine.h"
 #import "BaseDefine.h"
 #import "MarcoDefine.h"

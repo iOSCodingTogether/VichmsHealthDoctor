@@ -52,14 +52,14 @@
     if (self.pageIndex < 1) {
         self.pageIndex = 1;
     }
-    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_orderStatus=2,3,4",URL_PayedsPage,(long)self.pageIndex,PageSize];
-//    if (self.selectIndex > 0) {
-//        self.pageIndex = 1;
-//        NSDictionary *typeDic = self.serviceTypeArr[self.selectIndex - 1];
-//        NSString *typeId = typeDic[@"typeCode"];
-//        url = [NSString stringWithFormat:@"%@?search_EQ_buyGoodsType=%@&pageNo=%ld&pageSize=%d",URL_Goods,typeId,(long)self.pageIndex,PageSize];
-//    }
-    [HYBNetworking getWithUrl:url refreshCache:YES success:^(id response) {
+    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_orderStatus=2,3,4&doctor=%@",URL_PayedsPage,(long)self.pageIndex,PageSize,self.mSearchBar.text];
+    if (self.selectIndex > 0) {
+        self.pageIndex = 1;
+        NSDictionary *typeDic = self.departmentArr[self.selectIndex - 1];
+        NSString *typeId = typeDic[@"department"];
+        url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_orderStatus=2,3,4&department=%@&doctor=%@",URL_PayedsPage,(long)self.pageIndex,PageSize,typeId,self.mSearchBar.text];
+    }
+    [HYBNetworking getWithUrl:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] refreshCache:YES success:^(id response) {
         
         NSLog(@"====预约专家页面%@",response);
         NSDictionary *dic = response;
@@ -132,7 +132,8 @@
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-10);
         make.centerY.mas_equalTo(0);
-        make.left.mas_equalTo(self.selectTypeLabel.mas_right).offset(10);
+        make.width.mas_equalTo(20);
+//        make.left.mas_equalTo(self.selectTypeLabel.mas_right).offset(10);
     }];
     imageView.image = [UIImage imageNamed:@"icon_26"];
     
@@ -198,7 +199,7 @@
 
 #pragma mark - UITableViewDelegate UITableViewDatasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return self.dataArr.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -223,7 +224,10 @@
     cell.nameLabel.text = [NSString stringWithFormat:@"%@",dic[@"doctor"]];
     cell.midLabel.text = [NSString stringWithFormat:@"%@",dic[@"department"]];
     cell.hospitalLabel.text = [NSString stringWithFormat:@"%@",dic[@"hospital"]];
-    cell.bookingIntro.text = [NSString stringWithFormat:@"%@",dic[@"hospital"]];
+    NSString *personName = [NSString stringWithFormat:@"%@",dic[@"personName"]];
+    NSArray *orderStatusArr = @[@"正在申请",@"已提交审核",@"已支付",@"已审核",@"已预约",@"已完成",@"已取消"];
+    NSString *orderStatus = [NSString stringWithFormat:@"%@",dic[@"orderStatus"]];
+    cell.bookingIntro.text = [NSString stringWithFormat:@"%@%@",personName,[orderStatusArr objectAtIndex:[orderStatus integerValue]]];
     [cell.rightBtn addTarget:self action:@selector(assignAccompany:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
@@ -311,6 +315,8 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar*)searchBar{
     [self.view endEditing:YES];
+    self.pageIndex = 1;
+    [self request];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
@@ -323,6 +329,10 @@
 }
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
     //    self.grayViewButton.hidden = YES;
+    if (searchBar.text.length == 0) {
+        self.pageIndex = 1;
+        [self request];
+    }
 }
 
 @end
