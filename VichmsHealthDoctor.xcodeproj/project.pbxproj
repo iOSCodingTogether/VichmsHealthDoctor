@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B22DC0921F2D24C00F29B17 /* SKTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC0821F2D24C00F29B17 /* SKTagView.m */; };
+		7B22DC0C21F2D39600F29B17 /* SKTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC0A21F2D39600F29B17 /* SKTag.m */; };
+		7B22DC0F21F2D48300F29B17 /* SKTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC0D21F2D48300F29B17 /* SKTagButton.m */; };
 		7B2BD83821D3C67000256EFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B2BD6C821D3C66F00256EFB /* Assets.xcassets */; };
 		7B2BD83921D3C67000256EFB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B2BD6C921D3C66F00256EFB /* LaunchScreen.storyboard */; };
 		7B2BD83A21D3C67000256EFB /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B2BD6CD21D3C66F00256EFB /* Media.xcassets */; };
@@ -179,6 +182,12 @@
 
 /* Begin PBXFileReference section */
 		18BA9A64212C3F48004A5721 /* Doctor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doctor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B22DC0721F2D24C00F29B17 /* SKTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTagView.h; sourceTree = "<group>"; };
+		7B22DC0821F2D24C00F29B17 /* SKTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTagView.m; sourceTree = "<group>"; };
+		7B22DC0A21F2D39600F29B17 /* SKTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTag.m; sourceTree = "<group>"; };
+		7B22DC0B21F2D39600F29B17 /* SKTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTag.h; sourceTree = "<group>"; };
+		7B22DC0D21F2D48300F29B17 /* SKTagButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTagButton.m; sourceTree = "<group>"; };
+		7B22DC0E21F2D48300F29B17 /* SKTagButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTagButton.h; sourceTree = "<group>"; };
 		7B2BD6C721D3C66F00256EFB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7B2BD6C821D3C66F00256EFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B2BD6CA21D3C66F00256EFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -602,6 +611,7 @@
 				7B2BD8D221D3CAC200256EFB /* VideoEvaluationImageCell.m */,
 				7B2BD6D221D3C66F00256EFB /* CommonTextViewTableViewCell.h */,
 				7B2BD6E021D3C66F00256EFB /* CommonTextViewTableViewCell.m */,
+				7B2BD6DC21D3C66F00256EFB /* CommonTextViewTableViewCell.xib */,
 				7B2BD6D421D3C66F00256EFB /* CommonCell2.h */,
 				7B2BD6D521D3C66F00256EFB /* CollectionTableViewCell.h */,
 				7B2BD6DD21D3C66F00256EFB /* CollectionTableViewCell.m */,
@@ -611,7 +621,6 @@
 				7B2BD6D921D3C66F00256EFB /* CommonCell2.xib */,
 				7B2BD6DA21D3C66F00256EFB /* CommonCell3.xib */,
 				7B2BD6DB21D3C66F00256EFB /* CommonCell1.h */,
-				7B2BD6DC21D3C66F00256EFB /* CommonTextViewTableViewCell.xib */,
 				7B2BD6DE21D3C66F00256EFB /* CommonCell2.m */,
 				7B2BD6E121D3C66F00256EFB /* CommonCell1.m */,
 				7B2BD6E321D3C66F00256EFB /* CommonCell3.h */,
@@ -1374,6 +1383,8 @@
 		7B98AAD621DE5E4400EB9809 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7B22DC0B21F2D39600F29B17 /* SKTag.h */,
+				7B22DC0A21F2D39600F29B17 /* SKTag.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1381,6 +1392,10 @@
 		7B98AAD721DE5E4400EB9809 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7B22DC0721F2D24C00F29B17 /* SKTagView.h */,
+				7B22DC0821F2D24C00F29B17 /* SKTagView.m */,
+				7B22DC0E21F2D48300F29B17 /* SKTagButton.h */,
+				7B22DC0D21F2D48300F29B17 /* SKTagButton.m */,
 				7BA42FEC21E1D3E1007ADB7F /* MyServiceTableViewCell.h */,
 				7BA42FED21E1D3E1007ADB7F /* MyServiceTableViewCell.m */,
 				7BA42FEE21E1D3E1007ADB7F /* MyServiceTableViewCell.xib */,
@@ -1731,6 +1746,7 @@
 				7B671F3D21DFEBD500DD7C32 /* AccompanyTableViewCell.m in Sources */,
 				7B2BD8A921D3C67000256EFB /* DepartmentFindByIdRequestModel.m in Sources */,
 				7B2BD89321D3C67000256EFB /* HomeBannerResultSubModel.m in Sources */,
+				7B22DC0F21F2D48300F29B17 /* SKTagButton.m in Sources */,
 				7BA42FEB21E10F46007ADB7F /* ExpertIntroduceTopCell.m in Sources */,
 				7B2BD8AF21D3C67000256EFB /* DepartmentPageRequestModel.m in Sources */,
 				7B2BD87E21D3C67000256EFB /* UserOpenVideoRequestModel.m in Sources */,
@@ -1746,6 +1762,7 @@
 				7B2BD88B21D3C67000256EFB /* GoodsPageRequestModel.m in Sources */,
 				7B2BD88421D3C67000256EFB /* CouponUseUsableResultModel.m in Sources */,
 				7B2BD87921D3C67000256EFB /* DoctorPageResultSubModel.m in Sources */,
+				7B22DC0921F2D24C00F29B17 /* SKTagView.m in Sources */,
 				7B2BD84F21D3C67000256EFB /* NSObject+YYModel.m in Sources */,
 				7B98AB0121DE8BD300EB9809 /* MyServiceVC.m in Sources */,
 				7B671F1621DF9ACA00DD7C32 /* UIBarButtonItem+Helper.m in Sources */,
@@ -1774,6 +1791,7 @@
 				7B2BD88221D3C67000256EFB /* PayRecordCreateResultModel.m in Sources */,
 				7B2BD84621D3C67000256EFB /* CommonCell1.m in Sources */,
 				7BA8FD4721E0C4010001B21A /* MBProgressHUD+SimpleLoad.m in Sources */,
+				7B22DC0C21F2D39600F29B17 /* SKTag.m in Sources */,
 				7B2BD8A121D3C67000256EFB /* OrderPageMyResultSubModel.m in Sources */,
 				7B2BD8A621D3C67000256EFB /* CouponuseUserPageRequestModel.m in Sources */,
 				7B2BD89621D3C67000256EFB /* QiniuGetKeyRequestModel.m in Sources */,

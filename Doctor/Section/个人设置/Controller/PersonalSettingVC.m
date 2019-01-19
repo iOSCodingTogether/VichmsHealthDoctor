@@ -7,7 +7,6 @@
 //
 
 #import "PersonalSettingVC.h"
-#import "UserInfoManager.h"
 #import "PInfoVC.h"
 #import "MessageListVC.h"
 #import "AboutUsVC.h"
@@ -16,8 +15,6 @@
 #import "ExpertIntroduceVC.h"
 #import "OrderVC.h"
 
-#import "LoginVC.h"
-#import <NIMSDK/NIMSDK.h>
 
 @interface PersonalSettingVC ()
 

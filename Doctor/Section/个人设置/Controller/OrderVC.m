@@ -7,7 +7,7 @@
 //
 
 #import "OrderVC.h"
-#import "NewMyServiceTableViewCell.h"
+#import "AccompanyTableViewCell.h"
 @interface OrderVC ()
 @property (nonatomic,strong) NSMutableArray *dataArray;
 //@property (nonatomic, strong) NSMutableArray <MessagePageResultSubModel *> *messagepageSubModelArr;     //
@@ -21,7 +21,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     [self configWithTitle:@"订单列表" backImage:@""];
-    registerNibWithCellName(self.mainTableView, @"NewMyServiceTableViewCell");
+    registerNibWithCellName(self.mainTableView, @"AccompanyTableViewCell");
     self.dataArray = [NSMutableArray array];
     LRWeakSelf;
     self.mainTableView.mj_header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -45,7 +45,7 @@
     if (self.pageIndex < 1) {
         self.pageIndex = 1;
     }
-    [HYBNetworking getWithUrl:URL_AttendPage refreshCache:YES success:^(id response) {
+    [HYBNetworking getWithUrl:[URL_AttendPage stringByAppendingFormat:@"?pageNo=%ld&pageSize=%d",self.pageIndex,PageSize] refreshCache:YES success:^(id response) {
         
         NSLog(@"====订单列表%@",response);
         NSDictionary *dic = response;
@@ -98,19 +98,58 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NewMyServiceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewMyServiceTableViewCell"];
+    AccompanyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AccompanyTableViewCell"];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    //    MessagePageResultSubModel *model = self.messagepageSubModelArr[indexPath.row];
+    [cell.statusBtn setTitle:@"已完成" forState:UIControlStateNormal];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    NSDictionary *orderType = @{@"1":@"第一次就诊",@"2":@"复诊"};
     
-//    NSDictionary *dic = self.dataArray[indexPath.section];
-//    cell.tLabel.text = @"系统消息";
-//    cell.dLabel.text = dic[@"message"];
+    NSDictionary *dic = self.dataArray[indexPath.section];
+    cell.typeLabel.text = [orderType objectForKey:dic[@"orderType"]];
+    cell.nameLabel.text = [NSString stringWithFormat:@"%@",dic[@"personName"]];
+    cell.hospitalLabel.text = [NSString stringWithFormat:@"%@",dic[@"hospital"]];
+    cell.dataLabel.text = [self testDateZone:dic[@"visitTime"]];
+    cell.ageLabel.text = [NSString stringWithFormat:@"%@",dic[@"personAge"]];
+    cell.keshiLabel.text = [NSString stringWithFormat:@"%@",dic[@"department"]];
+    cell.statusBtn.backgroundColor = HEXCOLOR(0x00A3FE);
+    [cell.statusBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
     return cell;
 }
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    return UITableViewAutomaticDimension;
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     NSLog(@"click");
 }
 
+-(NSString *)testDateZone:(NSString *)timeDate
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+    
+    NSDate *localDate = [dateFormatter dateFromString:timeDate];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *strDate = [dateFormatter stringFromDate:[self getNowDateFromatAnDate:localDate]];
+    [dateFormatter setDateStyle:NSDateFormatterFullStyle];
+    return strDate;
+}
+
+- (NSDate *)getNowDateFromatAnDate:(NSDate *)anyDate
+{
+    //设置源日期时区
+    NSTimeZone* sourceTimeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];//或GMT
+    //设置转换后的目标日期时区
+    NSTimeZone* destinationTimeZone = [NSTimeZone localTimeZone];
+    //得到源日期与世界标准时间的偏移量
+    NSInteger sourceGMTOffset = [sourceTimeZone secondsFromGMTForDate:anyDate];
+    //目标日期与本地时区的偏移量
+    NSInteger destinationGMTOffset = [destinationTimeZone secondsFromGMTForDate:anyDate];
+    //得到时间偏移量的差值
+    NSTimeInterval interval = destinationGMTOffset - sourceGMTOffset;
+    //转为现在时间
+    NSDate* destinationDateNow = [[NSDate alloc] initWithTimeInterval:interval sinceDate:anyDate];
+    return destinationDateNow;
+}
 @end

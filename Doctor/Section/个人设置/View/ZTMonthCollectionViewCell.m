@@ -36,6 +36,7 @@
 - (void)configWithMonth:(NSInteger)month withSelectMonth:(NSInteger)selectMonth withSelect:(BOOL)canBeSelected{
     self.monthLabel.text = [NSString stringWithFormat:@"%ld月",(long)month];
     if (!canBeSelected) {
+        [self.bgLayer removeFromSuperlayer];
         self.monthLabel.textColor = HEXCOLOR(0xCACACA);
     }else {
         if (month == selectMonth) {

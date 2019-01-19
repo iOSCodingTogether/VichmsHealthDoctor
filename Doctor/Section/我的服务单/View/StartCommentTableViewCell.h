@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class SKTagView;
 NS_ASSUME_NONNULL_BEGIN
 
 @interface StartCommentTableViewCell : UITableViewCell
@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *yellowStarWidth;
+@property (weak, nonatomic) IBOutlet SKTagView *tagView;
 
 - (void)configWithScore:(NSString *)score comment:(NSString *)comment;
 @end

@@ -65,6 +65,10 @@
         if ([dic[@"code"] isEqual:@100]) {
             NSArray *data = dic[@"data"];
             self.serviceTypeArr = [NSMutableArray arrayWithArray:data];
+            if (self.serviceTypeArr.count == 0) {
+                [MBProgressHUD showAlertWithView:self.view andTitle:@"暂无可选择的服务类型"];
+                return ;
+            }
             NSString *str = self.selectTypeLabel.text;
             BOOL isContains = NO;
             NSMutableArray *selectArr = [NSMutableArray array];
@@ -296,16 +300,17 @@
     [BRDatePickerView showDatePickerWithTitle:@"请选择开始日期" dateType:UIDatePickerModeDate defaultSelValue:str minDateStr:@"" maxDateStr:@"" isAutoSelect:NO resultBlock:^(NSString *selectValue,NSDate *date) {
         if(date){
             @strongify(self);
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            //                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            NSString *destDateString = [dateFormatter stringFromDate:date];
+            self.startLabel.text = destDateString;
             self.pageIndex = 1;
             [self request:YES];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                @strongify(self);
-                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                //                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
-                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-                NSString *destDateString = [dateFormatter stringFromDate:date];
-                self.startLabel.text = destDateString;
-            });
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                @strongify(self);
+//
+//            });
         }
     }];
 }
@@ -321,16 +326,14 @@
     [BRDatePickerView showDatePickerWithTitle:@"请选择结束日期" dateType:UIDatePickerModeDate defaultSelValue:str minDateStr:self.startLabel.text maxDateStr:@"" isAutoSelect:NO resultBlock:^(NSString *selectValue,NSDate *date) {
         if(date){
             @strongify(self);
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            //                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            NSString *destDateString = [dateFormatter stringFromDate:date];
+            self.endLabel.text = destDateString;
             self.pageIndex = 1;
             [self request:YES];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                @strongify(self);
-                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                //                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
-                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-                NSString *destDateString = [dateFormatter stringFromDate:date];
-                self.endLabel.text = destDateString;
-            });
+
         }
     }];
 }

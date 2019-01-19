@@ -129,9 +129,22 @@
         [weakSelf.mainTableView.mj_footer endRefreshing];
         
     } fail:^(NSError *error, NSInteger statusCode) {
+        if (statusCode == 401) {
+            //token失效，重新登录
+            [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
+            [[UserInfoManager shareInstance] logoutUser];
+            
+            [[[NIMSDK sharedSDK] loginManager] logout:^(NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"退出登录失败");
+                    return;
+                }
+            }];
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+        }
         [weakSelf.mainTableView.mj_header endRefreshing];
         [weakSelf.mainTableView.mj_footer endRefreshing];
-        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
         
     }];
 
@@ -159,28 +172,28 @@
     return 1;
 }
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.dataArray.count;
 }
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ExpertIntroduceTopCell *curCell = [tableView dequeueReusableCellWithIdentifier:@"ExpertIntroduceTopCell"];
     curCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 //    [curCell.leftImageView sd_setImageWithURL:COMBINE_SUFFER_IMAGE(self.infoModel.headPic)];
-    curCell.nameLabel.text = @"123";
+    NSDictionary *dic = self.dataArray[indexPath.row];
+    curCell.nameLabel.text = [NSString stringWithFormat:@"%@",dic[@"name"]];
     NSString *dutyStr = nil;
-    dutyStr = @"12345";
-//    if(self.infoModel.duty.length>0 && ![self.infoModel.duty isEqualToString:@"无"]){
-//        dutyStr = [NSString stringWithFormat:@"%@  %@",self.infoModel.department,self.infoModel.duty];
-//    }
-//    else{
-//        dutyStr = [NSString stringWithFormat:@"%@  %@",self.infoModel.department,@""];
-//    }
-//    curCell.midLabel.text = dutyStr;
-    curCell.midLabel.text = @"123444";
-    curCell.hospitalLabel.text = @"jaslkj;";
+    NSString *duty = dic[@"duty"];
+    if([duty length]>0 && ![duty isEqualToString:@"无"]){
+        dutyStr = [NSString stringWithFormat:@"%@  %@",dic[@"department"],dic[@"duty"]];
+    }
+    else{
+        dutyStr = [NSString stringWithFormat:@"%@  %@",dic[@"department"],@""];
+    }
 
-//    curCell.hospitalLabel.text = self.infoModel.hospitalName;
-
-    
+    curCell.midLabel.text = dutyStr;
+    curCell.hospitalLabel.text = [NSString stringWithFormat:@"%@",dic[@"hospitalName"]];
+    NSString *headUrl = [NSString stringWithFormat:@"%@",dic[@"headPic"]];
+    [curCell.leftImageView sd_setImageWithURL:[NSURL URLWithString:headUrl]];
+    curCell.leftImageView.layer.cornerRadius = 40;
     
     return curCell;
     

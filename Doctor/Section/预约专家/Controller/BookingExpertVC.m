@@ -145,7 +145,7 @@
 - (void)selectTypeAction:(UIButton *)btn {
     
     @weakify(self);
-    [HYBNetworking getWithUrl:URL_DepartmentPage refreshCache:YES success:^(id response) {
+    [HYBNetworking getWithUrl:[URL_DepartmentPage stringByAppendingString:@"?pageIndex=1&pageSize=1000"] refreshCache:YES success:^(id response) {
         NSDictionary *dic = response;
         if ([dic[@"code"] isEqual:@100]) {
             NSDictionary *data = dic[@"data"];
