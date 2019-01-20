@@ -25,6 +25,8 @@
 @property (nonatomic,strong) NSMutableArray *departmentArr;//科室
 @property (nonatomic,strong) NSMutableArray *nurseArr;//护士
 
+@property (nonatomic,assign) BOOL isRequest;//是否在请求科室
+
 @property (nonatomic,assign) NSInteger selectNurseIndex;
 
 
@@ -141,10 +143,26 @@
     self.selectTypeButton.layer.masksToBounds = YES;
     
     registerNibWithCellName(self.mainTableView, @"BookingExpertCell");
+    LRWeakSelf;
+    self.mainTableView.mj_header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        if (weakSelf.pageIndex > 1) {
+            weakSelf.pageIndex --;
+        }
+        [weakSelf request];
+    }];
+    self.mainTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.pageIndex ++;
+        [weakSelf request];
+    }];
 }
 
 - (void)selectTypeAction:(UIButton *)btn {
     
+    [self.mSearchBar endEditing:YES];
+    if (self.isRequest) {
+        return;
+    }
+    self.isRequest = YES;
     @weakify(self);
     [HYBNetworking getWithUrl:[URL_DepartmentPage stringByAppendingString:@"?pageIndex=1&pageSize=1000"] refreshCache:YES success:^(id response) {
         NSDictionary *dic = response;
@@ -167,15 +185,18 @@
             }
             [BRStringPickerView showStringPickerWithTitle:@"请选择科室" dataSource:selectArr defaultSelValue:str isAutoSelect:NO resultBlock:^(id selectValue) {
                 @strongify(self);
+                self.isRequest = NO;
                 NSInteger selectIndex = [selectArr indexOfObject:selectValue];
                 self.selectIndex = selectIndex + 1;
                 self.selectTypeLabel.text = selectArr[selectIndex];
                 [self request];
             }];
         }else {
+            self.isRequest = NO;
             [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
         }
     } fail:^(NSError *error, NSInteger statusCode) {
+        self.isRequest = NO;
         [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
     }];
 }
@@ -228,8 +249,13 @@
     NSArray *orderStatusArr = @[@"正在申请",@"已提交审核",@"已支付",@"已审核",@"已预约",@"已完成",@"已取消"];
     NSString *orderStatus = [NSString stringWithFormat:@"%@",dic[@"orderStatus"]];
     cell.bookingIntro.text = [NSString stringWithFormat:@"%@%@",personName,[orderStatusArr objectAtIndex:[orderStatus integerValue]]];
+    if (!dic[@"attendId"] || [dic[@"attendId"] isKindOfClass:[NSNull class]]) {
+        [cell.rightBtn setTitle:@"分配陪诊员" forState:UIControlStateNormal];
+    }else {
+        [cell.rightBtn setTitle:@"已分配" forState:UIControlStateNormal];
+    }
     [cell.rightBtn addTarget:self action:@selector(assignAccompany:) forControlEvents:UIControlEventTouchUpInside];
-    
+
     return cell;
 }
 
@@ -238,8 +264,26 @@
 }
 
 - (void)assignAccompany:(UIButton *)btn {
+    if (self.isRequest) {
+        return;
+    }
+    self.isRequest = YES;
+
+    UIView *contentView = [btn superview];
+    BookingExpertCell *cell = (BookingExpertCell *)[contentView superview];
+    NSIndexPath *indexPath = [self.mainTableView indexPathForCell:cell];
+    NSDictionary *orderDic = self.dataArr[indexPath.section];
+
+    if (!orderDic[@"attendId"] || [orderDic[@"attendId"] isKindOfClass:[NSNull class]]) {
+    }else {
+        self.isRequest = NO;
+        return;
+    }
+    @weakify(self);
     [HYBNetworking getWithUrl:@"user/attend/page" refreshCache:YES success:^(id response) {
         NSDictionary *dic = response;
+        @strongify(self);
+        self.isRequest = NO;
         if ([dic[@"code"] isEqual:@100]) {
             NSDictionary *data = dic[@"data"];
             NSArray *list = data[@"list"];
@@ -248,7 +292,7 @@
             zylmus.heraderStr = @"分配陪诊员";
             NSMutableArray *nurseArr = [NSMutableArray array];
             for (NSDictionary *subDic in self.nurseArr) {
-                [nurseArr addObject:subDic[@"name"]];
+                [nurseArr addObject:[NSString stringWithFormat:@"%@",subDic[@"name"]]];
             }
             zylmus.dataArr = nurseArr;
             
@@ -260,10 +304,9 @@
             
             [self.view addSubview:zylmus];
             
-            __weak __typeof(self) weakself = self;
-            
             zylmus.SelectBlock = ^(NSMutableArray *selectArr){
                 
+                @strongify(self);
                 if (selectArr != nil) {
                     
                     [self.accompanyArr removeAllObjects];
@@ -272,19 +315,22 @@
                     
                     [self.accompanyArr addObjectsFromArray:selectArr];
                     
-                    for (int i = 0; i < selectArr.count; i ++) {
+                    int row = [selectArr[0] intValue];
+                
+                    //确认陪诊
+                    NSDictionary *nurseDic = [self.nurseArr objectAtIndex:row];
+                    [HYBNetworking getWithUrl:URL_AccompanyAttend refreshCache:YES params:@{@"orderId":orderDic[@"id"],@"phone":nurseDic[@"phone"]} success:^(id response) {
+                        if ([response[@"code"] isEqual:@100]) {
+                            [MBProgressHUD showAlertWithView:self.view andTitle:@"分配成功"];
+                            self.pageIndex = 1;
+                            [self request];
+                        }else {
+                            [MBProgressHUD showAlertWithView:self.view andTitle:@"分配失败"];
+                        }
                         
-                        int row = [selectArr[i] intValue];
+                    } fail:^(NSError *error, NSInteger statusCode) {
                         
-                        //                [self.resultArr addObject:weakself.dataArr[row]];
-                        
-                    }
-                    
-                    //            NSString *str = [self.resultArr componentsJoinedByString:@","];
-                    //
-                    //            [self.btn setTitle:str forState:UIControlStateNormal];
-                    
-                    
+                    }];
                 }else{
                     
                     
@@ -296,6 +342,7 @@
             [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
         }
     } fail:^(NSError *error, NSInteger statusCode) {
+        self.isRequest = NO;
         [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
     }];
 

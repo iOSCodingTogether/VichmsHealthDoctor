@@ -20,7 +20,7 @@
 #define URL_NurseBegin @"nurse/begin"//开始陪诊
 #define URL_GetOrderNurseByOrserId @"order/getOrderNurseByOrserId"//陪诊记录
 #define URL_NurseUpdata @"nurse/nurseUpdata"//提交陪诊记录
-
+#define URL_AccompanyAttend @"order/accompany/attend"//分配陪诊员
 #define URL_My @"order/page/Doctor/my"
 #define URL_DepartmentPage @"department/page"//科室
 //MARK:专家库
