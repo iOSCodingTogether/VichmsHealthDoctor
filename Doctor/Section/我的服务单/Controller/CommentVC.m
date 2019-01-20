@@ -12,7 +12,7 @@
 #import "CommonTextViewTableViewCell.h"
 #import "CollectionTableViewCell.h"
 #import "StartCommentTableViewCell.h"
-
+#import "SKTagView.h"
 
 @interface CommentVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -61,6 +61,12 @@
 #pragma mark - UITableViewDelegate UITableViewDatasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (!self.isEdit) {
+        if (self.rootDic[@"picture"]) {
+            NSString *pictureStr = self.rootDic[@"picture"];
+            if (pictureStr.length == 0) {
+                return 2;
+            }
+        }
         return 3;
     }
     return 4;
@@ -107,6 +113,23 @@
     }
     StartCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"StartCommentTableViewCell"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    [cell.tagView removeAllTags];
+    cell.tagView.interitemSpacing = 10;
+    cell.tagView.regularHeight = 20;
+    cell.tagView.lineSpacing = 5;
+    NSString *tagStr = self.rootDic[@"tabs"];
+    NSArray *arr = [tagStr componentsSeparatedByString:@","];
+    for (NSString *subTag in arr) {
+        SKTag *tag1 = [SKTag tagWithText:subTag];
+        tag1.enable = NO;
+        tag1.padding = UIEdgeInsetsMake(8, 10, 8, 10);
+        tag1.borderWidth = 1;
+        tag1.textColor = HEXCOLOR(0x919191);
+        tag1.cornerRadius = 10;
+        tag1.borderColor = [HEXCOLOR(0x919191) colorWithAlphaComponent:0.8];
+        [cell.tagView addTag:tag1];
+    }
     
     if ([self.rootDic.allKeys containsObject:@"count"]) {
         CGFloat score = [self.rootDic[@"count"] floatValue];

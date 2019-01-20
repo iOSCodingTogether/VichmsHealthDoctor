@@ -120,11 +120,12 @@
 -(void)request:(BOOL)isLoadMore{
     
     NSArray *visitTimeArr = @[@"EQ",@"GT",@""];
+    NSArray *statusArr = @[@"4",@"4",@"5"];
     LRWeakSelf;
     if (self.pageIndex < 1) {
         self.pageIndex = 1;
     }
-    [HYBNetworking getWithUrl:[NSString stringWithFormat:@"%@?search_EQ_visitTime=%@&pageNo=%ld&pageSize=%d",URL_My,visitTimeArr[self.selectedBtn.tag - 100],(long)self.pageIndex,PageSize] refreshCache:YES success:^(id response) {
+    [HYBNetworking getWithUrl:[NSString stringWithFormat:@"%@?search_EQ_visitTime=%@&pageNo=%ld&pageSize=%d&search_EQ_orderStatus=%@&sortInfo=ASC_visitTime",URL_My,visitTimeArr[self.selectedBtn.tag - 100],(long)self.pageIndex,PageSize,statusArr[self.selectedBtn.tag - 100]] refreshCache:YES success:^(id response) {
         
         NSLog(@"====预约页面%@",response);
         NSDictionary *dic = response;

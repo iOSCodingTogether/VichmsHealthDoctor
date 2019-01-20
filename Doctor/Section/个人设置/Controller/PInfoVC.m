@@ -51,11 +51,24 @@
 //    } fail:^(NSError *error, NSInteger statusCode) {
 //
 //    }];
-    [HYBNetworking postWithUrl:URL_Save refreshCache:YES params:@{@"FRemark":self.introTextView.text} success:^(id response) {
+    NSDictionary *paramDic = @{@"userTake":@{@"remark":self.introTextView.text,
+                                             @"sex":@"男",
+                                             @"name":@"",
+                                             @"headPic":@"",
+                                             @"idCard":@"",
+                                             @"age":@9
+                                             }};
+    [HYBNetworking postWithUrl:URL_Save body:paramDic success:^(id response) {
         NSLog(@"====保存%@",response);
+
     } fail:^(NSError *error, NSInteger statusCode) {
         
     }];
+//    [HYBNetworking postWithUrl:URL_Save refreshCache:YES params:@{@"remark":self.introTextView.text} success:^(id response) {
+//        NSLog(@"====保存%@",response);
+//    } fail:^(NSError *error, NSInteger statusCode) {
+//        
+//    }];
 }
 #pragma mark -- 数据请求
 - (void)loadData {
@@ -131,12 +144,14 @@
         builder.useHttps = YES;
     }];
     QNUploadManager *upManager = [[QNUploadManager alloc] initWithConfiguration:config];
+    NSString *token = [self getQiNiuTokenKey:nil accesskey:accesskey secretKey:secretKey];
     [upManager putData:imgData
                    key:accesskey
-                 token:[self generateToken:accesskey secretKey:secretKey]
+                 token:token
               complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
                   NSLog(@"%@",resp);
                   if (info.ok) {
+                      //MARK: key是文件名字
                       if ([resp[@"status"] isEqual:@0]) {
                       }
                   }
@@ -145,46 +160,38 @@
                   }
               } option:nil];
 }
-
 /**生成token*/
--(NSString*)generateToken:(NSString *)accessKey secretKey:(NSString *)secretKey{
-    NSString *encodedString = [self encodedString];
-    NSString*encodedSignedString = [self HMACSHA1:secretKey text:encodedString];
-    return[NSString stringWithFormat:@"%@:%@:%@",accessKey,encodedSignedString,encodedString];
+- (NSString*)getQiNiuTokenKey:(NSString *)key accesskey:(NSString *)accesskey secretKey:(NSString *)secretKey{
+    NSMutableDictionary *authInfo = [NSMutableDictionary dictionary];
+    NSString *sc0=@"demo";
+    if (key.length) {
+        sc0=[sc0 stringByAppendingFormat:@":%@",key ];
+    }
+    [authInfo setObject:sc0 forKey:@"scope"];
+    [authInfo
+     setObject:[NSNumber numberWithLong:3600]
+     forKey:@"deadline"];
+    NSData *jsonData =
+    [NSJSONSerialization dataWithJSONObject:authInfo options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *encodedString = [self urlSafeBase64Encode:jsonData];
+    NSString *encodedSignedString = [self HMACSHA1:secretKey text:encodedString];
+    NSString *token =
+    [NSString stringWithFormat:@"%@:%@:%@",accesskey, encodedSignedString, encodedString];
+    return token;
 }
-/**生成encodedString*/
--(NSString*)encodedString {
-    NSMutableDictionary *authInfo = [[NSMutableDictionary alloc] init];
-    authInfo[@"scope"] =@"demo";
-//    authInfo[@"deadline"] = @(Deadline);
-    /** 时间*/
-    NSData *authInfoData = [NSJSONSerialization dataWithJSONObject:authInfo
-                                                           options:0
-                                                             error:nil];
-    NSString* encoded = [self URLSafeBase64Encode:authInfoData];
-    return encoded;
-}
-/** URL安全的Base64编码 */
-- (NSString*)URLSafeBase64Encode:(NSData*)text {
-    NSString *base64 = [[NSString alloc] initWithData:[QN_GTM_Base64 encodeData:text]
-                                             encoding:NSUTF8StringEncoding];
-    base64 = [base64 stringByReplacingOccurrencesOfString:@"+" withString:@"-"];
-    base64 = [base64 stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+- (NSString *)urlSafeBase64Encode:(NSData *)text {
+    NSString *base64 =
+    [[NSString alloc] initWithData:[QN_GTM_Base64 encodeData:text] encoding:NSUTF8StringEncoding];
     return base64;
-    
 }
-/**URL安全的Base64编码*/
-- (NSString*)HMACSHA1:(NSString*)key text:(NSString*)text
-{
+- (NSString *)HMACSHA1:(NSString *)key text:(NSString *)text {
     const char *cKey = [key cStringUsingEncoding:NSUTF8StringEncoding];
     const char *cData = [text cStringUsingEncoding:NSUTF8StringEncoding];
     char cHMAC[CC_SHA1_DIGEST_LENGTH];
-    CCHmac(kCCHmacAlgSHA1, cKey,strlen(cKey), cData,strlen(cData), cHMAC);
-    NSData *HMAC = [[NSData alloc]initWithBytes:cHMAC length:CC_SHA1_DIGEST_LENGTH];
-    NSString *hash = [self URLSafeBase64Encode:HMAC];
+    CCHmac(kCCHmacAlgSHA1, cKey, strlen(cKey), cData, strlen(cData), cHMAC);
+    NSData *HMAC = [[NSData alloc] initWithBytes:cHMAC length:CC_SHA1_DIGEST_LENGTH];
+    NSString *hash = [self urlSafeBase64Encode:HMAC];
     return hash;
-    
 }
-
 
 @end

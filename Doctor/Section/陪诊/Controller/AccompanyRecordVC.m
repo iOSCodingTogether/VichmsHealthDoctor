@@ -38,6 +38,10 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 //@property (nonatomic, strong) UIButton * maleButton;     //
 //@property (nonatomic, strong) UIButton * femaleButton;     //
 @property (nonatomic,strong) NSMutableArray *dataArray;//数据源
+@property (nonatomic,strong) NSMutableArray *nurseDescArray;//描述数据源
+@property (nonatomic,strong) NSMutableArray *nurseDescSelectedArr;//选中的描述数据源
+@property (nonatomic,copy) NSString *nurseRecord;//陪诊记录
+
 
 @end
 @implementation AccompanyRecordVC
@@ -47,8 +51,23 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     // Do any additional setup after loading the view.
     self.orderDic = [NSMutableDictionary dictionary];
     self.nurseDic = [NSMutableDictionary dictionary];
+    self.nurseDescArray = [NSMutableArray array];
+    self.nurseDescSelectedArr = [NSMutableArray array];
     [self createViews];
-    [self request];
+    @weakify(self);
+    [HYBNetworking getWithUrl:URL_GetNurseDes refreshCache:YES success:^(id response) {
+        @strongify(self);
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            [self.nurseDescArray addObjectsFromArray:dic[@"data"]];
+        }
+        [self request];
+
+        NSLog(@"=====nurseDes:%@",response);
+    } fail:^(NSError *error, NSInteger statusCode) {
+        @strongify(self);
+        [self request];
+    }];
 }
 - (void)request {
     @weakify(self);
@@ -59,8 +78,9 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
             NSDictionary *data = dic[@"data"];
             if ([data isKindOfClass:[NSDictionary class]]) {
                 self.orderDic = [NSMutableDictionary dictionaryWithDictionary:data[@"order"]];
-                self.nurseDic = [NSMutableDictionary dictionaryWithDictionary:data[@"nurseDic"]];
+                self.nurseDic = [NSMutableDictionary dictionaryWithDictionary:data[@"nurse"]];
             }
+            
             [self.mainTableView reloadData];
         }else {
             [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
@@ -186,7 +206,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
                                                                   @{@"title":@"陪诊日期：",
                                                                     @"type":@(CELLTYPE_DATA),
                                                                     @"value":@"请选择陪诊日期",
-                                                                    @"en":@"nurseDate",
+                                                                    @"en":@"confirmTime",
                                                                     @"isEnabled":@YES
                                                                     }]
                                                         }]];
@@ -232,8 +252,12 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 //        make.centerY.mas_equalTo(0);
 //        make.width.height.mas_equalTo(62/3.0);
 //    }];
-    UIView *bottomView = [self crecteBottomViewContainButtonWithTitle:@"提交" action:@selector(bottomButtonAction:)];
-    self.mainTableView.tableFooterView = bottomView;
+    if (self.isEdit) {
+        UIView *bottomView = [self crecteBottomViewContainButtonWithTitle:@"提交" action:@selector(bottomButtonAction:)];
+        self.mainTableView.tableFooterView = bottomView;
+    }else {
+        self.mainTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREENW, 10)];
+    }
 //    self.maleButton.tag =1;
 //    self.femaleButton.tag = 0;
 //    [self.maleButton addTarget:self action:@selector(userSexSet:) forControlEvents:UIControlEventTouchUpInside];
@@ -284,7 +308,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     if (type == CELLTYPE_IMAGE || type == CELLTYPE_VEDIO) {
         return UITableViewAutomaticDimension;
     }else if(type == CELLTYPE_TEXTVIEW) {
-        return 80;
+        return UITableViewAutomaticDimension;
     }
     return 44;
 }
@@ -329,7 +353,11 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
         if (type == CELLTYPE_DROP) {
             cell.textField.userInteractionEnabled = NO;
             if ([dataDic[@"isEnabled"] boolValue]) {
-                cell.textField.enabled = YES;
+                if (self.isEdit) {
+                    cell.textField.enabled = YES;
+                }else {
+                    cell.textField.enabled = NO;
+                }
                 cell.textField.text = [self.nurseDic objectForKey:dataDic[@"en"]];
                 [cell.rightButton setImage:[UIImage imageNamed:@"icon_24"] forState:UIControlStateNormal];
                 cell.rightButton.hidden = NO;
@@ -343,11 +371,10 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
             [cell.textField addActiontextFieldChanged:^(UITextField *textField) {
                 [self.nurseDic setObject:textField.text forKey:dataDic[@"en"]];
             }];
+            cell.textField.enabled = NO;
             if ([dataDic[@"isEnabled"] boolValue]) {
-                cell.textField.enabled = YES;
                 cell.textField.text = [self.nurseDic objectForKey:dataDic[@"en"]];
             }else {
-                cell.textField.enabled = NO;
                 cell.textField.text = [self.orderDic objectForKey:dataDic[@"en"]];
             }
 //            cell.textField.userInteractionEnabled = YES;
@@ -373,13 +400,12 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 
         }else if (type == CELLTYPE_DATA) {
             cell.textField.userInteractionEnabled = NO;
+            cell.textField.enabled = NO;
             if ([dataDic[@"isEnabled"] boolValue]) {
-                cell.textField.enabled = YES;
                 cell.textField.text = [self testDateZone:[self.nurseDic objectForKey:dataDic[@"en"]]];
                 [cell.rightButton setImage:[UIImage imageNamed:@"icon_33"] forState:UIControlStateNormal];
                 cell.rightButton.hidden = NO;
             }else {
-                cell.textField.enabled = NO;
                 cell.textField.text = [self testDateZone:[self.orderDic objectForKey:dataDic[@"en"]]];
                 cell.rightButton.hidden = YES;
             }
@@ -390,13 +416,65 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     else if(type == CELLTYPE_TEXTVIEW){
         CommonTextViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommonTextViewTableViewCell"];
         cell.TextView.placeholder = dataDic[@"value"];
+        [cell.tagView removeAllTags];
+        cell.tagView.interitemSpacing = 10;
+        cell.tagView.regularHeight = 20;
+//        cell.tagView.lineSpacing = 5;
         if ([dataDic[@"isEnabled"] boolValue]) {
-            cell.TextView.editable = YES;
-            cell.TextView.text = [self.nurseDic objectForKey:dataDic[@"en"]];
+            if (self.isEdit) {
+                cell.TextView.editable = YES;
+            }else {
+                cell.TextView.editable = NO;
+            }
+            if (self.nurseRecord.length > 0) {
+                cell.TextView.text = self.nurseRecord;
+            }else {
+                cell.TextView.text = [self.nurseDic objectForKey:dataDic[@"en"]];
+            }
+            for (NSDictionary *subDic in self.nurseDescArray) {
+                if ([subDic isKindOfClass:[NSDictionary class]]) {
+                    NSString *subTag = [NSString stringWithFormat:@"%@",subDic[@"typeName"]];
+                    SKTag *tag1 = [SKTag tagWithText:subTag];
+                    tag1.enable = self.isEdit;
+                    if ([self.nurseDescSelectedArr containsObject:subDic]) {
+                        //选中的标签
+                        tag1.bgColor = HEXCOLOR(0x00A3FE);
+                        tag1.borderWidth = 0;
+                        tag1.textColor = [UIColor whiteColor];
+                    }else {
+                        tag1.bgColor = [UIColor whiteColor];
+                        tag1.borderWidth = 1;
+                        tag1.textColor = HEXCOLOR(0x919191);
+                    }
+                    tag1.padding = UIEdgeInsetsMake(8, 10, 8, 10);
+                    tag1.cornerRadius = 10;
+                    tag1.borderColor = [HEXCOLOR(0x919191) colorWithAlphaComponent:0.8];
+                    [cell.tagView addTag:tag1];
+                    @weakify(self);
+                    cell.tagView.didTapTagAtIndex = ^(NSUInteger index) {
+                        @strongify(self);
+                        if ([self.nurseDescSelectedArr containsObject:self.nurseDescArray[index]]) {
+                            [self.nurseDescSelectedArr removeObject:self.nurseDescArray[index]];
+                        }else {
+                            [self.nurseDescSelectedArr addObject:self.nurseDescArray[index]];
+                        }
+                        [self.mainTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                    };
+                }
+            }
+            
+            @weakify(self);
+            [cell.TextView.rac_textSignal subscribeNext:^(id x) {
+                
+                @strongify(self);
+                self.nurseRecord = x;
+                
+            }];
         }else {
             cell.TextView.editable = NO;
             cell.TextView.text = [self.orderDic objectForKey:dataDic[@"en"]];
         }
+
 
         //MARK:待处理
         return cell;
@@ -417,7 +495,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
                 cell.imagesArr = [NSArray array];
             }
         }
-        if ([dataDic[@"isEnabled"] boolValue]) {
+        if ([dataDic[@"isEnabled"] boolValue] && self.isEdit) {
             [cell setDidSelect:^(NSInteger selectIndex) {
                 NSArray *arr = [self.nurseDic objectForKey:dic[@"en"]];
                 if(selectIndex == arr.count){//addImage
@@ -627,38 +705,73 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     //            }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    @weakify(self);
-    NSDictionary *dic = self.dataArray[indexPath.section];
-    NSArray *dataArr = dic[@"data"];
-    NSDictionary *dataDic = dataArr[indexPath.row];
-    NSInteger type = [dataDic[@"type"] integerValue];
-
-    if ([dataDic[@"isEnabled"] boolValue]) {
-        if (type == CELLTYPE_DATA) {
-            NSString *str = dataDic[@"value"];
-            if (str.length == 0) {
-                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                str = [dateFormatter stringFromDate:[NSDate date]];
-            }
-            [BRDatePickerView showDatePickerWithTitle:dataDic[@"title"] dateType:UIDatePickerModeDateAndTime defaultSelValue:str minDateStr:@"" maxDateStr:@"" isAutoSelect:NO resultBlock:^(NSString *selectValue,NSDate *date) {
-                @strongify(self);
-                if(date){
-                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                    //                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
-                    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
-                    NSString *destDateString = [dateFormatter stringFromDate:date];
-                    [self.nurseDic setObject:destDateString forKey:dataDic[@"en"]];
-                    [self.mainTableView reloadData];
-                }
-            }];
-            
-        }
-    }
+//    @weakify(self);
+//    NSDictionary *dic = self.dataArray[indexPath.section];
+//    NSArray *dataArr = dic[@"data"];
+//    NSDictionary *dataDic = dataArr[indexPath.row];
+//    NSInteger type = [dataDic[@"type"] integerValue];
+//
+//    if ([dataDic[@"isEnabled"] boolValue]) {
+//        if (type == CELLTYPE_DATA) {
+//            NSString *str = dataDic[@"value"];
+//            if (str.length == 0) {
+//                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//                str = [dateFormatter stringFromDate:[NSDate date]];
+//            }
+//            [BRDatePickerView showDatePickerWithTitle:dataDic[@"title"] dateType:UIDatePickerModeDateAndTime defaultSelValue:str minDateStr:@"" maxDateStr:@"" isAutoSelect:NO resultBlock:^(NSString *selectValue,NSDate *date) {
+//                @strongify(self);
+//                if(date){
+//                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//                    //                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+//                    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+//                    NSString *destDateString = [dateFormatter stringFromDate:date];
+//                    [self.nurseDic setObject:destDateString forKey:dataDic[@"en"]];
+//                    [self.mainTableView reloadData];
+//                }
+//            }];
+//
+//        }
+//    }
 
     
 }
 -(void)requestPost{
+    
+    NSMutableString *nurseDes = [NSMutableString string];
+    if (self.nurseDescSelectedArr.count > 0) {
+        for (NSInteger i=0;i<self.nurseDescSelectedArr.count;i++) {
+            NSDictionary *subDic = self.nurseDescSelectedArr[i];
+            NSString *typeName = subDic[@"typeName"];
+            if (i == self.nurseDescSelectedArr.count - 1) {
+                [nurseDes appendString:typeName];
+            }else {
+                [nurseDes appendFormat:@"%@,",typeName];
+            }
+        }
+    }else {
+        nurseDes = [NSMutableString stringWithString:@""];
+    }
+    NSString *paramId = [NSString stringWithFormat:@"%@",self.nurseDic[@"id"]];
+    NSString *nurseRecord = self.nurseRecord;
+    NSString *nursePic = @"";
+    @weakify(self);
+    [HYBNetworking getWithUrl:URL_NurseUpdata refreshCache:YES params:@{@"id":paramId,@"nurseDes":nurseDes,@"nurseRecord":nurseRecord,@"nursePic":nursePic} success:^(id response) {
+        
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                @strongify(self);
+                [MBProgressHUD showAlertWithView:self.view andTitle:[NSString stringWithFormat:@"%@",dic[@"msg"]]];
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+        }
+    } fail:^(NSError *error, NSInteger statusCode) {
+        
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+    }];
 //    if(!self.orderCreateModel){
 //        return;
 //    }
@@ -702,6 +815,9 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 
 -(NSString *)testDateZone:(NSString *)timeDate
 {
+    if ([timeDate isKindOfClass:[NSNull class]]) {
+        return @"";
+    }
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
     

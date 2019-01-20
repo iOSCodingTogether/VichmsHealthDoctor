@@ -56,7 +56,7 @@
     if (self.nameStr.length == 0) {
         self.nameStr = @"";
     }
-    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%d&pageSize=%d&search_EQ_attendId=%@&search_EQ_personName=%@",URL_AttenderPage,1,PageSize,[UserInfoManager shareInstance].user.phone,self.nameStr];
+    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_attendId=%@&search_LIKE_personName=%@",URL_AttenderPage,(long)self.pageIndex,PageSize,[UserInfoManager shareInstance].user.phone,self.nameStr];
     [HYBNetworking getWithUrl:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] refreshCache:YES success:^(id response) {
         
         NSLog(@"====陪诊页面%@",response);
@@ -413,13 +413,18 @@
             //陪诊记录
             AccompanyRecordVC *vc = [AccompanyRecordVC new];
             vc.orderId = orderDic[@"id"];
+            vc.isEdit = YES;
             [self.navigationController pushViewController:vc animated:YES];
 
         }
             break;
         case 3:
         {
-            
+            //陪诊记录
+            AccompanyRecordVC *vc = [AccompanyRecordVC new];
+            vc.orderId = orderDic[@"id"];
+            [self.navigationController pushViewController:vc animated:YES];
+
         }
             break;
             

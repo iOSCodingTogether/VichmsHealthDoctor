@@ -32,7 +32,7 @@
     flowLayout2.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
 
     self.imagessCollection = [[UICollectionView alloc]initWithFrame:self.bounds collectionViewLayout:flowLayout2];
-    self.imagessCollection.backgroundColor = [UIColor lightGrayColor];
+    self.imagessCollection.backgroundColor = [UIColor clearColor];
     self.imagessCollection.delegate = self;
     self.imagessCollection.dataSource = self;
     self.imagessCollection.scrollEnabled = NO;

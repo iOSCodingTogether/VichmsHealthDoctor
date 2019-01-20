@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AccompanyRecordVC : BaseViewController
 
 @property (nonatomic,copy) NSString *orderId;
+@property (nonatomic,assign) BOOL isEdit;
 
 //@property (nonatomic, strong) OrderCreateRequestModel * orderCreateModel;     //
 
