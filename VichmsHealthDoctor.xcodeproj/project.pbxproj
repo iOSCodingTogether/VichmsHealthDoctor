@@ -166,6 +166,7 @@
 		7BA42FFD21E1FAAF007ADB7F /* StartCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BA42FFB21E1FAAF007ADB7F /* StartCommentTableViewCell.xib */; };
 		7BA4300221E24783007ADB7F /* ZYLMultiselectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FFF21E24782007ADB7F /* ZYLMultiselectTableViewCell.m */; };
 		7BA4300321E24783007ADB7F /* ZYLMultiselectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA4300121E24783007ADB7F /* ZYLMultiselectView.m */; };
+		7BA6698321F4DDA30007862A /* MedicationGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA6698221F4DDA30007862A /* MedicationGuideVC.m */; };
 		7BA8FD4121E0B3770001B21A /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4021E0B3770001B21A /* UserInfoModel.m */; };
 		7BA8FD4721E0C4010001B21A /* MBProgressHUD+SimpleLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4621E0C4010001B21A /* MBProgressHUD+SimpleLoad.m */; };
 		7BA8FD4A21E123010001B21A /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA8FD4921E123010001B21A /* libresolv.tbd */; };
@@ -485,6 +486,8 @@
 		7BA42FFF21E24782007ADB7F /* ZYLMultiselectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYLMultiselectTableViewCell.m; sourceTree = "<group>"; };
 		7BA4300021E24782007ADB7F /* ZYLMultiselectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYLMultiselectTableViewCell.h; sourceTree = "<group>"; };
 		7BA4300121E24783007ADB7F /* ZYLMultiselectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYLMultiselectView.m; sourceTree = "<group>"; };
+		7BA6698121F4DDA30007862A /* MedicationGuideVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MedicationGuideVC.h; sourceTree = "<group>"; };
+		7BA6698221F4DDA30007862A /* MedicationGuideVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MedicationGuideVC.m; sourceTree = "<group>"; };
 		7BA8FD3D21E0848F0001B21A /* URLDefineMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLDefineMarco.h; sourceTree = "<group>"; };
 		7BA8FD3F21E0B3770001B21A /* UserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
 		7BA8FD4021E0B3770001B21A /* UserInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
@@ -1196,6 +1199,8 @@
 				7B671F0C21DF955300DD7C32 /* BookingVC.m */,
 				7B9BB75121F2D2F100CFC1BC /* VHDChatSessionVC.h */,
 				7B9BB75221F2D2F100CFC1BC /* VHDChatSessionVC.m */,
+				7BA6698121F4DDA30007862A /* MedicationGuideVC.h */,
+				7BA6698221F4DDA30007862A /* MedicationGuideVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1687,6 +1692,7 @@
 				7B2BD8C921D3C67000256EFB /* BaseResultModel.m in Sources */,
 				7B2BD8C521D3C67000256EFB /* BaseViewController.m in Sources */,
 				7B2BD8B921D3C67000256EFB /* AppAlertView.m in Sources */,
+				7BA6698321F4DDA30007862A /* MedicationGuideVC.m in Sources */,
 				7B2BD89C21D3C67000256EFB /* LoginRequestModel.m in Sources */,
 				7B2BD8AE21D3C67000256EFB /* OrderCreateRequestModel.m in Sources */,
 				7B2BD84A21D3C67000256EFB /* BRDatePickerView.m in Sources */,

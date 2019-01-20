@@ -9,6 +9,8 @@
 #import "VHDChatSessionVC.h"
 
 #import "UIView+MWFrame.h"
+#import "UserInfoManager.h"
+#import "MedicationGuideVC.h"
 
 @interface VHDChatSessionVC ()
 
@@ -32,7 +34,53 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self configNavi];
 }
 
+- (void)configNavi {
+    // 诊断
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"诊断"
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:self
+                                                                             action:@selector(judge)];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"病历"
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(record)];
+    
+    //创建一个UIButton
+//    UIButton *backButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 40)];
+//    [backButton setImage:[UIImage imageNamed:@"blackBack"] forState:UIControlStateNormal];
+//    [backButton addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+//
+//    self.navigationItem.backBarButtonItem = backItem;
+    [self.navigationController.navigationBar setBackIndicatorImage:[UIImage imageNamed:@"blackBack"]];
+    [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"blackBack"]];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@""
+                                                                 style:UIBarButtonItemStylePlain
+                                                                target:nil
+                                                                action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
+}
+
+- (void)judge {
+    if ([[UserInfoManager shareInstance] returnUserType] == UserType_Doctor) {
+        MedicationGuideVC *guideVC = [MedicationGuideVC new];
+        [self.navigationController pushViewController:guideVC animated:YES];
+    } else if ([[UserInfoManager shareInstance] returnUserType] == UserType_Service) {
+        MedicationGuideVC *guideVC = [MedicationGuideVC new];
+        [self.navigationController pushViewController:guideVC animated:YES];
+    }
+}
+
+- (void)record {
+    
+}
+
+- (void)backAction {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 @end
