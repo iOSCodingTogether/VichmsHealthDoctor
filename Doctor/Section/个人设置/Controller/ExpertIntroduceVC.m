@@ -8,6 +8,7 @@
 
 #import "ExpertIntroduceVC.h"
 #import "ExpertIntroduceTopCell.h"
+#import "ExpertDetailInfoViewController.h"
 //#import "DoctorPageRequestModel.h"
 //#import "OrderCreateVC.h"
 
@@ -238,6 +239,13 @@
     
     return curCell;
     
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+
+    ExpertDetailInfoViewController *detail = [ExpertDetailInfoViewController new];
+    detail.dic = self.dataArray[indexPath.row];
+    [self.navigationController pushViewController:detail animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

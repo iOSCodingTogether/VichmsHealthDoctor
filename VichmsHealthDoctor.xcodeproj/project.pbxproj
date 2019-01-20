@@ -10,6 +10,8 @@
 		7B22DC0921F2D24C00F29B17 /* SKTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC0821F2D24C00F29B17 /* SKTagView.m */; };
 		7B22DC0C21F2D39600F29B17 /* SKTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC0A21F2D39600F29B17 /* SKTag.m */; };
 		7B22DC0F21F2D48300F29B17 /* SKTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC0D21F2D48300F29B17 /* SKTagButton.m */; };
+		7B22DC1321F4C77300F29B17 /* ExpertDetailInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC1121F4C77300F29B17 /* ExpertDetailInfoViewController.m */; };
+		7B22DC1421F4C77300F29B17 /* ExpertDetailInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B22DC1221F4C77300F29B17 /* ExpertDetailInfoViewController.xib */; };
 		7B2BD83821D3C67000256EFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B2BD6C821D3C66F00256EFB /* Assets.xcassets */; };
 		7B2BD83921D3C67000256EFB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B2BD6C921D3C66F00256EFB /* LaunchScreen.storyboard */; };
 		7B2BD83A21D3C67000256EFB /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B2BD6CD21D3C66F00256EFB /* Media.xcassets */; };
@@ -189,6 +191,9 @@
 		7B22DC0B21F2D39600F29B17 /* SKTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTag.h; sourceTree = "<group>"; };
 		7B22DC0D21F2D48300F29B17 /* SKTagButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTagButton.m; sourceTree = "<group>"; };
 		7B22DC0E21F2D48300F29B17 /* SKTagButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTagButton.h; sourceTree = "<group>"; };
+		7B22DC1021F4C77300F29B17 /* ExpertDetailInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExpertDetailInfoViewController.h; sourceTree = "<group>"; };
+		7B22DC1121F4C77300F29B17 /* ExpertDetailInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExpertDetailInfoViewController.m; sourceTree = "<group>"; };
+		7B22DC1221F4C77300F29B17 /* ExpertDetailInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpertDetailInfoViewController.xib; sourceTree = "<group>"; };
 		7B2BD6C721D3C66F00256EFB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7B2BD6C821D3C66F00256EFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B2BD6CA21D3C66F00256EFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -1323,6 +1328,9 @@
 				7BA42FE121E0FBB6007ADB7F /* StatisticsViewController.xib */,
 				7BA42FE421E10F3C007ADB7F /* ExpertIntroduceVC.h */,
 				7BA42FE521E10F3C007ADB7F /* ExpertIntroduceVC.m */,
+				7B22DC1021F4C77300F29B17 /* ExpertDetailInfoViewController.h */,
+				7B22DC1121F4C77300F29B17 /* ExpertDetailInfoViewController.m */,
+				7B22DC1221F4C77300F29B17 /* ExpertDetailInfoViewController.xib */,
 				7B5E336F21EB970D00E503CB /* OrderVC.h */,
 				7B5E337021EB970D00E503CB /* OrderVC.m */,
 			);
@@ -1620,6 +1628,7 @@
 				7B5E336821EA350100E503CB /* NewMyServiceTableViewCell.xib in Resources */,
 				7B2BD84721D3C67000256EFB /* CollectionTableViewCell.xib in Resources */,
 				7B2BD83921D3C67000256EFB /* LaunchScreen.storyboard in Resources */,
+				7B22DC1421F4C77300F29B17 /* ExpertDetailInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1741,6 +1750,7 @@
 				7B2BD83C21D3C67000256EFB /* CommonCell0.m in Sources */,
 				7B2BD8C421D3C67000256EFB /* BaseTabBarViewController.m in Sources */,
 				7B671F2121DFA5B300DD7C32 /* AboutUsVC.m in Sources */,
+				7B22DC1321F4C77300F29B17 /* ExpertDetailInfoViewController.m in Sources */,
 				7B2BD8C221D3C67000256EFB /* UITextField+Block.m in Sources */,
 				7B2BD84821D3C67000256EFB /* AppAlertController.m in Sources */,
 				7B671F3521DFE3A700DD7C32 /* BookTableViewCell.m in Sources */,
