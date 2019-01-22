@@ -25,6 +25,8 @@
 #define URL_DepartmentPage @"department/page"//科室
 //MARK:专家库
 #define URL_PayedsPage @"order/payeds/page"//专家库
+
+#define URL_AppointDoctor @"order/appointDoctor"//预约专家
 //MARK:我的服务单
 #define URL_GoodsTypes @"goods/goodsTypes"//服务类型
 #define URL_Goods @"order/page/Doctor/my/goods"//服务单列表

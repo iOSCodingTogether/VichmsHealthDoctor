@@ -44,10 +44,17 @@
     self.mainTableView.estimatedRowHeight = 60;
     [self.mainTableView setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 10)];
     self.mainTableView.bounces = NO;
-//    self.mainTableView.mj_header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
-//        [self request];
-//
-//    }];
+    LRWeakSelf;
+    self.mainTableView.mj_header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        if (weakSelf.pageIndex > 1) {
+            weakSelf.pageIndex --;
+        }
+        [weakSelf request];
+    }];
+    self.mainTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        weakSelf.pageIndex ++;
+        [weakSelf request];
+    }];
 }
 - (void)createSearch {
     
@@ -144,7 +151,16 @@
     if (self.pageIndex < 1) {
         self.pageIndex = 1;
     }
-    [HYBNetworking getWithUrl:URL_Doctors refreshCache:YES success:^(id response) {
+    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_doctor=%@",URL_Doctors,(long)self.pageIndex,PageSize,self.mSearchBar.text];
+    if (self.selectIndex > 0) {
+        self.pageIndex = 1;
+        NSDictionary *typeDic = self.departmentArr[self.selectIndex - 1];
+        NSString *typeId = typeDic[@"department"];
+        url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_department=%@&search_EQ_doctor=%@",URL_Doctors,(long)self.pageIndex,PageSize,typeId,self.mSearchBar.text];
+    }
+
+    
+    [HYBNetworking getWithUrl:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] refreshCache:YES success:^(id response) {
         
         NSLog(@"====我的医生%@",response);
         NSDictionary *dic = response;
@@ -250,5 +266,26 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (void)searchBarSearchButtonClicked:(UISearchBar*)searchBar{
+    [self.view endEditing:YES];
+    self.pageIndex = 1;
+    [self request];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+    //    if(searchBar.text.length > 0){
+    //        self.grayViewButton.hidden = YES;
+    //    }
+    //    else{
+    //        self.grayViewButton.hidden = NO;
+    //    }
+}
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+    //    self.grayViewButton.hidden = YES;
+    if (searchBar.text.length == 0) {
+        self.pageIndex = 1;
+        [self request];
+    }
 }
 @end

@@ -12,6 +12,7 @@
 		7B22DC0F21F2D48300F29B17 /* SKTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC0D21F2D48300F29B17 /* SKTagButton.m */; };
 		7B22DC1321F4C77300F29B17 /* ExpertDetailInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC1121F4C77300F29B17 /* ExpertDetailInfoViewController.m */; };
 		7B22DC1421F4C77300F29B17 /* ExpertDetailInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B22DC1221F4C77300F29B17 /* ExpertDetailInfoViewController.xib */; };
+		7B22DC4421F6B5E200F29B17 /* MedicationGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC4221F6B5E200F29B17 /* MedicationGuideVC.m */; };
 		7B2BD83821D3C67000256EFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B2BD6C821D3C66F00256EFB /* Assets.xcassets */; };
 		7B2BD83921D3C67000256EFB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B2BD6C921D3C66F00256EFB /* LaunchScreen.storyboard */; };
 		7B2BD83A21D3C67000256EFB /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B2BD6CD21D3C66F00256EFB /* Media.xcassets */; };
@@ -171,7 +172,6 @@
 		7BA42FFD21E1FAAF007ADB7F /* StartCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BA42FFB21E1FAAF007ADB7F /* StartCommentTableViewCell.xib */; };
 		7BA4300221E24783007ADB7F /* ZYLMultiselectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA42FFF21E24782007ADB7F /* ZYLMultiselectTableViewCell.m */; };
 		7BA4300321E24783007ADB7F /* ZYLMultiselectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA4300121E24783007ADB7F /* ZYLMultiselectView.m */; };
-		7BA6698321F4DDA30007862A /* MedicationGuideVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA6698221F4DDA30007862A /* MedicationGuideVC.m */; };
 		7BA8FD4121E0B3770001B21A /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4021E0B3770001B21A /* UserInfoModel.m */; };
 		7BA8FD4721E0C4010001B21A /* MBProgressHUD+SimpleLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FD4621E0C4010001B21A /* MBProgressHUD+SimpleLoad.m */; };
 		7BA8FD4A21E123010001B21A /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA8FD4921E123010001B21A /* libresolv.tbd */; };
@@ -195,6 +195,8 @@
 		7B22DC1021F4C77300F29B17 /* ExpertDetailInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExpertDetailInfoViewController.h; sourceTree = "<group>"; };
 		7B22DC1121F4C77300F29B17 /* ExpertDetailInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExpertDetailInfoViewController.m; sourceTree = "<group>"; };
 		7B22DC1221F4C77300F29B17 /* ExpertDetailInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpertDetailInfoViewController.xib; sourceTree = "<group>"; };
+		7B22DC4221F6B5E200F29B17 /* MedicationGuideVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MedicationGuideVC.m; sourceTree = "<group>"; };
+		7B22DC4321F6B5E200F29B17 /* MedicationGuideVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MedicationGuideVC.h; sourceTree = "<group>"; };
 		7B2BD6C721D3C66F00256EFB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7B2BD6C821D3C66F00256EFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B2BD6CA21D3C66F00256EFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -500,8 +502,6 @@
 		7BA42FFF21E24782007ADB7F /* ZYLMultiselectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYLMultiselectTableViewCell.m; sourceTree = "<group>"; };
 		7BA4300021E24782007ADB7F /* ZYLMultiselectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYLMultiselectTableViewCell.h; sourceTree = "<group>"; };
 		7BA4300121E24783007ADB7F /* ZYLMultiselectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYLMultiselectView.m; sourceTree = "<group>"; };
-		7BA6698121F4DDA30007862A /* MedicationGuideVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MedicationGuideVC.h; sourceTree = "<group>"; };
-		7BA6698221F4DDA30007862A /* MedicationGuideVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MedicationGuideVC.m; sourceTree = "<group>"; };
 		7BA8FD3D21E0848F0001B21A /* URLDefineMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLDefineMarco.h; sourceTree = "<group>"; };
 		7BA8FD3F21E0B3770001B21A /* UserInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
 		7BA8FD4021E0B3770001B21A /* UserInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
@@ -1209,12 +1209,12 @@
 		7B671F0A21DF955300DD7C32 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7B22DC4321F6B5E200F29B17 /* MedicationGuideVC.h */,
+				7B22DC4221F6B5E200F29B17 /* MedicationGuideVC.m */,
 				7B671F0D21DF955300DD7C32 /* BookingVC.h */,
 				7B671F0C21DF955300DD7C32 /* BookingVC.m */,
 				7B9BB75121F2D2F100CFC1BC /* VHDChatSessionVC.h */,
 				7B9BB75221F2D2F100CFC1BC /* VHDChatSessionVC.m */,
-				7BA6698121F4DDA30007862A /* MedicationGuideVC.h */,
-				7BA6698221F4DDA30007862A /* MedicationGuideVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1716,7 +1716,6 @@
 				7B2BD8C921D3C67000256EFB /* BaseResultModel.m in Sources */,
 				7B2BD8C521D3C67000256EFB /* BaseViewController.m in Sources */,
 				7B2BD8B921D3C67000256EFB /* AppAlertView.m in Sources */,
-				7BA6698321F4DDA30007862A /* MedicationGuideVC.m in Sources */,
 				7B2BD89C21D3C67000256EFB /* LoginRequestModel.m in Sources */,
 				7B2BD8AE21D3C67000256EFB /* OrderCreateRequestModel.m in Sources */,
 				7B2BD84A21D3C67000256EFB /* BRDatePickerView.m in Sources */,
@@ -1769,6 +1768,7 @@
 				7B2BD8A921D3C67000256EFB /* DepartmentFindByIdRequestModel.m in Sources */,
 				7B2BD89321D3C67000256EFB /* HomeBannerResultSubModel.m in Sources */,
 				7B22DC0F21F2D48300F29B17 /* SKTagButton.m in Sources */,
+				7B22DC4421F6B5E200F29B17 /* MedicationGuideVC.m in Sources */,
 				7BA42FEB21E10F46007ADB7F /* ExpertIntroduceTopCell.m in Sources */,
 				7B2BD8AF21D3C67000256EFB /* DepartmentPageRequestModel.m in Sources */,
 				7B2BD87E21D3C67000256EFB /* UserOpenVideoRequestModel.m in Sources */,
@@ -1991,7 +1991,7 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Doctor/Common/PrefixHeader.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Doctor/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vichms.Doctor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2015,7 +2015,7 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Doctor/Common/PrefixHeader.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Doctor/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.vichms.Doctor;
 				PRODUCT_NAME = "$(TARGET_NAME)";

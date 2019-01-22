@@ -114,7 +114,11 @@
     cell.keshiLabel.text = [NSString stringWithFormat:@"%@",dic[@"department"]];
     cell.statusBtn.backgroundColor = HEXCOLOR(0x00A3FE);
     [cell.statusBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-
+//    if ([[NSString stringWithFormat:@"%@",dic[@"orderType"]] integerValue] < 5) {
+//        [cell.statusBtn setTitle:@"确认完成" forState:UIControlStateNormal];
+//    }else {
+//        [cell.statusBtn setTitle:@"已完成" forState:UIControlStateNormal];
+//    }
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{

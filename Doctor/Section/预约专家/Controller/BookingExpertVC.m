@@ -10,7 +10,8 @@
 #import "ZYLMultiselectView.h"
 #import "BRStringPickerView.h"
 #import "BookingExpertCell.h"
-
+#import "AccompanyRecordVC.h"
+//#import "OrderCreateVC.h"
 @interface BookingExpertVC ()<UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate>
 
 @property (nonatomic, strong) UISearchBar *mSearchBar;
@@ -54,12 +55,12 @@
     if (self.pageIndex < 1) {
         self.pageIndex = 1;
     }
-    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_orderStatus=2,3,4&doctor=%@",URL_PayedsPage,(long)self.pageIndex,PageSize,self.mSearchBar.text];
+    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_orderStatus=2,3,4&search_EQ_doctor=%@",URL_PayedsPage,(long)self.pageIndex,PageSize,self.mSearchBar.text];
     if (self.selectIndex > 0) {
         self.pageIndex = 1;
         NSDictionary *typeDic = self.departmentArr[self.selectIndex - 1];
         NSString *typeId = typeDic[@"department"];
-        url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_orderStatus=2,3,4&department=%@&doctor=%@",URL_PayedsPage,(long)self.pageIndex,PageSize,typeId,self.mSearchBar.text];
+        url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_orderStatus=2,3,4&search_EQ_department=%@&search_EQ_doctor=%@",URL_PayedsPage,(long)self.pageIndex,PageSize,typeId,self.mSearchBar.text];
     }
     [HYBNetworking getWithUrl:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] refreshCache:YES success:^(id response) {
         
@@ -249,11 +250,17 @@
     NSArray *orderStatusArr = @[@"正在申请",@"已提交审核",@"已支付",@"已审核",@"已预约",@"已完成",@"已取消"];
     NSString *orderStatus = [NSString stringWithFormat:@"%@",dic[@"orderStatus"]];
     cell.bookingIntro.text = [NSString stringWithFormat:@"%@%@",personName,[orderStatusArr objectAtIndex:[orderStatus integerValue]]];
+    if([[NSString stringWithFormat:@"%@",dic[@"orderType"]] integerValue] >= 5) {
+        [cell.leftBtn setTitle:@"已预约" forState:UIControlStateNormal];
+    }else {
+        [cell.leftBtn setTitle:@"预约" forState:UIControlStateNormal];
+    }
     if (!dic[@"attendId"] || [dic[@"attendId"] isKindOfClass:[NSNull class]]) {
         [cell.rightBtn setTitle:@"分配陪诊员" forState:UIControlStateNormal];
     }else {
         [cell.rightBtn setTitle:@"已分配" forState:UIControlStateNormal];
     }
+    [cell.leftBtn addTarget:self action:@selector(appointDoctor:) forControlEvents:UIControlEventTouchUpInside];
     [cell.rightBtn addTarget:self action:@selector(assignAccompany:) forControlEvents:UIControlEventTouchUpInside];
 
     return cell;
@@ -262,7 +269,30 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     NSLog(@"click");
 }
-
+- (void)appointDoctor:(UIButton *)btn {
+    if (self.isRequest) {
+        return;
+    }
+    self.isRequest = YES;
+    UIView *contentView = [btn superview];
+    BookingExpertCell *cell = (BookingExpertCell *)[contentView superview];
+    NSIndexPath *indexPath = [self.mainTableView indexPathForCell:cell];
+    NSDictionary *orderDic = self.dataArr[indexPath.section];
+    
+    if([[NSString stringWithFormat:@"%@",orderDic[@"orderType"]] integerValue] >= 5) {
+        self.isRequest = NO;
+        return;
+    }else {
+        self.isRequest = NO;
+        AccompanyRecordVC *record = [AccompanyRecordVC new];
+        record.orderId = orderDic[@"id"];
+        record.selectDoc = YES;
+        record.visitTime = YES;
+        record.navTitle = @"预约专家";
+        record.isEdit = YES;
+        [self.navigationController pushViewController:record animated:YES];
+    }
+}
 - (void)assignAccompany:(UIButton *)btn {
     if (self.isRequest) {
         return;
@@ -280,7 +310,7 @@
         return;
     }
     @weakify(self);
-    [HYBNetworking getWithUrl:@"user/attend/page" refreshCache:YES success:^(id response) {
+    [HYBNetworking getWithUrl:@"user/attend/page?pageNo=1&pageSize=1000" refreshCache:YES success:^(id response) {
         NSDictionary *dic = response;
         @strongify(self);
         self.isRequest = NO;

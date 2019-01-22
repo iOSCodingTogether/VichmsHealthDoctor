@@ -186,7 +186,7 @@
         @strongify(self);
         if (teamId.length == 0) {
             [MBProgressHUD showAlertWithView:self.view
-                                    andTitle:@"群组信息获取失败，请重试"];
+                                    andTitle:@"teamId为空，请确认在群组中"];
             return;
         }
         

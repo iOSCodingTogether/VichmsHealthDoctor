@@ -55,7 +55,7 @@
         }
     } fail:^(NSError *error, NSInteger statusCode) {
         
-        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"暂无评价"];
     }];
 }
 #pragma mark - UITableViewDelegate UITableViewDatasource

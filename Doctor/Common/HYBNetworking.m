@@ -289,14 +289,15 @@ static inline NSString *cachePath() {
 
 + (void)postWithUrl:(NSString *)url body:(NSDictionary *)body success:(HYBResponseSuccess)success fail:(HYBResponseFail)fail {
     // manager
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST"
                                                                                  URLString:[URL_HOST stringByAppendingString:url]
                                                                                 parameters:nil
                                                                                      error:nil];
     request.timeoutInterval= 10;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
+    [request setValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"token"] forHTTPHeaderField:@"token"];
+
     // 设置body
     NSMutableDictionary *bodys = [[NSMutableDictionary alloc] initWithDictionary:body];
     NSData *data = [NSJSONSerialization dataWithJSONObject:bodys options:NSJSONWritingPrettyPrinted error:nil];
@@ -310,13 +311,12 @@ static inline NSString *cachePath() {
                                                  @"text/plain",
                                                  nil];
     manager.responseSerializer = responseSerializer;
+    [manager.requestSerializer setValue:@"application/x-www-form-urlencoded;charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     
-    @weakify(success, fail);
     [[manager dataTaskWithRequest:request
                    uploadProgress:nil
                  downloadProgress:nil
-                completionHandler:^(NSURLResponse *response,id responseObject, NSError *error) {
-                    @strongify(success, fail);
+                completionHandler:^(NSURLResponse *response,id responseObject, NSError *error) {                    
                     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
                     
                     if (error

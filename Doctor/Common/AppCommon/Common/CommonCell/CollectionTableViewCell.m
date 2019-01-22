@@ -77,7 +77,9 @@
 {
     LRWeakSelf;
         VideoEvaluationImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"VideoEvaluationImageCell" forIndexPath:indexPath];
-        cell.backgroundColor = [UIColor grayColor];
+        cell.backgroundColor = [UIColor whiteColor];
+    cell.layer.borderColor = [HEXCOLOR(0xD9D9D9) CGColor];
+    cell.layer.borderWidth = 1;
     if(self.imagesArr.count >indexPath.row){
         id im = self.imagesArr[indexPath.row];
         
@@ -106,7 +108,8 @@
     }
     else{
         cell.deleteBtn.hidden = YES;
-        cell.imageView.image = LRSTRING2IMAGE(@"000");
+        cell.imageView.image = [UIImage imageNamed:@"compose_photo_photograph"];
+        cell.imageView.contentMode = UIViewContentModeCenter;
     }    
         return cell;
 }

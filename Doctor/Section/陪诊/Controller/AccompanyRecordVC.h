@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-#import "OrderCreateRequestModel.h"
+//#import "OrderCreateRequestModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,7 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) NSString *orderId;
 @property (nonatomic,assign) BOOL isEdit;
 
-//@property (nonatomic, strong) OrderCreateRequestModel * orderCreateModel;     //
+@property (nonatomic,copy) NSString *navTitle;//导航栏title
+@property (nonatomic,assign) BOOL selectDoc;//医生可选
+@property (nonatomic,assign) BOOL visitTime;//就诊时间
+
 
 @end
 

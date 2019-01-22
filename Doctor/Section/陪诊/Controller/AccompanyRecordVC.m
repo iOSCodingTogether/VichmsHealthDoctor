@@ -41,7 +41,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 @property (nonatomic,strong) NSMutableArray *nurseDescArray;//描述数据源
 @property (nonatomic,strong) NSMutableArray *nurseDescSelectedArr;//选中的描述数据源
 @property (nonatomic,copy) NSString *nurseRecord;//陪诊记录
-
+@property (nonatomic,strong) NSMutableArray *doctorArr;//医生数组
 
 @end
 @implementation AccompanyRecordVC
@@ -53,6 +53,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     self.nurseDic = [NSMutableDictionary dictionary];
     self.nurseDescArray = [NSMutableArray array];
     self.nurseDescSelectedArr = [NSMutableArray array];
+    self.doctorArr = [NSMutableArray array];
     [self createViews];
     @weakify(self);
     [HYBNetworking getWithUrl:URL_GetNurseDes refreshCache:YES success:^(id response) {
@@ -78,7 +79,9 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
             NSDictionary *data = dic[@"data"];
             if ([data isKindOfClass:[NSDictionary class]]) {
                 self.orderDic = [NSMutableDictionary dictionaryWithDictionary:data[@"order"]];
-                self.nurseDic = [NSMutableDictionary dictionaryWithDictionary:data[@"nurse"]];
+                if (![data[@"nurse"] isKindOfClass:[NSNull class]]) {
+                    self.nurseDic = [NSMutableDictionary dictionaryWithDictionary:data[@"nurse"]];
+                }
             }
             
             [self.mainTableView reloadData];
@@ -93,7 +96,11 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 
 -(void)createViews{
     
-    [self configWithTitle:@"陪诊记录" backImage:nil];
+    if (self.navTitle.length <= 0) {
+        [self configWithTitle:@"陪诊记录" backImage:nil];
+    }else {
+        [self configWithTitle:self.navTitle backImage:nil];
+    }
     self.naviBGView.backgroundColor = [UIColor whiteColor];
     registerNibWithCellName(self.mainTableView, @"CommonCell0");
     registerNibWithCellName(self.mainTableView, @"CollectionTableViewCell");
@@ -149,7 +156,13 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
                                                                     @"type":@(CELLTYPE_DATA),
                                                                     @"value":@"请选择就诊时间",
                                                                     @"en":@"visitTime",
-                                                                    @"isEnabled":@NO
+                                                                    @"isEnabled":@(self.visitTime)
+                                                                    },
+                                                                  @{@"title":@"医生：",
+                                                                    @"type":@(CELLTYPE_DROP),
+                                                                    @"value":@"请选择医生",
+                                                                    @"en":@"doctor",
+                                                                    @"isEnabled":@(self.selectDoc)
                                                                     },
                                                                   @{@"title":@"医院：",
                                                                     @"type":@(CELLTYPE_TEXTFIELDSTR),
@@ -286,6 +299,9 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 
 #pragma mark - UITableViewDelegate UITableViewDatasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    if ([self.navTitle isEqualToString:@"预约专家"]) {
+        return 5;
+    }
     return self.dataArray.count;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -358,12 +374,16 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
                 }else {
                     cell.textField.enabled = NO;
                 }
-                cell.textField.text = [self.nurseDic objectForKey:dataDic[@"en"]];
+                if (indexPath.section == 0 && indexPath.row == 0) {
+                    cell.textField.text = [NSString stringWithFormat:@"%@",[self.nurseDic objectForKey:dataDic[@"en"]]];
+                }else {
+                    cell.textField.text = [NSString stringWithFormat:@"%@",[self.orderDic objectForKey:dataDic[@"en"]]];
+                }
                 [cell.rightButton setImage:[UIImage imageNamed:@"icon_24"] forState:UIControlStateNormal];
                 cell.rightButton.hidden = NO;
             }else {
                 cell.textField.enabled = NO;
-                cell.textField.text = [self.orderDic objectForKey:dataDic[@"en"]];
+                cell.textField.text = [NSString stringWithFormat:@"%@",[self.orderDic objectForKey:dataDic[@"en"]]];
                 cell.rightButton.hidden = YES;
             }
         }else if(type == CELLTYPE_TEXTFIELDAGE || type == CELLTYPE_TEXTFIELDSTR ||
@@ -373,9 +393,9 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
             }];
             cell.textField.enabled = NO;
             if ([dataDic[@"isEnabled"] boolValue]) {
-                cell.textField.text = [self.nurseDic objectForKey:dataDic[@"en"]];
+                cell.textField.text = [NSString stringWithFormat:@"%@",[self.nurseDic objectForKey:dataDic[@"en"]]];
             }else {
-                cell.textField.text = [self.orderDic objectForKey:dataDic[@"en"]];
+                cell.textField.text = [NSString stringWithFormat:@"%@",[self.orderDic objectForKey:dataDic[@"en"]]];
             }
 //            cell.textField.userInteractionEnabled = YES;
         }else if (type == CELLTYPE_SELECTSEX) {
@@ -402,11 +422,14 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
             cell.textField.userInteractionEnabled = NO;
             cell.textField.enabled = NO;
             if ([dataDic[@"isEnabled"] boolValue]) {
-                cell.textField.text = [self testDateZone:[self.nurseDic objectForKey:dataDic[@"en"]]];
+                cell.textField.text = [self testDateZone:[NSString stringWithFormat:@"%@",[self.nurseDic objectForKey:dataDic[@"en"]]]];
                 [cell.rightButton setImage:[UIImage imageNamed:@"icon_33"] forState:UIControlStateNormal];
                 cell.rightButton.hidden = NO;
+                if ([dataDic[@"title"] hasPrefix:@"就诊时间"]) {
+                    cell.textField.text = [self testDateZone:[NSString stringWithFormat:@"%@",[self.orderDic objectForKey:dataDic[@"en"]]]];
+                }
             }else {
-                cell.textField.text = [self testDateZone:[self.orderDic objectForKey:dataDic[@"en"]]];
+                cell.textField.text = [self testDateZone:[NSString stringWithFormat:@"%@",[self.orderDic objectForKey:dataDic[@"en"]]]];
                 cell.rightButton.hidden = YES;
             }
         }
@@ -429,7 +452,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
             if (self.nurseRecord.length > 0) {
                 cell.TextView.text = self.nurseRecord;
             }else {
-                cell.TextView.text = [self.nurseDic objectForKey:dataDic[@"en"]];
+                cell.TextView.text = [NSString stringWithFormat:@"%@",[self.nurseDic objectForKey:dataDic[@"en"]]];
             }
             for (NSDictionary *subDic in self.nurseDescArray) {
                 if ([subDic isKindOfClass:[NSDictionary class]]) {
@@ -472,7 +495,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
             }];
         }else {
             cell.TextView.editable = NO;
-            cell.TextView.text = [self.orderDic objectForKey:dataDic[@"en"]];
+            cell.TextView.text = [NSString stringWithFormat:@"%@",[self.orderDic objectForKey:dataDic[@"en"]]];
         }
 
 
@@ -705,39 +728,114 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     //            }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
-//    @weakify(self);
-//    NSDictionary *dic = self.dataArray[indexPath.section];
-//    NSArray *dataArr = dic[@"data"];
-//    NSDictionary *dataDic = dataArr[indexPath.row];
-//    NSInteger type = [dataDic[@"type"] integerValue];
-//
-//    if ([dataDic[@"isEnabled"] boolValue]) {
-//        if (type == CELLTYPE_DATA) {
-//            NSString *str = dataDic[@"value"];
-//            if (str.length == 0) {
-//                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//                str = [dateFormatter stringFromDate:[NSDate date]];
-//            }
-//            [BRDatePickerView showDatePickerWithTitle:dataDic[@"title"] dateType:UIDatePickerModeDateAndTime defaultSelValue:str minDateStr:@"" maxDateStr:@"" isAutoSelect:NO resultBlock:^(NSString *selectValue,NSDate *date) {
-//                @strongify(self);
-//                if(date){
-//                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//                    //                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
-//                    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
-//                    NSString *destDateString = [dateFormatter stringFromDate:date];
-//                    [self.nurseDic setObject:destDateString forKey:dataDic[@"en"]];
-//                    [self.mainTableView reloadData];
-//                }
-//            }];
-//
-//        }
-//    }
+    @weakify(self);
+    NSDictionary *dic = self.dataArray[indexPath.section];
+    NSArray *dataArr = dic[@"data"];
+    NSDictionary *dataDic = dataArr[indexPath.row];
+    NSInteger type = [dataDic[@"type"] integerValue];
+
+    if (self.selectDoc) {
+        //如果是医生可选择
+        if ([dataDic[@"title"] isEqualToString:@"医生："]) {
+            //选择医生
+            @weakify(self);
+            [HYBNetworking getWithUrl:URL_Doctors refreshCache:YES success:^(id response) {
+                @strongify(self);
+                NSLog(@"====我的医生%@",response);
+                NSDictionary *dic = response;
+                if ([dic[@"code"] isEqual:@100]) {
+                    NSArray *arr = dic[@"data"];
+                    
+                    self.doctorArr = [NSMutableArray arrayWithArray:arr];
+                    NSMutableArray *doctorNameArr = [NSMutableArray array];
+                    for (NSDictionary *subDic in self.doctorArr) {
+                        NSString *doctorName = [NSString stringWithFormat:@"%@",subDic[@"name"]];
+                        [doctorNameArr addObject:doctorName];
+                    }
+                    [BRStringPickerView showStringPickerWithTitle:@"请选择医生" dataSource:doctorNameArr defaultSelValue:doctorNameArr[0] isAutoSelect:NO resultBlock:^(id selectValue) {
+                        NSLog(@"%@",selectValue);
+                        for (NSDictionary *subDic in self.doctorArr) {
+                            if ([subDic[@"name"] isEqualToString:selectValue]) {
+                                self.orderDic[@"doctor"] = subDic[@"name"];
+                                self.orderDic[@"department"] = subDic[@"department"];
+                                break;
+                            }
+                        }
+                        [self.mainTableView reloadData];
+                        
+                    }];
+
+                }else {
+                    [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+                }
+                
+            } fail:^(NSError *error, NSInteger statusCode) {
+                if (statusCode == 401) {
+                    //token失效，重新登录
+                    [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
+                    [[UserInfoManager shareInstance] logoutUser];
+                    
+                    [[[NIMSDK sharedSDK] loginManager] logout:^(NSError * _Nullable error) {
+                        if (error) {
+                            NSLog(@"退出登录失败");
+                            return;
+                        }
+                    }];
+                }else {
+                    [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+                }
+                
+            }];
+        }
+    }
+    if (self.visitTime) {
+        if ([dataDic[@"title"] hasPrefix:@"就诊时间"]) {
+            NSString *str = dataDic[@"value"];
+            if (str.length == 0) {
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                str = [dateFormatter stringFromDate:[NSDate date]];
+            }
+            [BRDatePickerView showDatePickerWithTitle:dataDic[@"title"] dateType:UIDatePickerModeDateAndTime defaultSelValue:str minDateStr:@"" maxDateStr:@"" isAutoSelect:NO resultBlock:^(NSString *selectValue,NSDate *date) {
+                @strongify(self);
+                if(date){
+                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                    //                [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+                    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+                    NSString *destDateString = [dateFormatter stringFromDate:date];
+                    [self.orderDic setObject:destDateString forKey:dataDic[@"en"]];
+                    [self.mainTableView reloadData];
+                }
+            }];
+        }
+    }
+
 
     
 }
 -(void)requestPost{
     
+    if ([self.navTitle isEqualToString:@"预约专家"]) {
+        @weakify(self);
+        
+        [HYBNetworking postWithUrl:URL_AppointDoctor body:self.orderDic success:^(id response) {
+            NSDictionary *dic = response;
+            if ([dic[@"code"] isEqual:@100]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    @strongify(self);
+                    [MBProgressHUD showAlertWithView:self.view andTitle:[NSString stringWithFormat:@"%@",dic[@"msg"]]];
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
+            }else {
+                [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+            }
+        } fail:^(NSError *error, NSInteger statusCode) {
+            
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+        }];
+           
+        return;
+    }
     NSMutableString *nurseDes = [NSMutableString string];
     if (self.nurseDescSelectedArr.count > 0) {
         for (NSInteger i=0;i<self.nurseDescSelectedArr.count;i++) {
@@ -820,7 +918,6 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     }
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
-    
     NSDate *localDate = [dateFormatter dateFromString:timeDate];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *strDate = [dateFormatter stringFromDate:[self getNowDateFromatAnDate:localDate]];
@@ -831,9 +928,9 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 - (NSDate *)getNowDateFromatAnDate:(NSDate *)anyDate
 {
     //设置源日期时区
-    NSTimeZone* sourceTimeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];//或GMT
+    NSTimeZone* sourceTimeZone = [NSTimeZone systemTimeZone];//或GMT
     //设置转换后的目标日期时区
-    NSTimeZone* destinationTimeZone = [NSTimeZone localTimeZone];
+    NSTimeZone* destinationTimeZone = [NSTimeZone systemTimeZone];
     //得到源日期与世界标准时间的偏移量
     NSInteger sourceGMTOffset = [sourceTimeZone secondsFromGMTForDate:anyDate];
     //目标日期与本地时区的偏移量

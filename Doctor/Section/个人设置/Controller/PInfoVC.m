@@ -20,6 +20,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *headerImage;
 @property (weak, nonatomic) IBOutlet UITextView *introTextView;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+
+@property (nonatomic,copy) NSString *headPic;//头像名字
+
 @end
 
 @implementation PInfoVC
@@ -27,6 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.headPic = @"";
     [self configWithTitle:@"个人信息" backImage:@""];
     self.naviBGView.backgroundColor = [UIColor whiteColor];
     self.rightTitle = @"保存";
@@ -51,24 +55,25 @@
 //    } fail:^(NSError *error, NSInteger statusCode) {
 //
 //    }];
+    [self.view endEditing:YES];
     NSDictionary *paramDic = @{@"userTake":@{@"remark":self.introTextView.text,
-                                             @"sex":@"男",
-                                             @"name":@"",
-                                             @"headPic":@"",
-                                             @"idCard":@"",
-                                             @"age":@9
+//                                             @"sex":@"男",
+//                                             @"name":@"",
+                                             @"headPic":self.headPic
+//                                             @"idCard":@"",
+//                                             @"age":@9
                                              }};
     [HYBNetworking postWithUrl:URL_Save body:paramDic success:^(id response) {
-        NSLog(@"====保存%@",response);
+        NSDictionary *dic = response;
+        if ([dic[@"code"] isEqual:@100]) {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"修改成功"];
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"修改失败"];
+        }
 
     } fail:^(NSError *error, NSInteger statusCode) {
-        
+        [MBProgressHUD showAlertWithView:self.view andTitle:@"修改失败"];
     }];
-//    [HYBNetworking postWithUrl:URL_Save refreshCache:YES params:@{@"remark":self.introTextView.text} success:^(id response) {
-//        NSLog(@"====保存%@",response);
-//    } fail:^(NSError *error, NSInteger statusCode) {
-//        
-//    }];
 }
 #pragma mark -- 数据请求
 - (void)loadData {
@@ -80,6 +85,7 @@
             NSString *name = data[@"name"];
             NSString *headPic = data[@"headPic"];
             NSString *remark = data[@"remark"];
+            self.headPic = headPic;
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (name.length == 0) {
                     self.nameTextField.enabled = YES;
@@ -139,20 +145,22 @@
 - (void)upLoadQN:(NSDictionary *)dic imageData:(NSData*)imgData{
     NSString *accesskey = dic[@"accesskey"];
     NSString *secretKey = dic[@"secretKey"];
-
+    NSString *token = dic[@"uploadToken"];
     QNConfiguration *config = [QNConfiguration build:^(QNConfigurationBuilder *builder) {
         builder.useHttps = YES;
     }];
     QNUploadManager *upManager = [[QNUploadManager alloc] initWithConfiguration:config];
-    NSString *token = [self getQiNiuTokenKey:nil accesskey:accesskey secretKey:secretKey];
+    NSString *fileName = [NSString stringWithFormat:@"ios_header_%@",[self getCurrentTime]];
     [upManager putData:imgData
-                   key:accesskey
+                   key:fileName
                  token:token
               complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
                   NSLog(@"%@",resp);
                   if (info.ok) {
                       //MARK: key是文件名字
+                      self.headPic = key;
                       if ([resp[@"status"] isEqual:@0]) {
+                          
                       }
                   }
                   else {
@@ -160,38 +168,17 @@
                   }
               } option:nil];
 }
-/**生成token*/
-- (NSString*)getQiNiuTokenKey:(NSString *)key accesskey:(NSString *)accesskey secretKey:(NSString *)secretKey{
-    NSMutableDictionary *authInfo = [NSMutableDictionary dictionary];
-    NSString *sc0=@"demo";
-    if (key.length) {
-        sc0=[sc0 stringByAppendingFormat:@":%@",key ];
-    }
-    [authInfo setObject:sc0 forKey:@"scope"];
-    [authInfo
-     setObject:[NSNumber numberWithLong:3600]
-     forKey:@"deadline"];
-    NSData *jsonData =
-    [NSJSONSerialization dataWithJSONObject:authInfo options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *encodedString = [self urlSafeBase64Encode:jsonData];
-    NSString *encodedSignedString = [self HMACSHA1:secretKey text:encodedString];
-    NSString *token =
-    [NSString stringWithFormat:@"%@:%@:%@",accesskey, encodedSignedString, encodedString];
-    return token;
-}
-- (NSString *)urlSafeBase64Encode:(NSData *)text {
-    NSString *base64 =
-    [[NSString alloc] initWithData:[QN_GTM_Base64 encodeData:text] encoding:NSUTF8StringEncoding];
-    return base64;
-}
-- (NSString *)HMACSHA1:(NSString *)key text:(NSString *)text {
-    const char *cKey = [key cStringUsingEncoding:NSUTF8StringEncoding];
-    const char *cData = [text cStringUsingEncoding:NSUTF8StringEncoding];
-    char cHMAC[CC_SHA1_DIGEST_LENGTH];
-    CCHmac(kCCHmacAlgSHA1, cKey, strlen(cKey), cData, strlen(cData), cHMAC);
-    NSData *HMAC = [[NSData alloc] initWithBytes:cHMAC length:CC_SHA1_DIGEST_LENGTH];
-    NSString *hash = [self urlSafeBase64Encode:HMAC];
-    return hash;
+- (NSString *)getCurrentTime {
+    // 获取系统当前时间
+    NSDate * date = [NSDate date];
+    NSTimeInterval sec = [date timeIntervalSinceNow];
+    NSDate * currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:sec];
+    
+    //设置时间输出格式：
+    NSDateFormatter * df = [[NSDateFormatter alloc] init ];
+    [df setDateFormat:@"yyyyMMddHHmmss_SSS"];
+    NSString * na = [df stringFromDate:currentDate];
+    return na;
 }
 
 @end
