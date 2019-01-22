@@ -52,6 +52,7 @@
     [self.window makeKeyAndVisible];
     return YES;
 }
+
 #pragma mark - 云信
 // 云信自动登录失败回调
 - (void)onAutoLoginFailed:(NSError *)error {

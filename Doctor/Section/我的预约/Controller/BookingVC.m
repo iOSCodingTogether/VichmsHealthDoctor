@@ -29,10 +29,12 @@
 @end
 
 @implementation BookingVC
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -114,27 +116,7 @@
     [self request:YES];
     
 }
-//-(void)selectTypeAction:(UIButton *)button{
-//    [[CommonManage shareInstance] goodsPageResultModelBack:^(GoodsPageResultModel * _Nonnull goodsPageResultModel) {
-//        NSMutableArray *arr = [NSMutableArray array];
-//
-//        for (GoodsPageResultSubModel *model in goodsPageResultModel.list) {
-//            [arr addObject:[NSString stringWithFormat:@"%@",model.goodsTypeName]];
-//
-//        }
-//        LRWeakSelf;
-//        [BRStringPickerView showStringPickerWithTitle:@"与患者关系：" dataSource:arr defaultSelValue:nil isAutoSelect:NO resultBlock:^(id selectValue) {
-//            GoodsPageResultSubModel *model = [goodsPageResultModel findBygoodsTypeName:selectValue];
-//            weakSelf.searchGoodsTypeType = model.goodsTypeCode;
-//            //            [button setTitle:selectValue forState:UIControlStateNormal];
-//            self.selectTypeLabel.text = selectValue;
-//            [weakSelf request:NO];
-//        }];
-//    }];
-//
-//
-//}
-//
+
 -(void)request:(BOOL)isLoadMore{
     
     NSArray *visitTimeArr = @[@"EQ",@"GT",@""];
@@ -175,110 +157,14 @@
 
 }
 -(void)reloadData{
-    //    self.dataArr = [NSMutableArray arrayWithObjects:@"内科",@"外科",@"儿科",@"妇科",@"眼科",@"耳鼻喉科",@"口腔科",@"皮肤科",@"中医科",@"理疗科", nil];
-    //    NSString *searchKey = self.mSearchBar.text;
-    //    if(searchKey.length ==0){
-    //        self.showArr = self.dataArr;
-    //    }
-    //    else{
-    //        self.showArr = [NSMutableArray array];
-    //        for(NSString *str in self.dataArr){
-    //            if([str containsString:searchKey]){
-    //                [self.showArr addObject:str];
-    //            }
-    //        }
-    //    }
     [self.mainTableView reloadData];
 }
-//
-//-(void)spreadButtonClicked:(UIButton *)sender{
-//    if(self.spreadSection == sender.tag){
-//        self.spreadSection = -1;
-//    }
-//    else{
-//        self.spreadSection = sender.tag;
-//    }
-//    [self reloadData];
-//}
-//#pragma mark - UITableViewDelegate, UITableViewDataSource
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return 150;
-//}
-//
-//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    return 60;
-//}
-//-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-//    return 30;
-//}
-//- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 60, 200)];
-//
-//    UIView *contentView = [[UIView alloc]init];
-//    [view addSubview:contentView];
-//    contentView.backgroundColor = [UIColor whiteColor];
-//    [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.bottom.mas_equalTo(0);
-//        make.top.mas_equalTo(10);
-//    }];
-//    UILabel *label = [UILabel new];
-//    [contentView addSubview:label];
-//    label.text = @[@"预约专家",@"高端体检",@"温馨陪诊"][section];
-//    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(12);
-//        make.centerY.mas_equalTo(0);
-//    }];
-//    return view;
-//}
-//
-//- (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 60, 200)];
-//    view.backgroundColor = [UIColor whiteColor];
-//    UIButton *footButton = [[UIButton alloc]init];
-//    footButton.tag = section;
-//    [view addSubview:footButton];
-//    [footButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.top.bottom.mas_equalTo(0);
-//    }];
-//    if(self.spreadSection == section){
-//        [footButton setImage:[UIImage imageNamed:@"icon_58"] forState:UIControlStateNormal];
-//    }
-//    else{
-//        [footButton setImage:[UIImage imageNamed:@"icon_57"] forState:UIControlStateNormal];
-//    }
-//    [footButton addTarget:self action:@selector(spreadButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    return view;
-//}
-//
-//- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-//    MyApplyListTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"MyApplyListTableViewCell"];
-//
-//    return cell;
-//}
-//
-//- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    if(self.spreadSection == section){
-//        return 3;
-//    }
-//
-//    return 1;
-//
-//}
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//
-//    return 3;
-//}
 
 #pragma mark - UITableViewDelegate UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.dataArr.count;
 }
-//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    return 60;
-//}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     return 190;
 }
@@ -306,25 +192,29 @@
         
         NIMTeam *teamInfo = [[NIMSDK sharedSDK].teamManager teamById:teamId];
         
-        if (![[NIMSDK sharedSDK].teamManager isMyTeam:teamInfo.teamId]) {
-            [[NIMSDK sharedSDK].teamManager applyToTeam:teamInfo.teamId
-                                                message:@"医师加入讨论组"
-                                             completion:^(NSError * _Nullable error, NIMTeamApplyStatus applyStatus) {
-                                                 if (error) {
-                                                     [MBProgressHUD showAlertWithView:self.view
-                                                                             andTitle:@"加入群组失败"];
-                                                     return;
-                                                 }
-                                                 
-                                                 NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
-                                                 VHDChatSessionVC *sessionVC = [[VHDChatSessionVC alloc] initWithSession:session];
-                                                 [self.navigationController pushViewController:sessionVC animated:YES];
-                                             }];
-        } else {
-            NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
-            VHDChatSessionVC *sessionVC = [[VHDChatSessionVC alloc] initWithSession:session];
-            [self.navigationController pushViewController:sessionVC animated:YES];
-        }
+        NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
+        VHDChatSessionVC *sessionVC = [[VHDChatSessionVC alloc] initWithSession:session];
+        [self.navigationController pushViewController:sessionVC animated:YES];
+        
+//        if (![[NIMSDK sharedSDK].teamManager isMyTeam:teamInfo.teamId]) {
+//            [[NIMSDK sharedSDK].teamManager applyToTeam:teamInfo.teamId
+//                                                message:@"医师加入讨论组"
+//                                             completion:^(NSError * _Nullable error, NIMTeamApplyStatus applyStatus) {
+//                                                 if (error) {
+//                                                     [MBProgressHUD showAlertWithView:self.view
+//                                                                             andTitle:@"加入群组失败"];
+//                                                     return;
+//                                                 }
+//
+//                                                 NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
+//                                                 VHDChatSessionVC *sessionVC = [[VHDChatSessionVC alloc] initWithSession:session];
+//                                                 [self.navigationController pushViewController:sessionVC animated:YES];
+//                                             }];
+//        } else {
+//            NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
+//            VHDChatSessionVC *sessionVC = [[VHDChatSessionVC alloc] initWithSession:session];
+//            [self.navigationController pushViewController:sessionVC animated:YES];
+//        }
         
     }];
     return cell;
