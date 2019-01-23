@@ -38,6 +38,10 @@ static NSString * const userKey = @"user";
     }
 }
 
+- (void)updateUser {
+    [self recordUserInfo:self.user];
+}
+
 - (void)logoutUser {
     self.user = nil;
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:userKey];

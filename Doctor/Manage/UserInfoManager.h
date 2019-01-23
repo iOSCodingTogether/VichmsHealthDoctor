@@ -24,6 +24,8 @@ typedef NS_ENUM(NSUInteger, UserType) {
 
 /** 存储user信息 */
 - (void)recordUserInfo:(UserInfoModel *)userInfo;
+/** 更新数据 */
+- (void)updateUser;
 
 /** 退出登录 */
 - (void)logoutUser;

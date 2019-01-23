@@ -43,7 +43,6 @@
     registerNibWithCellName(self.mainTableView, @"ExpertIntroduceTopCell");
     self.mainTableView.estimatedRowHeight = 60;
     [self.mainTableView setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 10)];
-    self.mainTableView.bounces = NO;
     LRWeakSelf;
     self.mainTableView.mj_header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
         if (weakSelf.pageIndex > 1) {
@@ -142,7 +141,21 @@
             [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
         }
     } fail:^(NSError *error, NSInteger statusCode) {
-        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+        if (statusCode == 401) {
+            //token失效，重新登录
+            [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
+            [[UserInfoManager shareInstance] logoutUser];
+            
+            [[[NIMSDK sharedSDK] loginManager] logout:^(NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"退出登录失败");
+                    return;
+                }
+            }];
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+        }
+        
     }];
 }
 //
@@ -151,12 +164,12 @@
     if (self.pageIndex < 1) {
         self.pageIndex = 1;
     }
-    NSString *url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_doctor=%@",URL_Doctors,(long)self.pageIndex,PageSize,self.mSearchBar.text];
+    NSString *url = [NSString stringWithFormat:@"%@?sortInfo=DESC_createDate&pageNo=%ld&pageSize=%d&search_LIKE_name=%@",URL_Doctors,(long)self.pageIndex,PageSize,self.mSearchBar.text];
     if (self.selectIndex > 0) {
         self.pageIndex = 1;
         NSDictionary *typeDic = self.departmentArr[self.selectIndex - 1];
-        NSString *typeId = typeDic[@"department"];
-        url = [NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_department=%@&search_EQ_doctor=%@",URL_Doctors,(long)self.pageIndex,PageSize,typeId,self.mSearchBar.text];
+        NSString *typeId = typeDic[@"id"];
+        url = [NSString stringWithFormat:@"%@?sortInfo=DESC_createDate&pageNo=%ld&pageSize=%d&search_EQ_departmentId=%@&search_LIKE_name=%@",URL_Doctors,(long)self.pageIndex,PageSize,typeId,self.mSearchBar.text];
     }
 
     
@@ -165,8 +178,8 @@
         NSLog(@"====我的医生%@",response);
         NSDictionary *dic = response;
         if ([dic[@"code"] isEqual:@100]) {
-            NSArray *arr = dic[@"data"];
-            
+            NSDictionary *data = dic[@"data"];
+            NSArray *arr = data[@"list"];
             if (weakSelf.pageIndex == 1) {
                 weakSelf.dataArray = [NSMutableArray arrayWithArray:arr];
             }else {

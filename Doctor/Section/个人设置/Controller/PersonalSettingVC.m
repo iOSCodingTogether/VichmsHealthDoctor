@@ -30,6 +30,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    [self.avatar sd_setImageWithURL:[NSURL URLWithString:[[UserInfoManager shareInstance].user.headPic stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

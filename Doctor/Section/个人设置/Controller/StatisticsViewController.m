@@ -60,8 +60,20 @@
         }
      } fail:^(NSError *error, NSInteger statusCode) {
          
-         [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
-
+         if (statusCode == 401) {
+             //token失效，重新登录
+             [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
+             [[UserInfoManager shareInstance] logoutUser];
+             
+             [[[NIMSDK sharedSDK] loginManager] logout:^(NSError * _Nullable error) {
+                 if (error) {
+                     NSLog(@"退出登录失败");
+                     return;
+                 }
+             }];
+         }else {
+             [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+         }
     }];
 }
 

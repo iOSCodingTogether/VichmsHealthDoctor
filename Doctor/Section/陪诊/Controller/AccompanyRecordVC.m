@@ -42,6 +42,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
 @property (nonatomic,strong) NSMutableArray *nurseDescSelectedArr;//选中的描述数据源
 @property (nonatomic,copy) NSString *nurseRecord;//陪诊记录
 @property (nonatomic,strong) NSMutableArray *doctorArr;//医生数组
+@property (nonatomic,strong) NSMutableArray *nursePicArr;//陪诊数组
 
 @end
 @implementation AccompanyRecordVC
@@ -54,6 +55,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     self.nurseDescArray = [NSMutableArray array];
     self.nurseDescSelectedArr = [NSMutableArray array];
     self.doctorArr = [NSMutableArray array];
+    self.nursePicArr = [NSMutableArray array];
     [self createViews];
     @weakify(self);
     [HYBNetworking getWithUrl:URL_GetNurseDes refreshCache:YES success:^(id response) {
@@ -90,7 +92,21 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
         }
     } fail:^(NSError *error, NSInteger statusCode) {
         
-        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+        if (statusCode == 401) {
+            //token失效，重新登录
+            [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
+            [[UserInfoManager shareInstance] logoutUser];
+            
+            [[[NIMSDK sharedSDK] loginManager] logout:^(NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"退出登录失败");
+                    return;
+                }
+            }];
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+        }
+        
     }];
 }
 
@@ -505,12 +521,32 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     else if(type == CELLTYPE_IMAGE){
         CollectionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionTableViewCell"];
         cell.accessoryType = UITableViewCellAccessoryNone;
-        if([dic[@"title"] isEqualToString:@"陪诊记录"]) {
-            if ([[self.nurseDic objectForKey:dic[@"en"]] isKindOfClass:[NSArray class]]) {
-                cell.imagesArr = [self.nurseDic objectForKey:dic[@"en"]];
+        if([dic[@"title"] isEqualToString:@"陪诊图片"]) {
+            //陪诊记录。图片
+            if (self.nursePicArr.count > 0) {
+                cell.imagesArr = self.nursePicArr;
             }else {
-                cell.imagesArr = [NSArray array];
+                if (![[self.nurseDic objectForKey:dataDic[@"en"]] isKindOfClass:[NSNull class]]) {
+                    
+                    NSString *picStr = [NSString stringWithFormat:@"%@",[self.nurseDic objectForKey:dataDic[@"en"]]];
+                    if (picStr.length > 0) {
+                        NSMutableArray *imgMut = [NSMutableArray array];
+                        NSArray *arr = [picStr componentsSeparatedByString:@","];
+                        for (NSString *imgUrl in arr) {
+                            UIImageView *imgV = [UIImageView new];
+                            [imgV sd_setImageWithURL:COMBINE_Doctor_IMAGE(imgUrl) completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                                [imgMut addObject:image];
+                                cell.imagesArr = imgMut;
+                            }];
+                        }
+                    }else {
+                        cell.imagesArr = [NSArray array];
+                    }
+                }else {
+                    cell.imagesArr = [NSArray array];
+                }
             }
+            
         }else {
             if ([[self.orderDic objectForKey:dic[@"en"]] isKindOfClass:[NSArray class]]) {
                 cell.imagesArr = [self.orderDic objectForKey:dic[@"en"]];
@@ -518,9 +554,21 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
                 cell.imagesArr = [NSArray array];
             }
         }
-        if ([dataDic[@"isEnabled"] boolValue] && self.isEdit) {
+        if ([dataDic[@"isEnabled"] boolValue] && self.isEdit && [dic[@"title"] isEqualToString:@"陪诊图片"]) {
             [cell setDidSelect:^(NSInteger selectIndex) {
-                NSArray *arr = [self.nurseDic objectForKey:dic[@"en"]];
+                NSArray *arr = [NSArray array];
+                if (self.nursePicArr.count > 0) {
+                    arr = self.nursePicArr;
+                }else {
+                    if (![[self.nurseDic objectForKey:dataDic[@"en"]] isKindOfClass:[NSNull class]]) {
+                        NSString *picStr = [NSString stringWithFormat:@"%@",[self.nurseDic objectForKey:dataDic[@"en"]]];
+                        if (picStr.length > 0) {
+                            arr = [picStr componentsSeparatedByString:@","];
+                        }
+                    }
+                }
+                
+            
                 if(selectIndex == arr.count){//addImage
                     TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] init];
                     imagePickerVc.maxImagesCount = 1;
@@ -537,10 +585,25 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
                 }
             }];
             [cell setDidDelect:^(NSInteger deleteIndex) {
-                NSMutableArray *arr = [NSMutableArray arrayWithArray:[self.nurseDic objectForKey:dic[@"en"]]];
-                if(arr.count > deleteIndex){
-                    [arr removeObjectAtIndex:deleteIndex];
-                    [self.nurseDic setObject:arr forKey:dic[@"en"]];
+                if (self.nursePicArr.count > 0) {
+                    if(self.nursePicArr.count > deleteIndex){
+                        //删除名字
+                        NSString *picStr = [NSString stringWithFormat:@"%@",[self.nurseDic objectForKey:dataDic[@"en"]]];
+                        if (picStr.length > 0) {
+                            NSString *deleteStr = @"";
+                            NSMutableArray *arr = [NSMutableArray arrayWithArray:[picStr componentsSeparatedByString:@","]];
+                            [arr removeObjectAtIndex:deleteIndex];
+                            if (arr.count > 1) {
+                                deleteStr = [arr componentsJoinedByString:@","];
+                            }else if (arr.count == 1) {
+                                deleteStr = arr[0];
+                            }
+                            [self.nurseDic setObject:deleteStr forKey:dataDic[@"en"]];
+                        }
+                        [self.nursePicArr removeObjectAtIndex:deleteIndex];
+                        [self.mainTableView reloadData];
+
+                    }
                 }
             }];
         }else {
@@ -598,135 +661,6 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     
 }
 
--(void)upLoadImageWithPhotos:(NSArray<UIImage *> *)photos assets:(NSArray *)assets isSelectOriginalPhoto:(BOOL )isSelectOriginalPhoto withKey:(NSString *)key{
-    if(photos.count == 0){
-        NSLog(@"select 0 image");
-        return ;
-    }
-    NSMutableArray *mutArr = [NSMutableArray arrayWithArray:[self.orderDic objectForKey:key]];
-//    IMageOrVideoModel *imgModel = [[IMageOrVideoModel alloc]init];
-//    imgModel.image = photos[0];
-//    imgModel.imageOther = assets[0];
-//    imgModel.imageURLKey = key;
-//    [mutArr addObject:imgModel];
-//    [self.valueDic setObject:[NSArray arrayWithArray:mutArr] forKey:key];
-    [mutArr addObjectsFromArray:photos];
-    [self.nurseDic setObject:mutArr forKey:key];
-//    NSArray *imageArr = [NSArray array];
-//    if ([[self.valueDic objectForKey:key] isKindOfClass:[NSArray class]]) {
-//        imageArr = [self.valueDic objectForKey:key];
-//    }
-//    NSMutableArray *arr = [NSMutableArray arrayWithArray:imageArr];
-//
-//    [CommonManage QNPutimage:photos[0] forView:LR_KEY_WINDOW key:nil res:^(BOOL success, NSString * _Nonnull key, NSString * _Nonnull imageURL) {
-//        if(success){
-//            IMageOrVideoModel *imgModel = [[IMageOrVideoModel alloc]init];
-//            imgModel.image = photos[0];
-//            imgModel.imageOther = assets[0];
-//            imgModel.imageURLKey = key;
-//            [self.imagesModelArr addObject:imgModel];
-//            [self reloadData];
-//        }
-//        else{
-//            LR_TOAST(@"上传失败");
-//        }
-//    } progressHandler:^(NSString *key, float percent) {
-//
-//    }];
-}
-
--(void)upLoadVideoWithCoverImage:(UIImage *)coverImage asset:(PHAsset *)asset withKey:(NSString *)key{
-    [[TZImageManager manager] getVideoWithAsset:asset completion:^(AVPlayerItem *playerItem, NSDictionary *info) {
-        AVURLAsset *urlAsset = (AVURLAsset *)playerItem.asset;
-        
-        NSURL *url = urlAsset.URL;
-        //        NSData *data = [NSData dataWithContentsOfURL:url];
-        //        NSLog(@"视频大小 %lu",(unsigned long)data.length);
-        AVAssetExportSession *exportSession= [[AVAssetExportSession alloc] initWithAsset:urlAsset presetName:AVAssetExportPreset640x480];
-        exportSession.shouldOptimizeForNetworkUse = YES;
-        NSString*  _outPath = [NSString stringWithFormat:@"%@/bb", NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0]];
-        BOOL isSuccess = [ [NSFileManager defaultManager] removeItemAtPath:_outPath error:nil];
-        
-        
-        exportSession.outputURL = [NSURL fileURLWithPath:_outPath];
-        exportSession.outputFileType = AVFileTypeMPEG4;
-        __block MBProgressHUD *waithud;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            waithud = [MBProgressHUD showHUDAddedTo:LR_KEY_WINDOW animated:YES];
-            waithud.label.text = @"视频处理中";
-        });
-        
-        [exportSession exportAsynchronouslyWithCompletionHandler:^{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [waithud hideAnimated:YES];
-            });
-            int exportStatus = exportSession.status;
-            NSLog(@"%d",exportStatus);
-            switch (exportStatus)
-            {
-                case AVAssetExportSessionStatusFailed:
-                {
-                    // log error to text view
-                    NSError *exportError = exportSession.error;
-                    NSLog (@"AVAssetExportSessionStatusFailed: %@", exportError);
-                    break;
-                }
-                case AVAssetExportSessionStatusCompleted:
-                {
-                    NSLog(@"视频转码成功");
-                    NSData *data2 = [NSData dataWithContentsOfFile:_outPath];
-                    NSLog(@"视频大小2 %lu",(unsigned long)data2.length);
-                    NSMutableArray *mutArr = [NSMutableArray arrayWithArray:[self.nurseDic objectForKey:key]];
-                    IMageOrVideoModel *imgModel = [[IMageOrVideoModel alloc]init];
-                    imgModel.image = coverImage;
-                    imgModel.imageOther = data2;
-                    imgModel.imageURLKey = key;
-                    [mutArr addObject:imgModel];
-                    [self.nurseDic setObject:[NSArray arrayWithArray:mutArr] forKey:key];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                    });
-
-//                    [CommonManage QNPutimage:data2 forView:LR_KEY_WINDOW key:nil res:^(BOOL success, NSString * _Nonnull key, NSString * _Nonnull imageURL) {
-//                        if(success){
-//                            NSLog(@"video key is %@",key);
-//                            IMageOrVideoModel *imgModel = [[IMageOrVideoModel alloc]init];
-//                            imgModel.image = coverImage;
-//                            imgModel.imageOther = data2;
-//                            imgModel.imageURLKey = key;
-//                            [self.videosModelArr addObject:imgModel];
-//                            [self reloadData];
-//                        }
-//                        else{
-//                            LR_TOAST(@"上传失败");
-//                        }
-//
-//                    } progressHandler:nil];
-               
-                    
-                    
-                }
-            }
-            
-            
-        }];
-    }];
-    
-    //            if (asset.mediaType == PHAssetMediaTypeVideo) {
-    //                PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
-    //                options.version = PHImageRequestOptionsVersionCurrent;
-    //                options.deliveryMode = PHVideoRequestOptionsDeliveryModeAutomatic;
-    //
-    //                PHImageManager *manager = [PHImageManager defaultManager];
-    //                [manager requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset * _Nullable avasset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
-    //                    AVURLAsset *urlAsset = (AVURLAsset *)avasset;
-    //
-    //                    NSURL *url = urlAsset.URL;
-    //                    NSData *data = [NSData dataWithContentsOfURL:url];
-    //
-    //                    NSLog(@"%@",data);
-    //                }];
-    //            }
-}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     @weakify(self);
     NSDictionary *dic = self.dataArray[indexPath.section];
@@ -818,20 +752,58 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     if ([self.navTitle isEqualToString:@"预约专家"]) {
         @weakify(self);
         
-        [HYBNetworking postWithUrl:URL_AppointDoctor body:self.orderDic success:^(id response) {
+        NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+        
+        NSString* timeStr = self.orderDic[@"visitTime"];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateStyle:NSDateFormatterMediumStyle];
+        [formatter setTimeStyle:NSDateFormatterShortStyle];
+        [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"]; // ----------设置你想要的格式,hh与HH的区别:分别表示12小时制,24小时制
+        NSTimeZone* timeZone = [NSTimeZone systemTimeZone];
+        [formatter setTimeZone:timeZone];
+        
+        NSDate* date = [formatter dateFromString:timeStr]; //------------将字符串按formatter转成nsdate
+        //时间转时间戳的方法:
+        NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[date timeIntervalSince1970]];
+        [paramDic setObject:timeSp forKey:@"visitTime"];
+
+        
+        [paramDic setValue:self.orderDic[@"id"] forKey:@"guid"];
+        [paramDic setValue:self.orderDic[@"hospitalId"] forKey:@"hospitalId"];
+        [paramDic setValue:self.orderDic[@"hospital"] forKey:@"hospital"];
+        [paramDic setValue:self.orderDic[@"department"] forKey:@"department"];
+        [paramDic setValue:self.orderDic[@"departmentId"] forKey:@"departmentId"];
+        [paramDic setValue:self.orderDic[@"doctor"] forKey:@"doctor"];
+        [paramDic setValue:self.orderDic[@"doctorId"] forKey:@"doctorId"];
+
+        [HYBNetworking postWithUrl:URL_AppointDoctor body:paramDic success:^(id response) {
             NSDictionary *dic = response;
             if ([dic[@"code"] isEqual:@100]) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     @strongify(self);
-                    [MBProgressHUD showAlertWithView:self.view andTitle:[NSString stringWithFormat:@"%@",dic[@"msg"]]];
+                    [MBProgressHUD showAlertWithView:self.view andTitle:@"预约成功"];
                     [self.navigationController popViewControllerAnimated:YES];
                 });
             }else {
-                [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+                [MBProgressHUD showAlertWithView:self.view andTitle:@"预约失败"];
             }
         } fail:^(NSError *error, NSInteger statusCode) {
             
-            [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+            if (statusCode == 401) {
+                //token失效，重新登录
+                [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
+                [[UserInfoManager shareInstance] logoutUser];
+                
+                [[[NIMSDK sharedSDK] loginManager] logout:^(NSError * _Nullable error) {
+                    if (error) {
+                        NSLog(@"退出登录失败");
+                        return;
+                    }
+                }];
+            }else {
+                [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+            }
+            
         }];
            
         return;
@@ -853,6 +825,12 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     NSString *paramId = [NSString stringWithFormat:@"%@",self.nurseDic[@"id"]];
     NSString *nurseRecord = self.nurseRecord;
     NSString *nursePic = @"";
+    if (![self.nurseDic[@"nursePic"] isKindOfClass:[NSNull class]]) {
+        NSString *picS = self.nurseDic[@"nursePic"];
+        if (picS.length > 0) {
+            nursePic = picS;
+        }
+    }
     @weakify(self);
     [HYBNetworking getWithUrl:URL_NurseUpdata refreshCache:YES params:@{@"id":paramId,@"nurseDes":nurseDes,@"nurseRecord":nurseRecord,@"nursePic":nursePic} success:^(id response) {
         
@@ -868,7 +846,21 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
         }
     } fail:^(NSError *error, NSInteger statusCode) {
         
-        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+        if (statusCode == 401) {
+            //token失效，重新登录
+            [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
+            [[UserInfoManager shareInstance] logoutUser];
+            
+            [[[NIMSDK sharedSDK] loginManager] logout:^(NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"退出登录失败");
+                    return;
+                }
+            }];
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+        }
+        
     }];
 //    if(!self.orderCreateModel){
 //        return;
@@ -940,6 +932,104 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     //转为现在时间
     NSDate* destinationDateNow = [[NSDate alloc] initWithTimeInterval:interval sinceDate:anyDate];
     return destinationDateNow;
+}
+#pragma mark -- 上传图片
+-(void)upLoadImageWithPhotos:(NSArray<UIImage *> *)photos assets:(NSArray *)assets isSelectOriginalPhoto:(BOOL )isSelectOriginalPhoto withKey:(NSString *)key{
+    if(photos.count == 0){
+        NSLog(@"select 0 image");
+        return ;
+    }
+    [self.nursePicArr addObject:photos[0]];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //MARK:上传图片
+    [self getQNTokenWithImageData:UIImageJPEGRepresentation(photos[0], 0.5) withKey:key];
+}
+
+//MARK:从服务器获取token
+- (void)getQNTokenWithImageData:(NSData *)data withKey:(NSString *)titleKey{
+    
+    @weakify(self);
+    [HYBNetworking getWithUrl:[NSString stringWithFormat:@"%@",URL_GetQNKey] refreshCache:YES success:^(id response) {
+        NSLog(@"====七牛token服务器%@",response);
+        @strongify(self);
+        if ([response[@"code"] isEqual:@100]) {
+            NSDictionary *dic = response[@"data"];
+            if (![dic isKindOfClass:[NSNull class]]) {
+                //MARK:上传七牛
+                [self upLoadQN:dic imageData:data withKey:titleKey];
+            }
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
+        }
+    } fail:^(NSError *error, NSInteger statusCode) {
+        if (statusCode == 401) {
+            //token失效，重新登录
+            [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
+            [[UserInfoManager shareInstance] logoutUser];
+            
+            [[[NIMSDK sharedSDK] loginManager] logout:^(NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"退出登录失败");
+                    return;
+                }
+            }];
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+        }
+    }];
+}
+- (void)upLoadQN:(NSDictionary *)dic imageData:(NSData*)imgData withKey:(NSString *)keyTitle{
+    NSString *token = dic[@"uploadToken"];
+    QNConfiguration *config = [QNConfiguration build:^(QNConfigurationBuilder *builder) {
+        builder.useHttps = YES;
+    }];
+    QNUploadManager *upManager = [[QNUploadManager alloc] initWithConfiguration:config];
+    NSString *fileName = [NSString stringWithFormat:@"ios_nurse_%@",[self getCurrentTime]];
+    @weakify(self);
+    [upManager putData:imgData
+                   key:fileName
+                 token:token
+              complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+                  NSLog(@"%@",resp);
+                  @strongify(self);
+                  if (info.ok) {
+                      //MARK: key是文件名字
+                      if ([keyTitle isEqualToString:@"陪诊图片"]) {
+                          NSMutableString *picStr = [NSMutableString string];
+                          if (![[self.nurseDic objectForKey:@"nursePic"] isKindOfClass:[NSNull class]]) {
+                              picStr = [NSMutableString stringWithString:[NSString stringWithFormat:@"%@",[self.nurseDic objectForKey:@"nursePic"]]];
+                              if (picStr.length > 0) {
+                                  [picStr appendFormat:@",%@",key];
+                              }
+                              else {
+                                  [picStr appendString:key];
+                              }
+                          }else {
+                              [picStr appendString:key];
+                          }
+                          [self.nurseDic setObject:picStr forKey:@"nursePic"];
+                      }
+                      [MBProgressHUD hideHUDForView:self.view animated:YES];
+                      [self.mainTableView reloadData];
+                  }
+                  else {
+                      [MBProgressHUD hideHUDForView:self.view animated:YES];
+                      [self.nursePicArr removeObjectAtIndex:self.nursePicArr.count-1];
+                      [MBProgressHUD showAlertWithView:self.view andTitle:@"上传失败，请重试"];
+                  }
+              } option:nil];
+}
+- (NSString *)getCurrentTime {
+    // 获取系统当前时间
+    NSDate * date = [NSDate date];
+    NSTimeInterval sec = [date timeIntervalSinceNow];
+    NSDate * currentDate = [[NSDate alloc] initWithTimeIntervalSinceNow:sec];
+    
+    //设置时间输出格式：
+    NSDateFormatter * df = [[NSDateFormatter alloc] init ];
+    [df setDateFormat:@"yyyyMMddHHmmss_SSS"];
+    NSString * na = [df stringFromDate:currentDate];
+    return na;
 }
 
 @end

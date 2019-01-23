@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 
 @property (nonatomic,copy) NSString *headPic;//头像名字
+@property (nonatomic,assign) BOOL isChangeHead;//是否修改头像
 
 @end
 
@@ -56,16 +57,34 @@
 //
 //    }];
     [self.view endEditing:YES];
-    NSDictionary *paramDic = @{@"userTake":@{@"remark":self.introTextView.text,
-//                                             @"sex":@"男",
-//                                             @"name":@"",
-                                             @"headPic":self.headPic
-//                                             @"idCard":@"",
-//                                             @"age":@9
-                                             }};
+    NSDictionary *paramDic = @{@"remark":self.introTextView.text
+                               //                                             @"sex":@"男",
+                               //                                             @"name":@"",
+                               //                                             @"headPic":self.headPic
+                               //                                             @"idCard":@"",
+                               //                                             @"age":@9
+                               };
+    if (self.isChangeHead) {
+        paramDic = @{@"remark":self.introTextView.text,
+                                   //                                             @"sex":@"男",
+                                   //                                             @"name":@"",
+                                                                                @"headPic":self.headPic
+                                   //                                             @"idCard":@"",
+                                   //                                             @"age":@9
+                                   };
+
+    }
     [HYBNetworking postWithUrl:URL_Save body:paramDic success:^(id response) {
         NSDictionary *dic = response;
         if ([dic[@"code"] isEqual:@100]) {
+            NSString *headPic = [UserInfoManager shareInstance].user.headPic;
+            NSMutableArray *arr = [NSMutableArray arrayWithArray:[headPic componentsSeparatedByString:@"/"]];
+            if (arr.count >= 2) {
+                [arr replaceObjectAtIndex:arr.count-1 withObject:self.headPic];
+            }
+            [UserInfoManager shareInstance].user.headPic = [arr componentsJoinedByString:@"/"];
+            [[UserInfoManager shareInstance]updateUser];
+            [self.navigationController popViewControllerAnimated:YES];
             [MBProgressHUD showAlertWithView:self.view andTitle:@"修改成功"];
         }else {
             [MBProgressHUD showAlertWithView:self.view andTitle:@"修改失败"];
@@ -139,12 +158,23 @@
             [MBProgressHUD showAlertWithView:self.view andTitle:@"请求失败"];
         }
     } fail:^(NSError *error, NSInteger statusCode) {
-        [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+        if (statusCode == 401) {
+            //token失效，重新登录
+            [UIApplication sharedApplication].delegate.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[LoginVC new]];
+            [[UserInfoManager shareInstance] logoutUser];
+            
+            [[[NIMSDK sharedSDK] loginManager] logout:^(NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"退出登录失败");
+                    return;
+                }
+            }];
+        }else {
+            [MBProgressHUD showAlertWithView:self.view andTitle:@"连接服务器失败"];
+        }
     }];
 }
 - (void)upLoadQN:(NSDictionary *)dic imageData:(NSData*)imgData{
-    NSString *accesskey = dic[@"accesskey"];
-    NSString *secretKey = dic[@"secretKey"];
     NSString *token = dic[@"uploadToken"];
     QNConfiguration *config = [QNConfiguration build:^(QNConfigurationBuilder *builder) {
         builder.useHttps = YES;
@@ -159,12 +189,15 @@
                   if (info.ok) {
                       //MARK: key是文件名字
                       self.headPic = key;
+                      self.isChangeHead = YES;
+                      
+                      
                       if ([resp[@"status"] isEqual:@0]) {
                           
                       }
                   }
                   else {
-                      
+                      [MBProgressHUD showAlertWithView:self.view andTitle:@"上传失败，请重试"];
                   }
               } option:nil];
 }

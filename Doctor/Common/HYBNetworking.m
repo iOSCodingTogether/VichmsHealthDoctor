@@ -311,7 +311,7 @@ static inline NSString *cachePath() {
                                                  @"text/plain",
                                                  nil];
     manager.responseSerializer = responseSerializer;
-    [manager.requestSerializer setValue:@"application/x-www-form-urlencoded;charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+//    [manager.requestSerializer setValue:@"application/x-www-form-urlencoded;charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     
     [[manager dataTaskWithRequest:request
                    uploadProgress:nil

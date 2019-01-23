@@ -92,14 +92,14 @@
     [textFieldV addSubview:label1];
     label1.backgroundColor = HEXCOLOR(0xf5f5f5);
     
-    UIButton *changePwdBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.view addSubview:changePwdBtn];
-    [changePwdBtn setTitle:@"修改密码/忘记密码" forState:UIControlStateNormal];
-    changePwdBtn.frame = CGRectMake(SCREENW - 120 - xSpace, CGRectGetMaxY(textFieldV.frame) + adapterH(12), 120, 16);
-    changePwdBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    changePwdBtn.titleLabel.textAlignment = NSTextAlignmentRight;
-    [changePwdBtn setTitleColor:HEXCOLOR(0x999999) forState:UIControlStateNormal];
-    [changePwdBtn addTarget:self action:@selector(changePwd:) forControlEvents:UIControlEventTouchUpInside];
+//    UIButton *changePwdBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [self.view addSubview:changePwdBtn];
+//    [changePwdBtn setTitle:@"修改密码/忘记密码" forState:UIControlStateNormal];
+//    changePwdBtn.frame = CGRectMake(SCREENW - 120 - xSpace, CGRectGetMaxY(textFieldV.frame) + adapterH(12), 120, 16);
+//    changePwdBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+//    changePwdBtn.titleLabel.textAlignment = NSTextAlignmentRight;
+//    [changePwdBtn setTitleColor:HEXCOLOR(0x999999) forState:UIControlStateNormal];
+//    [changePwdBtn addTarget:self action:@selector(changePwd:) forControlEvents:UIControlEventTouchUpInside];
 
     UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:loginBtn];
