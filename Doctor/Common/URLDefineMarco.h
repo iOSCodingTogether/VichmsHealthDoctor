@@ -38,7 +38,7 @@
 #define URL_Message_MY @"message/page/my" //消息通知
 #define URL_Count @"doctor/orderEvaluation/count"//统计
 #define URL_AttendPage @"order/page/Srever/my"//订单列表
-//#define URL_Doctors @"doctor/server/doctors"//我的医生
+//#define URL_SDoctors @"doctor/server/doctors"//我的医生
 #define URL_Doctors @"doctor/page"//我的医生
 #define URL_GetQNKey @"qiniu/getKey" //七牛key
 #endif /* URLDefineMarco_h */
