@@ -37,6 +37,10 @@
     [self configNavi];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [self.tableView reloadData];
+}
+
 - (void)configNavi {
     // 诊断
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"诊断"
