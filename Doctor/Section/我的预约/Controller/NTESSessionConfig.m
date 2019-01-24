@@ -25,23 +25,18 @@
 - (NSArray *)mediaItems
 {
     NSArray *defaultMediaItems = [NIMKitUIConfig sharedConfig].defaultMediaItems;
-    //
-    //    NIMMediaItem *audioChat =  [NIMMediaItem item:@"onTapMediaItemAudioChat:"
-    //                                      normalImage:[UIImage imageNamed:@"btn_media_telphone_message_normal"]
-    //                                    selectedImage:[UIImage imageNamed:@"btn_media_telphone_message_pressed"]
-    //                                            title:@"实时语音"];
     
     NIMMediaItem *videoChat =  [NIMMediaItem item:@"onTapMediaItemVideoChat:"
                                       normalImage:[UIImage imageNamed:@"btn_bk_media_video_chat_normal"]
                                     selectedImage:[UIImage imageNamed:@"btn_bk_media_video_chat_pressed"]
                                             title:@"视频聊天"];
     
-    NIMMediaItem *teamMeeting =  [NIMMediaItem item:@"onTapMediaItemTeamMeeting:"
-                                        normalImage:[UIImage imageNamed:@"btn_media_telphone_message_normal"]
-                                      selectedImage:[UIImage imageNamed:@"btn_media_telphone_message_pressed"]
-                                              title:@"视频通话"];
+//    NIMMediaItem *teamMeeting =  [NIMMediaItem item:@"onTapMediaItemTeamMeeting:"
+//                                        normalImage:[UIImage imageNamed:@"btn_media_telphone_message_normal"]
+//                                      selectedImage:[UIImage imageNamed:@"btn_media_telphone_message_pressed"]
+//                                              title:@"视频通话"];
     
-    NSArray *items = @[videoChat,teamMeeting];
+    NSArray *items = @[videoChat];
     
     return [defaultMediaItems arrayByAddingObjectsFromArray:items];
     

@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NIMKitUIConfig.h"
+#import "NIMSessionConfig.h"
 
-@interface NTESSessionConfig : NIMKitUIConfig
+@interface NTESSessionConfig : NSObject<NIMSessionConfig>
 @property (nonatomic,strong)    NIMSession *session;
 
 @end

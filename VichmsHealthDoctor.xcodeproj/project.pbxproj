@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		7B13F80C21FA266700DBA3BC /* NTESSessionConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B13F80B21FA266700DBA3BC /* NTESSessionConfig.m */; };
+		7B13F81021FA36AD00DBA3BC /* NTESVideoChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B13F80D21FA36AC00DBA3BC /* NTESVideoChatViewController.m */; };
+		7B13F81121FA36AD00DBA3BC /* NTESVideoChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B13F80F21FA36AD00DBA3BC /* NTESVideoChatViewController.xib */; };
+		7B13F81421FA36F900DBA3BC /* NTESNetChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B13F81221FA36F900DBA3BC /* NTESNetChatViewController.m */; };
+		7B13F81721FA372200DBA3BC /* NTESTimerHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B13F81621FA372200DBA3BC /* NTESTimerHolder.m */; };
+		7B13F81A21FA374900DBA3BC /* NTESRecordSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B13F81921FA374900DBA3BC /* NTESRecordSelectView.m */; };
+		7B13F81D21FA379300DBA3BC /* UIView+NTES.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B13F81C21FA379300DBA3BC /* UIView+NTES.m */; };
+		7B13F82021FA383400DBA3BC /* UIAlertView+NTESBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B13F81F21FA383300DBA3BC /* UIAlertView+NTESBlock.m */; };
 		7B22DC0921F2D24C00F29B17 /* SKTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC0821F2D24C00F29B17 /* SKTagView.m */; };
 		7B22DC0C21F2D39600F29B17 /* SKTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC0A21F2D39600F29B17 /* SKTag.m */; };
 		7B22DC0F21F2D48300F29B17 /* SKTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC0D21F2D48300F29B17 /* SKTagButton.m */; };
@@ -191,6 +198,19 @@
 		18BA9A64212C3F48004A5721 /* Doctor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doctor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B13F80A21FA266700DBA3BC /* NTESSessionConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESSessionConfig.h; sourceTree = "<group>"; };
 		7B13F80B21FA266700DBA3BC /* NTESSessionConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESSessionConfig.m; sourceTree = "<group>"; };
+		7B13F80D21FA36AC00DBA3BC /* NTESVideoChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESVideoChatViewController.m; sourceTree = "<group>"; };
+		7B13F80E21FA36AD00DBA3BC /* NTESVideoChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESVideoChatViewController.h; sourceTree = "<group>"; };
+		7B13F80F21FA36AD00DBA3BC /* NTESVideoChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NTESVideoChatViewController.xib; sourceTree = "<group>"; };
+		7B13F81221FA36F900DBA3BC /* NTESNetChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESNetChatViewController.m; sourceTree = "<group>"; };
+		7B13F81321FA36F900DBA3BC /* NTESNetChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESNetChatViewController.h; sourceTree = "<group>"; };
+		7B13F81521FA372200DBA3BC /* NTESTimerHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESTimerHolder.h; sourceTree = "<group>"; };
+		7B13F81621FA372200DBA3BC /* NTESTimerHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESTimerHolder.m; sourceTree = "<group>"; };
+		7B13F81821FA374900DBA3BC /* NTESRecordSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESRecordSelectView.h; sourceTree = "<group>"; };
+		7B13F81921FA374900DBA3BC /* NTESRecordSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESRecordSelectView.m; sourceTree = "<group>"; };
+		7B13F81B21FA379300DBA3BC /* UIView+NTES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+NTES.h"; sourceTree = "<group>"; };
+		7B13F81C21FA379300DBA3BC /* UIView+NTES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+NTES.m"; sourceTree = "<group>"; };
+		7B13F81E21FA383300DBA3BC /* UIAlertView+NTESBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+NTESBlock.h"; sourceTree = "<group>"; };
+		7B13F81F21FA383300DBA3BC /* UIAlertView+NTESBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+NTESBlock.m"; sourceTree = "<group>"; };
 		7B22DC0721F2D24C00F29B17 /* SKTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTagView.h; sourceTree = "<group>"; };
 		7B22DC0821F2D24C00F29B17 /* SKTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTagView.m; sourceTree = "<group>"; };
 		7B22DC0A21F2D39600F29B17 /* SKTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTag.m; sourceTree = "<group>"; };
@@ -1230,6 +1250,19 @@
 				7B9BB75221F2D2F100CFC1BC /* VHDChatSessionVC.m */,
 				7B13F80A21FA266700DBA3BC /* NTESSessionConfig.h */,
 				7B13F80B21FA266700DBA3BC /* NTESSessionConfig.m */,
+				7B13F80E21FA36AD00DBA3BC /* NTESVideoChatViewController.h */,
+				7B13F80D21FA36AC00DBA3BC /* NTESVideoChatViewController.m */,
+				7B13F80F21FA36AD00DBA3BC /* NTESVideoChatViewController.xib */,
+				7B13F81321FA36F900DBA3BC /* NTESNetChatViewController.h */,
+				7B13F81221FA36F900DBA3BC /* NTESNetChatViewController.m */,
+				7B13F81521FA372200DBA3BC /* NTESTimerHolder.h */,
+				7B13F81621FA372200DBA3BC /* NTESTimerHolder.m */,
+				7B13F81E21FA383300DBA3BC /* UIAlertView+NTESBlock.h */,
+				7B13F81F21FA383300DBA3BC /* UIAlertView+NTESBlock.m */,
+				7B13F81B21FA379300DBA3BC /* UIView+NTES.h */,
+				7B13F81C21FA379300DBA3BC /* UIView+NTES.m */,
+				7B13F81821FA374900DBA3BC /* NTESRecordSelectView.h */,
+				7B13F81921FA374900DBA3BC /* NTESRecordSelectView.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1645,6 +1678,7 @@
 				7B671F1B21DFA57300DD7C32 /* PInfoVC.xib in Resources */,
 				7B2BD83E21D3C67000256EFB /* CommonCell0.xib in Resources */,
 				7B2BD84D21D3C67000256EFB /* BRCity.plist in Resources */,
+				7B13F81121FA36AD00DBA3BC /* NTESVideoChatViewController.xib in Resources */,
 				7B5E336821EA350100E503CB /* NewMyServiceTableViewCell.xib in Resources */,
 				7B2BD84721D3C67000256EFB /* CollectionTableViewCell.xib in Resources */,
 				7B2BD83921D3C67000256EFB /* LaunchScreen.storyboard in Resources */,
@@ -1661,7 +1695,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/NIMKit/NIMKit/Resources/NIMKitEmoticon.bundle",
@@ -1682,7 +1716,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D940FF3DABA5E30E61821328 /* [CP] Check Pods Manifest.lock */ = {
@@ -1760,6 +1794,7 @@
 				7BA8FDBA21E251E10001B21A /* UIView+MWFrame.m in Sources */,
 				7B2BD88021D3C67000256EFB /* UserActiveVideoResultModel.m in Sources */,
 				7BA42FE621E10F3C007ADB7F /* ExpertIntroduceVC.m in Sources */,
+				7B13F81021FA36AD00DBA3BC /* NTESVideoChatViewController.m in Sources */,
 				7B2BD87C21D3C67000256EFB /* GoodsDetailPageResultSubModel.m in Sources */,
 				7B2BD8BA21D3C67000256EFB /* NSString+CommonCategory.m in Sources */,
 				7B98AAF521DE8A7800EB9809 /* VHDTabbarVC.m in Sources */,
@@ -1770,6 +1805,7 @@
 				7B2BD84C21D3C67000256EFB /* BRAddressModel.m in Sources */,
 				7B2BD89F21D3C67000256EFB /* OrderPageMyResultModel.m in Sources */,
 				7B2BD83C21D3C67000256EFB /* CommonCell0.m in Sources */,
+				7B13F81A21FA374900DBA3BC /* NTESRecordSelectView.m in Sources */,
 				7B2BD8C421D3C67000256EFB /* BaseTabBarViewController.m in Sources */,
 				7B671F2121DFA5B300DD7C32 /* AboutUsVC.m in Sources */,
 				7B22DC1321F4C77300F29B17 /* ExpertDetailInfoViewController.m in Sources */,
@@ -1791,6 +1827,7 @@
 				7B2BD87E21D3C67000256EFB /* UserOpenVideoRequestModel.m in Sources */,
 				7B2BD88321D3C67000256EFB /* PayRecordCreateRequestModel.m in Sources */,
 				7B2BD8B721D3C67000256EFB /* TagView.m in Sources */,
+				7B13F82021FA383400DBA3BC /* UIAlertView+NTESBlock.m in Sources */,
 				7B2BD87821D3C67000256EFB /* DoctorPageResultModel.m in Sources */,
 				7B2BD8B221D3C67000256EFB /* SmsCodeRequestModel.m in Sources */,
 				7BA42FE221E0FBB6007ADB7F /* StatisticsViewController.m in Sources */,
@@ -1835,6 +1872,8 @@
 				7B2BD8A121D3C67000256EFB /* OrderPageMyResultSubModel.m in Sources */,
 				7B2BD8A621D3C67000256EFB /* CouponuseUserPageRequestModel.m in Sources */,
 				7B2BD89621D3C67000256EFB /* QiniuGetKeyRequestModel.m in Sources */,
+				7B13F81721FA372200DBA3BC /* NTESTimerHolder.m in Sources */,
+				7B13F81421FA36F900DBA3BC /* NTESNetChatViewController.m in Sources */,
 				7B671F1321DF9A4A00DD7C32 /* LFNavigationController.m in Sources */,
 				7B671F2721DFBE8A00DD7C32 /* UITextView+MWPlaceholder.m in Sources */,
 				7B2BD89D21D3C67000256EFB /* LoginResultModel.m in Sources */,
@@ -1856,6 +1895,7 @@
 				7B2BD88521D3C67000256EFB /* CouponUseUsableResultSubModel.m in Sources */,
 				7B2BD8C121D3C67000256EFB /* NSDate+CCategory.m in Sources */,
 				7B2BD8AA21D3C67000256EFB /* DepartmentFindByIdResultModel.m in Sources */,
+				7B13F81D21FA379300DBA3BC /* UIView+NTES.m in Sources */,
 				7BA42FDB21E0A2C1007ADB7F /* AccompanyRecordVC.m in Sources */,
 				7B2BD8A021D3C67000256EFB /* OrderPageMyRequestModel.m in Sources */,
 				7B2BD8D721D3CB0A00256EFB /* DoctorLoginManage.m in Sources */,
