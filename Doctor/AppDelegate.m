@@ -14,6 +14,8 @@
 #import "UserInfoManager.h"
 #import <NIMSDK/NIMSDK.h>
 #import "MBProgressHUD+SimpleLoad.h"
+#import "VHDChatDataManger.h"
+#import "VHDChatCellLayoutConfig.h"
 
 @interface AppDelegate () <NIMLoginManagerDelegate>
 
@@ -38,6 +40,7 @@
     // 云信配置
     NIMSDKOption *option = [NIMSDKOption optionWithAppKey:@"47a23dbd2d737a031570d5a153a04a4e"];
     [[NIMSDK sharedSDK] registerWithOption:option];
+    [[NIMKit sharedKit] registerLayoutConfig:[VHDChatCellLayoutConfig new]];
     // 初始化UI
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     if ([UserInfoManager shareInstance].user) {

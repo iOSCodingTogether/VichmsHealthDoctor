@@ -181,6 +181,8 @@
 		7BA8FDB721E216880001B21A /* VHDChatDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FDB621E216880001B21A /* VHDChatDetailVC.m */; };
 		7BA8FDBA21E251E10001B21A /* UIView+MWFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FDB821E251E00001B21A /* UIView+MWFrame.m */; };
 		7BA8FDBE21E256EC0001B21A /* ChatListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BA8FDBD21E256EC0001B21A /* ChatListHeaderView.m */; };
+		7BC078E621FA23E300A4E516 /* VHDChatDataManger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BC078E521FA23E300A4E516 /* VHDChatDataManger.m */; };
+		7BC078E921FA281000A4E516 /* VHDChatCellLayoutConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BC078E821FA281000A4E516 /* VHDChatCellLayoutConfig.m */; };
 		A508311FCEB9D13AD82B35E9 /* libPods-Doctor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8235D1C7CB90E1F9F87B2FC4 /* libPods-Doctor.a */; };
 /* End PBXBuildFile section */
 
@@ -519,6 +521,10 @@
 		7BA8FDB921E251E00001B21A /* UIView+MWFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MWFrame.h"; sourceTree = "<group>"; };
 		7BA8FDBC21E256EC0001B21A /* ChatListHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatListHeaderView.h; sourceTree = "<group>"; };
 		7BA8FDBD21E256EC0001B21A /* ChatListHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatListHeaderView.m; sourceTree = "<group>"; };
+		7BC078E421FA23E300A4E516 /* VHDChatDataManger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VHDChatDataManger.h; sourceTree = "<group>"; };
+		7BC078E521FA23E300A4E516 /* VHDChatDataManger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VHDChatDataManger.m; sourceTree = "<group>"; };
+		7BC078E721FA281000A4E516 /* VHDChatCellLayoutConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VHDChatCellLayoutConfig.h; sourceTree = "<group>"; };
+		7BC078E821FA281000A4E516 /* VHDChatCellLayoutConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VHDChatCellLayoutConfig.m; sourceTree = "<group>"; };
 		8235D1C7CB90E1F9F87B2FC4 /* libPods-Doctor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Doctor.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88E31B45F492F498D54F857 /* Pods-Doctor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Doctor.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Doctor/Pods-Doctor.debug.xcconfig"; sourceTree = "<group>"; };
 		E5191FEDEE0C720BC24F320E /* Pods-Doctor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Doctor.release.xcconfig"; path = "Pods/Target Support Files/Pods-Doctor/Pods-Doctor.release.xcconfig"; sourceTree = "<group>"; };
@@ -565,6 +571,10 @@
 				7B2BD6C921D3C66F00256EFB /* LaunchScreen.storyboard */,
 				7B2BD6C721D3C66F00256EFB /* AppDelegate.h */,
 				7B2BD83621D3C67000256EFB /* AppDelegate.m */,
+				7BC078E421FA23E300A4E516 /* VHDChatDataManger.h */,
+				7BC078E521FA23E300A4E516 /* VHDChatDataManger.m */,
+				7BC078E721FA281000A4E516 /* VHDChatCellLayoutConfig.h */,
+				7BC078E821FA281000A4E516 /* VHDChatCellLayoutConfig.m */,
 				7B2BD83521D3C67000256EFB /* main.m */,
 				7B2BD83721D3C67000256EFB /* Info.plist */,
 			);
@@ -1646,7 +1656,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/NIMKit/NIMKit/Resources/NIMKitEmoticon.bundle",
@@ -1667,7 +1677,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Doctor/Pods-Doctor-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D940FF3DABA5E30E61821328 /* [CP] Check Pods Manifest.lock */ = {
@@ -1701,6 +1711,7 @@
 				7B2BD8A321D3C67000256EFB /* MessagePageResultSubModel.m in Sources */,
 				7B2BD8B321D3C67000256EFB /* SmsCodeResultModel.m in Sources */,
 				7B98AAF121DE72C000EB9809 /* LoginVC.m in Sources */,
+				7BC078E921FA281000A4E516 /* VHDChatCellLayoutConfig.m in Sources */,
 				7B2BD8AD21D3C67000256EFB /* OrderCreateResultModel.m in Sources */,
 				7B5E336721EA350100E503CB /* NewMyServiceTableViewCell.m in Sources */,
 				7B98AAF821DE8AD400EB9809 /* PersonalSettingVC.m in Sources */,
@@ -1731,6 +1742,7 @@
 				7B2BD88F21D3C67000256EFB /* HomeNewsColumnRequestModel.m in Sources */,
 				7B671F2F21DFC85E00DD7C32 /* MessageListTableViewCell.m in Sources */,
 				7B2BD84921D3C67000256EFB /* BRStringPickerView.m in Sources */,
+				7BC078E621FA23E300A4E516 /* VHDChatDataManger.m in Sources */,
 				7B5E336E21EB29B200E503CB /* ZTMonthCollectionViewCell.m in Sources */,
 				7B2BD8B621D3C67000256EFB /* BaseWebVC.m in Sources */,
 				7B98AB0A21DE8FC200EB9809 /* UserInfoManager.m in Sources */,
