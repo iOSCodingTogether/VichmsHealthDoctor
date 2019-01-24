@@ -221,7 +221,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
                                                         @"data":@[@{@"title":@"",
                                                                     @"type":@(CELLTYPE_TEXTVIEW),
                                                                     @"value":@"请输入陪诊记录",
-                                                                    @"en":@"nurseDes",
+                                                                    @"en":@"nurseRecord",
                                                                     @"isEnabled":@YES
                                                                     }]
                                                         },
@@ -470,7 +470,23 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
             }else {
                 cell.TextView.text = [NSString stringWithFormat:@"%@",[self.nurseDic objectForKey:dataDic[@"en"]]];
             }
-            for (NSDictionary *subDic in self.nurseDescArray) {
+            NSArray *nurseArr = self.nurseDescArray;
+            if (!self.isEdit) {
+                if (self.nurseDic[@"nurseDes"]) {
+                    NSString *str = self.nurseDic[@"nurseDes"];
+                    if (str.length > 0) {
+                        NSArray *strArr = [str componentsSeparatedByString:@","];
+                        NSMutableArray *nurseDesMut = [NSMutableArray array];
+                        [self.nurseDescArray enumerateObjectsUsingBlock:^(NSDictionary *subDic, NSUInteger idx, BOOL * _Nonnull stop) {
+                            if ([strArr containsObject:subDic[@"typeCode"]]) {
+                                [nurseDesMut addObject:subDic];
+                            }
+                        }];
+                        nurseArr = nurseDesMut;
+                    }
+                }
+            }
+            for (NSDictionary *subDic in nurseArr) {
                 if ([subDic isKindOfClass:[NSDictionary class]]) {
                     NSString *subTag = [NSString stringWithFormat:@"%@",subDic[@"typeName"]];
                     SKTag *tag1 = [SKTag tagWithText:subTag];
@@ -678,7 +694,8 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
                 NSLog(@"====我的医生%@",response);
                 NSDictionary *dic = response;
                 if ([dic[@"code"] isEqual:@100]) {
-                    NSArray *arr = dic[@"data"];
+                    NSDictionary *data = dic[@"data"];
+                    NSArray *arr = data[@"list"];
                     
                     self.doctorArr = [NSMutableArray arrayWithArray:arr];
                     NSMutableArray *doctorNameArr = [NSMutableArray array];
@@ -764,8 +781,8 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
         
         NSDate* date = [formatter dateFromString:timeStr]; //------------将字符串按formatter转成nsdate
         //时间转时间戳的方法:
-        NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[date timeIntervalSince1970]];
-        [paramDic setObject:timeSp forKey:@"visitTime"];
+//        NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[date timeIntervalSince1970]];
+        [paramDic setObject:@((long)[date timeIntervalSince1970] * 1000) forKey:@"visitTime"];
 
         
         [paramDic setValue:self.orderDic[@"id"] forKey:@"guid"];
@@ -812,11 +829,11 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
     if (self.nurseDescSelectedArr.count > 0) {
         for (NSInteger i=0;i<self.nurseDescSelectedArr.count;i++) {
             NSDictionary *subDic = self.nurseDescSelectedArr[i];
-            NSString *typeName = subDic[@"typeName"];
+            NSString *typeCode = subDic[@"typeCode"];
             if (i == self.nurseDescSelectedArr.count - 1) {
-                [nurseDes appendString:typeName];
+                [nurseDes appendString:typeCode];
             }else {
-                [nurseDes appendFormat:@"%@,",typeName];
+                [nurseDes appendFormat:@"%@,",typeCode];
             }
         }
     }else {
