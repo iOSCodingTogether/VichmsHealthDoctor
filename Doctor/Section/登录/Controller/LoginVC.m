@@ -145,6 +145,7 @@
                                                                  if (error) {
                                                                      [MBProgressHUD showLoadingWithTitle:@"认证失败，请重试"];
                                                                  } else {
+                                                        
                                                                      VHDTabbarVC *tabVC = [[VHDTabbarVC alloc] init];
                                                                      [UIApplication sharedApplication].delegate.window.rootViewController = tabVC;
                                                                  }

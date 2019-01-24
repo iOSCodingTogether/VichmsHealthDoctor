@@ -13,6 +13,9 @@
 #import "UIButton+Block.h"
 #import "VHDChatSessionVC.h"
 #import "NIMKitDataProviderImpl.h"
+#import "NIMKit.h"
+#import "NTESSessionConfig.h"
+#import "NIMInputMoreContainerView.h"
 
 @interface BookingVC ()< UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate>
 @property (nonatomic,strong) UIView *topView;//上面的选择view
@@ -208,6 +211,8 @@
         
         NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
         VHDChatSessionVC *sessionVC = [[VHDChatSessionVC alloc] initWithSession:session];
+        sessionVC.sessionInputView.moreContainer.config = [[NTESSessionConfig alloc]init];
+
         [self.navigationController pushViewController:sessionVC animated:YES];
         
 //        if (![[NIMSDK sharedSDK].teamManager isMyTeam:teamInfo.teamId]) {
@@ -233,8 +238,6 @@
     }];
     return cell;
 }
-
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     NSLog(@"click");
 }

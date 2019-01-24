@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B13F80C21FA266700DBA3BC /* NTESSessionConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B13F80B21FA266700DBA3BC /* NTESSessionConfig.m */; };
 		7B22DC0921F2D24C00F29B17 /* SKTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC0821F2D24C00F29B17 /* SKTagView.m */; };
 		7B22DC0C21F2D39600F29B17 /* SKTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC0A21F2D39600F29B17 /* SKTag.m */; };
 		7B22DC0F21F2D48300F29B17 /* SKTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B22DC0D21F2D48300F29B17 /* SKTagButton.m */; };
@@ -186,6 +187,8 @@
 
 /* Begin PBXFileReference section */
 		18BA9A64212C3F48004A5721 /* Doctor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doctor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B13F80A21FA266700DBA3BC /* NTESSessionConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESSessionConfig.h; sourceTree = "<group>"; };
+		7B13F80B21FA266700DBA3BC /* NTESSessionConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESSessionConfig.m; sourceTree = "<group>"; };
 		7B22DC0721F2D24C00F29B17 /* SKTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTagView.h; sourceTree = "<group>"; };
 		7B22DC0821F2D24C00F29B17 /* SKTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTagView.m; sourceTree = "<group>"; };
 		7B22DC0A21F2D39600F29B17 /* SKTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTag.m; sourceTree = "<group>"; };
@@ -1215,6 +1218,8 @@
 				7B671F0C21DF955300DD7C32 /* BookingVC.m */,
 				7B9BB75121F2D2F100CFC1BC /* VHDChatSessionVC.h */,
 				7B9BB75221F2D2F100CFC1BC /* VHDChatSessionVC.m */,
+				7B13F80A21FA266700DBA3BC /* NTESSessionConfig.h */,
+				7B13F80B21FA266700DBA3BC /* NTESSessionConfig.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1801,6 +1806,7 @@
 				7B2BD88C21D3C67000256EFB /* HomeNewsPageResultModel.m in Sources */,
 				7B2BD88E21D3C67000256EFB /* HomeNewsPageRequestModel.m in Sources */,
 				7BA42FF721E1F2B2007ADB7F /* CommentVC.m in Sources */,
+				7B13F80C21FA266700DBA3BC /* NTESSessionConfig.m in Sources */,
 				7B2BD89121D3C67000256EFB /* HomeNewsColumnResultModel.m in Sources */,
 				7B2BD8C021D3C67000256EFB /* UIColor+CCategory.m in Sources */,
 				7B2BD87B21D3C67000256EFB /* GoodsDetailPageRequestModel.m in Sources */,

@@ -38,7 +38,19 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self.tableView reloadData];
+//    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+////    CGPoint point = self.tableView.mj_origin;
+//    button.frame = CGRectMake(0, kNavigationBarHeight, SCREENW, 40);
+//    [button setTitle:@"呼叫医生" forState:UIControlStateNormal];
+//    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [button setBackgroundColor:HEXCOLOR(0x00A3FE)];
+//    self.tableView.tableHeaderView = button;
+//    [self.view addSubview:button];
+//    point.y = kNavigationBarHeight + 40;
+//    self.tableView.mj_origin = point;
+
 }
 
 - (void)configNavi {
@@ -86,5 +98,6 @@
 - (void)backAction {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 @end
