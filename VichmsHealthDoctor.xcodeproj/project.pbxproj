@@ -559,6 +559,7 @@
 		7B3C33CD21FB141500FAB59E /* NSDictionary+NTESJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NTESJson.m"; sourceTree = "<group>"; };
 		7B3C33D621FC4B2E00FAB59E /* NSDictionary+NTESJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NTESJson.h"; sourceTree = "<group>"; };
 		7B3C33D721FC4B2F00FAB59E /* NSDictionary+NTESJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NTESJson.m"; sourceTree = "<group>"; };
+		7B3C33D921FC8CD300FAB59E /* Doctor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Doctor.entitlements; sourceTree = "<group>"; };
 		7B5E336421EA350100E503CB /* NewMyServiceTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewMyServiceTableViewCell.h; sourceTree = "<group>"; };
 		7B5E336521EA350100E503CB /* NewMyServiceTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewMyServiceTableViewCell.m; sourceTree = "<group>"; };
 		7B5E336621EA350100E503CB /* NewMyServiceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewMyServiceTableViewCell.xib; sourceTree = "<group>"; };
@@ -844,6 +845,7 @@
 		7B2BD6C621D3C66F00256EFB /* Doctor */ = {
 			isa = PBXGroup;
 			children = (
+				7B3C33D921FC8CD300FAB59E /* Doctor.entitlements */,
 				7B13F82421FAB28A00DBA3BC /* Vendors */,
 				7B98AAC321DE5E4400EB9809 /* Section */,
 				7B2BD8D421D3CB0A00256EFB /* Manage */,
@@ -1935,6 +1937,11 @@
 					18BA9A63212C3F47004A5721 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -2380,6 +2387,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Doctor/Doctor.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2412,6 +2420,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Doctor/Doctor.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;

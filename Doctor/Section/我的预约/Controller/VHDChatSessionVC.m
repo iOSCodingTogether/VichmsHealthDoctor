@@ -17,7 +17,8 @@
 #import "NTESSessionConfig.h"
 #import "NTESTeamMeetingCallerInfo.h"
 #import "NTESTeamMeetingViewController.h"
-@interface VHDChatSessionVC ()
+#import "NTESCustomSysNotificationSender.h"
+@interface VHDChatSessionVC ()<NIMSystemNotificationManagerDelegate>
 
 @property (nonatomic,strong) NTESSessionConfig *config;
 
@@ -28,6 +29,7 @@
 @property (nonatomic,strong) UIButton *backBtn;
 //@property (nonatomic,strong) UIButton *secondRightBtn;
 @property (nonatomic,copy) NSString *rightTitle;
+@property (nonatomic,strong)    NTESCustomSysNotificationSender *notificaionSender;
 
 @end
 
@@ -37,6 +39,7 @@
     self = [super initWithSession:session];
     if (self) {
         _config = [[NTESSessionConfig alloc] init];
+
     }
     return self;
 }
@@ -50,10 +53,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _notificaionSender  = [[NTESCustomSysNotificationSender alloc] init];
+
     [self configNavi];
 }
-
+- (void)onTextChanged:(id)sender
+{
+    [_notificaionSender sendTypingState:self.session];
+}
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.tableView reloadData];
@@ -68,6 +75,11 @@
 //    point.y = kNavigationBarHeight + 40;
 //    self.tableView.mj_origin = point;
 
+}
+
+- (NSString *)sessionTitle {
+    [NIMSDK sharedSDK].teamManager.allMyTeams
+    return [NSString stringWithFormat:<#(nonnull NSString *), ...#>]
 }
 
 - (void)configNavi {
@@ -89,14 +101,15 @@
 //    [backButton addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
 //    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 //
+//    self.navigationItem.leftBarButtonItem = backItem;
+//    
+//    [self.navigationController.navigationBar setBackIndicatorImage:[UIImage imageNamed:@"blackBack"]];
+//    [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"blackBack"]];
+//    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@""
+//                                                                 style:UIBarButtonItemStylePlain
+//                                                                target:nil
+//                                                                action:nil];
 //    self.navigationItem.backBarButtonItem = backItem;
-    [self.navigationController.navigationBar setBackIndicatorImage:[UIImage imageNamed:@"blackBack"]];
-    [self.navigationController.navigationBar setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"blackBack"]];
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@""
-                                                                 style:UIBarButtonItemStylePlain
-                                                                target:nil
-                                                                action:nil];
-    self.navigationItem.backBarButtonItem = backItem;
 }
 
 - (void)judge {

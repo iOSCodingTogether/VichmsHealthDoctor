@@ -37,13 +37,20 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     [self configWithTitle:@"订单列表" backImage:@""];
-    
-    
+    self.rightTitle = @"清空筛选";
+    [self.rightBtn addTarget:self action:@selector(clearSelect) forControlEvents:UIControlEventTouchUpInside];    
     self.dataArray = [NSMutableArray array];
     self.serviceTypeArr = [NSMutableArray array];
     [self createSearchV];
 }
-
+- (void)clearSelect {
+    self.startLabel.text = @"开始日期";
+    self.endLabel.text = @"结束日期";
+    self.selectIndex = 0;
+    self.selectTypeLabel.text = @"请选择服务类型";
+    self.mSearchText.text = @"";
+    [self request:YES];
+}
 //MARK:创建ui
 - (void)createSearchV {
     
@@ -55,7 +62,7 @@
     [self createSearchWithView:topV];
     
     
-    self.mainTableView.frame = CGRectMake(0, CGRectGetMaxY(topV.frame), SCREENW, SCREENH - CGRectGetMaxY(topV.frame) - kTabarHeight);
+    self.mainTableView.frame = CGRectMake(0, CGRectGetMaxY(topV.frame), SCREENW, SCREENH - CGRectGetMaxY(topV.frame));
     LRWeakSelf;
     registerNibWithCellName(self.mainTableView, @"AccompanyTableViewCell");
     self.mainTableView.mj_header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -327,7 +334,25 @@
     if (self.pageIndex < 1) {
         self.pageIndex = 1;
     }
-    [HYBNetworking getWithUrl:[URL_AttendPage stringByAppendingFormat:@"?pageNo=%ld&pageSize=%d",self.pageIndex,PageSize] refreshCache:YES success:^(id response) {
+    
+    NSString *startTime = self.startLabel.text;
+    NSString *endTime  = self.endLabel.text;
+    if ([self.startLabel.text isEqualToString:@"开始日期"]) {
+        startTime = @"";
+    }
+    if ([self.endLabel.text isEqualToString:@"结束日期"]) {
+        endTime = @"";
+    }
+//    [URL_AttendPage stringByAppendingFormat:@"?pageNo=%ld&pageSize=%d",self.pageIndex,PageSize]
+    NSString *url = [[NSString stringWithFormat:@"%@?pageNo=%ld&pageSize=%d&search_EQ_personName=%@&search_GTE_visitTime=%@&search_LTE_visitTime=%@",URL_AttendPage,(long)self.pageIndex,PageSize,self.mSearchText.text,startTime,endTime] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    if (self.selectIndex > 0) {
+        self.pageIndex = 1;
+        NSDictionary *typeDic = self.serviceTypeArr[self.selectIndex - 1];
+        NSString *typeId = typeDic[@"typeCode"];
+        url = [[NSString stringWithFormat:@"%@?search_EQ_buyGoodsType=%@&pageNo=%ld&pageSize=%d&search_EQ_personName=%@&search_GTE_visitTime=%@&search_LTE_visitTime=%@",URL_AttendPage,typeId,(long)self.pageIndex,PageSize,self.mSearchText.text,startTime,endTime] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    }
+    
+    [HYBNetworking getWithUrl:url refreshCache:YES success:^(id response) {
         
         NSLog(@"====订单列表%@",response);
         NSDictionary *dic = response;

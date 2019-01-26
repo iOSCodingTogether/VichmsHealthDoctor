@@ -19,6 +19,9 @@
 #import "NSDictionary+NTESJson.h"
 #import "NTESTeamMeetingCalleeInfo.h"
 #import "NTESTeamMeetingCallingViewController.h"
+#import "NTESTeamMeetingViewController.h"
+#import "VHDChatSessionVC.h"
+#import <UserNotifications/UserNotifications.h>
 //#import "NTESCustomNotificationObject.h"
 //#import "NTESCustomNotificationDB.h"
 #define NTESNotifyID        @"id"
@@ -57,6 +60,7 @@
     [[NIMSDK sharedSDK] registerWithOption:option];
     [[NIMKit sharedKit] registerLayoutConfig:[VHDChatCellLayoutConfig new]];
     [[NIMSDK sharedSDK].systemNotificationManager addDelegate:self];
+    [self registerPushService];
     // 初始化UI
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     if ([UserInfoManager shareInstance].user) {
@@ -127,13 +131,15 @@
 }
 - (BOOL)shouldResponseBusy
 {
-    return NO;
-//    VHDTabbarVC *tabVC = [NTESMainTabController instance];
-//    UINavigationController *nav = tabVC.selectedViewController;
-//    return [nav.topViewController isKindOfClass:[NTESNetChatViewController class]] ||
-//    [tabVC.presentedViewController isKindOfClass:[NTESWhiteboardViewController class]] ||
-//    [tabVC.presentedViewController isKindOfClass:[NTESTeamMeetingCallingViewController class]] ||
-//    [tabVC.presentedViewController isKindOfClass:[NTESTeamMeetingViewController class]];
+    
+//    return NO;
+    
+    VHDTabbarVC *tabVC = (VHDTabbarVC *)self.window.rootViewController;
+    UINavigationController *nav = tabVC.selectedViewController;
+    return [nav.topViewController isKindOfClass:[NTESTeamMeetingCallingViewController class]] ||
+    [nav.topViewController isKindOfClass:[NTESTeamMeetingViewController class]] ||
+    [tabVC.presentedViewController isKindOfClass:[NTESTeamMeetingCallingViewController class]] ||
+    [tabVC.presentedViewController isKindOfClass:[NTESTeamMeetingViewController class]];
 }
 #pragma mark - 云信
 
@@ -177,6 +183,33 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
 
 }
+- (void)registerPushService
+{
+    if (@available(iOS 11.0, *))
+    {
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            if (!granted)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[UIApplication sharedApplication].keyWindow makeToast:@"请开启推送功能否则无法收到推送通知" duration:2.0 position:CSToastPositionCenter];
+                });
+            }
+        }];
+    }
+    else
+    {
+        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types
+                                                                                 categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    }
+    
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
+    
 
+    // 注册push权限，用于显示本地推送
+    [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+}
 
 @end

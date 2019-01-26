@@ -10,10 +10,32 @@
 
 #import <NIMKit.h>
 
+@interface VHDChatCellLayoutConfig()
+
+@property (nonatomic,strong)    NSArray *types;
+
+@end
+
 @implementation VHDChatCellLayoutConfig
 
-- (BOOL)shouldShowNickName:(NIMMessageModel *)model {
-    return YES;
+- (BOOL)shouldShowNickName:(NIMMessageModel *)model{
+    if ([self isSupportedTeamMessage:model.message]) {
+        return YES;
+    }
+    
+    return [super shouldShowNickName:model];
 }
 
+- (BOOL)isSupportedTeamMessage:(NIMMessage *)message {
+    return message.session.sessionType == NIMSessionTypeTeam
+    && (message.messageType == NIMMessageTypeText
+        || message.messageType == NIMMessageTypeRobot
+        || [self isSupportedCustomMessage:message]);
+}
+
+- (BOOL)isSupportedCustomMessage:(NIMMessage *)message {
+    NIMCustomObject *object = message.messageObject;
+    return [object isKindOfClass:[NIMCustomObject class]]
+    && [_types indexOfObject:NSStringFromClass([object.attachment class])] != NSNotFound;
+}
 @end

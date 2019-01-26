@@ -48,8 +48,8 @@
     self.rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.view addSubview:self.rightBtn];
     [self.rightBtn setTitleColor:HEXCOLOR(0x333333) forState:UIControlStateNormal];
-    self.rightBtn.titleLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
-    self.rightBtn.frame = CGRectMake(SCREENW - 10 - 50, 0, 50, 22);
+    self.rightBtn.titleLabel.font = [UIFont systemFontOfSize:16 weight:UIFontWeightRegular];
+    self.rightBtn.frame = CGRectMake(SCREENW - 10 - 80, 0, 80, 22);
     CGPoint center = self.rightBtn.center;
     center.y = self.backBtn.center.y;
     self.rightBtn.center = center;
