@@ -472,7 +472,7 @@ typedef NS_ENUM(NSUInteger, CELLTYPE) {
             }
             NSArray *nurseArr = self.nurseDescArray;
             if (!self.isEdit) {
-                if (self.nurseDic[@"nurseDes"]) {
+                if (![self.nurseDic[@"nurseDes"] isKindOfClass:[NSNull class]]) {
                     NSString *str = self.nurseDic[@"nurseDes"];
                     if (str.length > 0) {
                         NSArray *strArr = [str componentsSeparatedByString:@","];

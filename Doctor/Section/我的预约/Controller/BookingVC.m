@@ -126,8 +126,11 @@
     if (self.pageIndex < 1) {
         self.pageIndex = 1;
     }
-    [HYBNetworking getWithUrl:[NSString stringWithFormat:@"%@?search_EQ_visitTime=%@&pageNo=%ld&pageSize=%d&search_EQ_orderStatus=%@&sortInfo=ASC_visitTime",URL_My,visitTimeArr[self.selectedBtn.tag - 100],(long)self.pageIndex,PageSize,statusArr[self.selectedBtn.tag - 100]] refreshCache:YES success:^(id response) {
-        
+    NSString *url = [NSString stringWithFormat:@"%@?search_EQ_visitTime=%@&pageNo=%ld&pageSize=%d&search_EQ_orderStatus=%@&sortInfo=ASC_visitTime",URL_My,visitTimeArr[self.selectedBtn.tag - 100],(long)self.pageIndex,PageSize,statusArr[self.selectedBtn.tag - 100]];
+    if ([[UserInfoManager shareInstance] returnUserType] == UserType_Service) {
+        url = [NSString stringWithFormat:@"%@?search_EQ_visitTime=%@&pageNo=%ld&pageSize=%d&search_EQ_orderStatus=%@&sortInfo=ASC_visitTime",URL_SreverMy,visitTimeArr[self.selectedBtn.tag - 100],(long)self.pageIndex,PageSize,statusArr[self.selectedBtn.tag - 100]];
+    }
+    [HYBNetworking getWithUrl:url refreshCache:YES success:^(id response) {
         NSLog(@"====预约页面%@",response);
         NSDictionary *dic = response;
         if ([dic[@"code"] isEqual:@100]) {
@@ -196,6 +199,11 @@
     cell.doctorLabel.text = [NSString stringWithFormat:@"%@",dic[@"doctor"]];
     cell.endLabel.text = [self testDateZone:dic[@"orderTime"]];
     cell.startTimeLabel.text = [orderType objectForKey:dic[@"orderType"]];
+    if ([[NSString stringWithFormat:@"%@",dic[@"buyGoodsType"]] isEqualToString:@"1004"]) {
+        cell.chatBtn.hidden = NO;
+    }else {
+        cell.chatBtn.hidden = YES;
+    }
     @weakify(self);
     [cell setChatInfoWithCellInfo:dic chatAction:^(NSString * _Nonnull teamId) {
         @strongify(self);

@@ -49,6 +49,7 @@ PODS:
   - Toast (4.0.0)
   - TZImagePickerController (3.1.7)
   - UUButton (1.1)
+  - YYModel (1.0.4)
 
 DEPENDENCIES:
   - AFNetworking
@@ -67,6 +68,7 @@ DEPENDENCIES:
   - Toast
   - TZImagePickerController
   - UUButton
+  - YYModel
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -89,6 +91,7 @@ SPEC REPOS:
     - Toast
     - TZImagePickerController
     - UUButton
+    - YYModel
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
@@ -110,7 +113,8 @@ SPEC CHECKSUMS:
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TZImagePickerController: 3027e1e2029c830186c6a167c88c933b8556fdc7
   UUButton: 9a19bbe0c812a6920de21da8acca7a2d0bad52da
+  YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: c504919966ea896ef9c73c0a96f7eda5fdf296f5
+PODFILE CHECKSUM: 68e85161fe2a22c09cd720afdc19b8a61c9b9433
 
 COCOAPODS: 1.5.3

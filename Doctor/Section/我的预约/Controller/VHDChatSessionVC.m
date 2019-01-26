@@ -11,14 +11,12 @@
 #import "UIView+MWFrame.h"
 #import "UserInfoManager.h"
 #import "MedicationGuideVC.h"
-#import "NTESSessionConfig.h"
-//#import "NTESVideoChatViewController.h"
+#import "NIMContactSelectConfig.h"
+#import "NIMContactSelectViewController.h"
 
-#import <NIMAVChat/NIMNetCallMeeting.h>
-#import <NIMAVChat/NIMNetCallOption.h>
-#import <NIMAVChat/NIMNetCallVideoCaptureParam.h>
-#import <NIMSDK/NIMSDK.h>
-#import <NIMAVChat/NIMAVChat.h>
+#import "NTESSessionConfig.h"
+#import "NTESTeamMeetingCallerInfo.h"
+#import "NTESTeamMeetingViewController.h"
 @interface VHDChatSessionVC ()
 
 @property (nonatomic,strong) NTESSessionConfig *config;
@@ -74,15 +72,16 @@
 
 - (void)configNavi {
     // 诊断
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"诊断"
-                                                                              style:UIBarButtonItemStylePlain
-                                                                             target:self
-                                                                             action:@selector(judge)];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"诊断"
+//                                                                              style:UIBarButtonItemStylePlain
+//                                                                             target:self
+//                                                                             action:@selector(judge)];
+//
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"病历"
+//                                                                             style:UIBarButtonItemStylePlain
+//                                                                            target:self
+//                                                                            action:@selector(record)];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"病历"
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(record)];
     
     //创建一个UIButton
 //    UIButton *backButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 40)];
@@ -123,51 +122,26 @@
 - (void)onTapMediaItemVideoChat:(NIMMediaItem *)item
 {
     if ([self checkRTSCondition]) {
-        //初始化会议
-        NIMNetCallMeeting *meeting = [[NIMNetCallMeeting alloc] init];
-        //指定会议名
-        meeting.name = @"meetingName";
-        meeting.actor = YES;
-        
-        //初始化option参数
-        NIMNetCallOption *option = [[NIMNetCallOption alloc]init];
-        meeting.option = option;
-        
-        //指定 option 中的 videoCaptureParam 参数
-        NIMNetCallVideoCaptureParam *param = [[NIMNetCallVideoCaptureParam alloc] init];
-        //清晰度480P
-        param.preferredVideoQuality = NIMNetCallVideoQuality480pLevel;
-        //裁剪类型 16:9
-        param.videoCrop  = NIMNetCallVideoCrop16x9;
-        //打开初始为前置摄像头
-        param.startWithBackCamera = NO;
-        
-        option.videoCaptureParam = param;
-        
-        //加入会议
-        [[NIMAVChatSDK sharedSDK].netCallManager joinMeeting:meeting completion:^(NIMNetCallMeeting * _Nonnull meeting, NSError * _Nonnull error) {
-            //加入会议失败
-            if (error) {
-            }
-            //加入会议成功
-            else
-            {
-            }
-        }];
+        NIMTeam *team = [[NIMSDK sharedSDK].teamManager teamById:self.session.sessionId];
+        NSString *currentUserID = [[[NIMSDK sharedSDK] loginManager] currentAccount];
+        NIMContactTeamMemberSelectConfig *config = [[NIMContactTeamMemberSelectConfig alloc] init];
+        config.teamId = team.teamId;
+        config.filterIds = @[currentUserID];
+        config.needMutiSelected = YES;
+        config.maxSelectMemberCount = 2;
+        config.showSelectDetail = YES;
+        NIMContactSelectViewController *vc = [[NIMContactSelectViewController alloc] initWithConfig:config];
+        __weak typeof(self) weakSelf = self;
+        vc.finshBlock = ^(NSArray * memeber){
+            NSString *me = [NIMSDK sharedSDK].loginManager.currentAccount;
+            NTESTeamMeetingCallerInfo *info = [[NTESTeamMeetingCallerInfo alloc] init];
+            info.members = [@[me] arrayByAddingObjectsFromArray:memeber];
+            info.teamId = team.teamId;
+            NTESTeamMeetingViewController *vc = [[NTESTeamMeetingViewController alloc] initWithCallerInfo:info];
+            [weakSelf presentViewController:vc animated:NO completion:nil];
+        };;
+        [vc show];
     }
-    
-//    if ([self checkRTSCondition]) {
-//        //由于音视频聊天里头有音频和视频聊天界面的切换，直接用present的话页面过渡会不太自然，这里还是用push，然后做出present的效果
-//        NTESVideoChatViewController *vc = [[NTESVideoChatViewController alloc] initWithCallee:self.session.sessionId];
-//        CATransition *transition = [CATransition animation];
-//        transition.duration = 0.25;
-//        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
-//        transition.type = kCATransitionPush;
-//        transition.subtype = kCATransitionFromTop;
-//        [self.navigationController.view.layer addAnimation:transition forKey:nil];
-//        self.navigationController.navigationBarHidden = YES;
-//        [self.navigationController pushViewController:vc animated:NO];
-//    }
 }
 - (BOOL)checkRTSCondition
 {

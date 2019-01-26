@@ -57,9 +57,9 @@
 //
 //    }];
     [self.view endEditing:YES];
-    NSDictionary *paramDic = @{@"remark":self.introTextView.text
+    NSDictionary *paramDic = @{@"remark":self.introTextView.text,
+                               @"name":self.nameTextField.text
                                //                                             @"sex":@"男",
-                               //                                             @"name":@"",
                                //                                             @"headPic":self.headPic
                                //                                             @"idCard":@"",
                                //                                             @"age":@9
@@ -67,23 +67,27 @@
     if (self.isChangeHead) {
         paramDic = @{@"remark":self.introTextView.text,
                                    //                                             @"sex":@"男",
-                                   //                                             @"name":@"",
+                     @"name":self.nameTextField.text,
                                                                                 @"headPic":self.headPic
                                    //                                             @"idCard":@"",
                                    //                                             @"age":@9
                                    };
 
     }
+    @weakify(self);
     [HYBNetworking postWithUrl:URL_Save body:paramDic success:^(id response) {
         NSDictionary *dic = response;
+        @strongify(self);
         if ([dic[@"code"] isEqual:@100]) {
-            NSString *headPic = [UserInfoManager shareInstance].user.headPic;
-            NSMutableArray *arr = [NSMutableArray arrayWithArray:[headPic componentsSeparatedByString:@"/"]];
-            if (arr.count >= 2) {
-                [arr replaceObjectAtIndex:arr.count-1 withObject:self.headPic];
+            if (self.isChangeHead) {
+                NSString *headPic = [UserInfoManager shareInstance].user.headPic;
+                NSMutableArray *arr = [NSMutableArray arrayWithArray:[headPic componentsSeparatedByString:@"/"]];
+                if (arr.count >= 2) {
+                    [arr replaceObjectAtIndex:arr.count-1 withObject:self.headPic];
+                }
+                [UserInfoManager shareInstance].user.headPic = [arr componentsJoinedByString:@"/"];
+                [[UserInfoManager shareInstance]updateUser];
             }
-            [UserInfoManager shareInstance].user.headPic = [arr componentsJoinedByString:@"/"];
-            [[UserInfoManager shareInstance]updateUser];
             [self.navigationController popViewControllerAnimated:YES];
             [MBProgressHUD showAlertWithView:self.view andTitle:@"修改成功"];
         }else {

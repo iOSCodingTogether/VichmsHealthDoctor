@@ -147,6 +147,24 @@
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <state key="normal" title="确认接单"/>
                     </button>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wGr-0C-HZm">
+                        <rect key="frame" x="170" y="101" width="80" height="27"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="YYB-bi-Vgc"/>
+                        </constraints>
+                        <state key="normal" title="查看评价">
+                            <color key="titleColor" red="0.0" green="0.63921568627450975" blue="0.99607843137254903" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nBS-Xn-xnD">
+                        <rect key="frame" x="80" y="101" width="80" height="27"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="Gxi-u0-X4a"/>
+                        </constraints>
+                        <state key="normal" title="陪诊记录">
+                            <color key="titleColor" red="0.0" green="0.63921568627450975" blue="0.99607843137254903" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="aWB-yF-l1d" secondAttribute="trailing" constant="17" id="07j-W5-a9O"/>
@@ -155,13 +173,17 @@
                     <constraint firstItem="3BU-zJ-TCt" firstAttribute="leading" secondItem="38V-io-lH2" secondAttribute="trailing" constant="2" id="3RZ-cX-rtS"/>
                     <constraint firstItem="38V-io-lH2" firstAttribute="top" secondItem="juD-bi-UFi" secondAttribute="top" id="3eZ-Vc-Q8P"/>
                     <constraint firstItem="6uQ-Kg-kBI" firstAttribute="top" secondItem="q0e-iF-Csx" secondAttribute="top" id="3fH-uo-fXM"/>
+                    <constraint firstItem="nBS-Xn-xnD" firstAttribute="bottom" secondItem="wGr-0C-HZm" secondAttribute="bottom" id="4OZ-oy-LbQ"/>
                     <constraint firstItem="GYk-O9-16J" firstAttribute="top" secondItem="u5d-ru-YgQ" secondAttribute="top" id="4ea-uD-odm"/>
                     <constraint firstItem="zAs-nH-IWl" firstAttribute="leading" secondItem="4zE-9g-gZ5" secondAttribute="trailing" constant="2" id="6QV-C7-mes"/>
+                    <constraint firstItem="wGr-0C-HZm" firstAttribute="top" secondItem="aWB-yF-l1d" secondAttribute="top" id="8hK-NN-atN"/>
                     <constraint firstItem="38V-io-lH2" firstAttribute="leading" secondItem="3BY-Y1-Ro7" secondAttribute="trailing" constant="1" id="9Rz-vX-zkN"/>
+                    <constraint firstItem="aWB-yF-l1d" firstAttribute="leading" secondItem="wGr-0C-HZm" secondAttribute="trailing" constant="10" id="AxZ-b4-mwm"/>
                     <constraint firstItem="GYk-O9-16J" firstAttribute="leading" secondItem="u5d-ru-YgQ" secondAttribute="trailing" constant="2" id="FIS-9O-Lnq"/>
                     <constraint firstItem="qgO-3A-8lK" firstAttribute="bottom" secondItem="q0e-iF-Csx" secondAttribute="bottom" id="GG1-db-xNg"/>
                     <constraint firstItem="qgO-3A-8lK" firstAttribute="top" secondItem="q0e-iF-Csx" secondAttribute="top" id="Gy8-47-7hx"/>
                     <constraint firstItem="3BY-Y1-Ro7" firstAttribute="bottom" secondItem="juD-bi-UFi" secondAttribute="bottom" id="HQG-vz-pL6"/>
+                    <constraint firstItem="nBS-Xn-xnD" firstAttribute="top" secondItem="wGr-0C-HZm" secondAttribute="top" id="JmR-UO-XIL"/>
                     <constraint firstAttribute="bottom" secondItem="aWB-yF-l1d" secondAttribute="bottom" constant="10" id="L6E-HY-8zU"/>
                     <constraint firstItem="zAs-nH-IWl" firstAttribute="bottom" secondItem="4zE-9g-gZ5" secondAttribute="bottom" id="Mcm-cS-W2R"/>
                     <constraint firstItem="juD-bi-UFi" firstAttribute="leading" secondItem="26B-21-XRb" secondAttribute="leading" id="NjV-rb-lHi"/>
@@ -192,7 +214,9 @@
                     <constraint firstItem="q0e-iF-Csx" firstAttribute="leading" secondItem="juD-bi-UFi" secondAttribute="leading" id="sMY-aS-PnN"/>
                     <constraint firstItem="qgO-3A-8lK" firstAttribute="leading" secondItem="q0e-iF-Csx" secondAttribute="trailing" constant="2" id="syT-pP-HfJ"/>
                     <constraint firstItem="3BY-Y1-Ro7" firstAttribute="leading" secondItem="juD-bi-UFi" secondAttribute="trailing" constant="2" id="tX5-vo-5dG"/>
+                    <constraint firstItem="wGr-0C-HZm" firstAttribute="leading" secondItem="nBS-Xn-xnD" secondAttribute="trailing" constant="10" id="u0N-UG-8J0"/>
                     <constraint firstAttribute="trailing" secondItem="nM8-Ga-6RU" secondAttribute="trailing" constant="17" id="u8e-ra-952"/>
+                    <constraint firstItem="wGr-0C-HZm" firstAttribute="bottom" secondItem="aWB-yF-l1d" secondAttribute="bottom" id="vyO-TJ-SeP"/>
                     <constraint firstItem="u5d-ru-YgQ" firstAttribute="leading" secondItem="q0e-iF-Csx" secondAttribute="leading" id="xN9-qo-8cg"/>
                     <constraint firstItem="e21-hH-CUU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="yip-T4-ysl"/>
                 </constraints>
@@ -203,6 +227,8 @@
                 <outlet property="dataLabel" destination="3BU-zJ-TCt" id="4nM-Qv-Ptg"/>
                 <outlet property="hospitalLabel" destination="GYk-O9-16J" id="Nza-3i-4Ai"/>
                 <outlet property="keshiLabel" destination="zAs-nH-IWl" id="P8K-vQ-00D"/>
+                <outlet property="lookComment" destination="wGr-0C-HZm" id="NZb-XQ-baN"/>
+                <outlet property="lookRecord" destination="nBS-Xn-xnD" id="wqx-0B-Su0"/>
                 <outlet property="nameLabel" destination="qgO-3A-8lK" id="dbh-UN-RXE"/>
                 <outlet property="statusBtn" destination="aWB-yF-l1d" id="EZ0-ux-MCb"/>
                 <outlet property="typeLabel" destination="3BY-Y1-Ro7" id="0jQ-Af-Q29"/>

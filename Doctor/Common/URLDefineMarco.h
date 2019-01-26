@@ -21,8 +21,9 @@
 #define URL_GetOrderNurseByOrserId @"order/getOrderNurseByOrserId"//陪诊记录
 #define URL_NurseUpdata @"nurse/nurseUpdata"//提交陪诊记录
 #define URL_AccompanyAttend @"order/accompany/attend"//分配陪诊员
-#define URL_My @"order/page/Doctor/my"
+#define URL_My @"order/page/Doctor/my"//医生首页
 #define URL_DepartmentPage @"department/page"//科室
+#define URL_SreverMy @"order/page/Srever/my"//客服首页
 //MARK:专家库
 #define URL_PayedsPage @"order/payeds/page"//专家库
 
@@ -41,4 +42,5 @@
 //#define URL_SDoctors @"doctor/server/doctors"//我的医生
 #define URL_Doctors @"doctor/page"//我的医生
 #define URL_GetQNKey @"qiniu/getKey" //七牛key
+#define URL_ModifyOrderStatus @"order/modifyOrderStatus"//更改订单状态
 #endif /* URLDefineMarco_h */

@@ -9,12 +9,18 @@
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 
+#ifdef __OBJC__
+
 #import "HYBNetworking.h"
 #import "MBProgressHUD+Additions.h"
 
 #import "UserInfoManager.h"
 #import <NIMSDK/NIMSDK.h>
+#import <NIMAVChat/NIMAVChat.h>
 #import "LoginVC.h"
+//#import <YYModel.h>
+
+//#import "SVProgressHUD+Ext.h"
 
 #import "BRStringPickerView.h"
 
@@ -35,7 +41,10 @@
 #import "CommonManage.h"
 #import "ViewControllerClasses.h"
 
+
+#define NTES_FORBID_INTERACTIVE_POP - (BOOL)forbidInteractivePop{return YES;}
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
-
+#endif 
 #endif /* PrefixHeader_pch */

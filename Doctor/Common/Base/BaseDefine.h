@@ -18,8 +18,8 @@
 #define DLog(format, ...)
 #endif
 
-#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
-#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+//#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+//#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
 #define LR_KEY_WINDOW [[[UIApplication sharedApplication] delegate] window]
 
 

@@ -28,6 +28,7 @@ target 'Doctor' do
     # 和缓使用整合后的私有库
     pod "NIMKit/Full"
 pod 'Qiniu'
+pod 'YYModel'
 
 
 end
