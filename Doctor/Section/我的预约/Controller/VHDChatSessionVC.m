@@ -77,10 +77,10 @@
 
 }
 
-- (NSString *)sessionTitle {
-    [NIMSDK sharedSDK].teamManager.allMyTeams
-    return [NSString stringWithFormat:<#(nonnull NSString *), ...#>]
-}
+//- (NSString *)sessionTitle {
+//    [NIMSDK sharedSDK].teamManager.allMyTeams
+//    return [NSString stringWithFormat:<#(nonnull NSString *), ...#>]
+//}
 
 - (void)configNavi {
     // 诊断
